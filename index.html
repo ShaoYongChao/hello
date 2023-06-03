@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hello in Multiple Languages</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* 将文本置于屏幕中心 */
+      justify-content: center;
+      height: 100vh; /* 将容器占用整个视窗高度 */
+      font-size: 3rem; /* 设置字体大小 */
+    }
+  </style>
+
+  <script>
+    var languages = ["English", "中文", "Français", "日本語", "한국어"];
+    var currentLanguageIndex = 0;
+
+    function changeLanguage() {
+      var helloText = document.getElementById("hello-text");
+      currentLanguageIndex = (currentLanguageIndex + 1) % languages.length; // 取模以循环遍历数组
+
+      switch(languages[currentLanguageIndex]) {
+        case "中文":
+          helloText.innerText = "你好";
+          break;
+        case "English":
+          helloText.innerText = "Hello";
+          break;
+        case "Français":
+          helloText.innerText = "Bonjour";
+          break;
+        case "日本語":
+          helloText.innerText = "こんにちは";
+          break;
+        case "한국어":
+          helloText.innerText = "안녕하세요";
+          break;
+        default:
+          break;
+      }
+    }
+
+    setInterval(changeLanguage, 3000); // 每隔3秒更改语言
+  </script>
+</head>
+
+<body>
+  <h1 id="hello-text">Hello</h1>
+</body>
+
+</html>
