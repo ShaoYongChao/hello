@@ -2,52 +2,80 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Hello!</title>
+  <title>Hello</title>
   <style>
     body {
       margin: 0;
       display: flex;
       flex-direction: column;
-      align-items: center; /* 将文本置于屏幕中心 */
+      align-items: center;
       justify-content: center;
-      height: 100vh; /* 将容器占用整个视窗高度 */
-      font-size: 3rem; /* 设置字体大小 */
+      height: 100vh;
+      font-size: 3rem;
       color: white;
-      background-image: url('IMG_0822.jpeg');
-      background-size: cover;
-      background-repeat: no-repeat;
+      overflow: hidden; /* Hide scrollbars */
+      position: relative; /* Set position for bg-image */
+    }
+     .bg-image {
+      position: absolute;
+      z-index: -1;
+      background-image: url("IMG_0822.jpeg");
+      height: 100%;
+      width: 100%; /* Add width to cover the entire area */
       background-position: center center;
-      /*backdrop-filter: blur(5px);*/
+      background-repeat: no-repeat;
+      background-size: cover;
+      filter: blur(3px);
     }
-    a {
-      color: white;
-      font-size: 16px;
-    }
-
-    a:hover {
-      color: #0c0c0c;
-    }
-    
-    .content {
+     .content {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       color: white;
       font-size: 3rem;
-      /*text-align: center;*/
+
+    }
+     .button1, .button2 {
+      background-color: #1f7af3;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 2rem;
+      cursor: pointer;
+      border-radius: 10px;
+      margin-right: 20px;
+    }
+     .button2 {
+      background-color: #20847a;
+    }
+     .btncontainer {
+      position: fixed;
+      bottom: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    h1 {
+      text-shadow: 5px 5px black, -10px 10px 10px rgba(255, 0, 0, 0.4), -20px 20px 10px rgba(0, 255, 0, 0.4), -30px 30px 10px rgba(0, 0, 255, 0.4);
+    }
+
+    /* 设置p元素的字体大小和隐藏溢出 */
+    p {
+      position: absolute;
+      font-size: 36px;
+      overflow: hidden;
     }
   </style>
-
-  <script>
+   <script>
     var languages = ["English", "中文", "Français", "日本語", "한국어"];
     var currentLanguageIndex = 0;
-
-    function changeLanguage() {
+     function changeLanguage() {
       var helloText = document.getElementById("hello-text");
-      currentLanguageIndex = (currentLanguageIndex + 1) % languages.length; // 取模以循环遍历数组
-
-      switch(languages[currentLanguageIndex]) {
+      currentLanguageIndex = (currentLanguageIndex + 1) % languages.length;
+       switch(languages[currentLanguageIndex]) {
         case "中文":
           helloText.innerText = "你好";
           break;
@@ -66,18 +94,74 @@
         default:
           break;
       }
+      document.title = helloText.innerText;
     }
-
-    setInterval(changeLanguage, 3000); // 每隔3秒更改语言
+     setInterval(changeLanguage, 3000);
   </script>
 </head>
-
-<body>
+ <body>
+  <div class="bg-image"></div>
   <h1 id="hello-text">Hello</h1>
-  <span style="padding: 0 80px;"> </span>
-  <a href="https://bing.sinoint.site">NewBing</a>
-  <span style="padding: 0 10px;"> </span>
-  <a href="https://chat.sinoint.site">ChatGPT</a>
-</body>
+   <div class="btncontainer">
+    <a href="https://bing.sinoint.site"><button class="button1">NewBing</button></a>
+    <a href="https://chat.sinoint.site"><button class="button2">ChatGPT</button></a>
+  </div>
+  <p id="rainbow">Hello啊，树哥！</p>
+  <script>
+    // 获取p元素
+    var rainbow = document.getElementById("rainbow");
 
-</html>
+    // 获取p元素的文本内容
+    var text = rainbow.innerText;
+
+    // 清空p元素的内容
+    rainbow.innerText = "";
+
+    // 遍历文本中的每个字符
+    for (var i = 0; i < text.length; i++) {
+      // 创建一个span元素，用来包裹每个字符
+      var span = document.createElement("span");
+
+      // 设置span元素的文本内容为当前字符
+      span.innerText = text[i];
+
+      // 将span元素添加到p元素中
+      rainbow.appendChild(span);
+    }
+
+    // 定义一个函数，用来生成随机的HSL颜色值
+    function randomColor() {
+      // 随机生成一个0到360之间的整数，作为色相值
+      var hue = Math.floor(Math.random() * 360);
+
+      // 返回HSL颜色字符串，饱和度和亮度固定为100%
+      return "hsl(" + hue + ", 100%, 50%)";
+    }
+
+    // 定义一个函数，用来更新每个字符的颜色
+    function updateColors() {
+      // 获取所有的span元素
+      var spans = document.getElementsByTagName("span");
+
+      // 遍历每个span元素
+      for (var i = 0; i < spans.length; i++) {
+        // 设置span元素的颜色为随机颜色
+        spans[i].style.color = randomColor();
+      }
+    }
+
+    // 每隔500毫秒，调用一次updateColors函数
+    setInterval(updateColors, 500);
+    // 给文档添加鼠标移动事件的监听器
+    document.addEventListener("mousemove", function(e) {
+      // 获取鼠标的位置
+      var x = e.clientX;
+      var y = e.clientY;
+
+      // 设置文字的位置为鼠标的位置
+      rainbow.style.left = x + "px";
+      rainbow.style.top = y + "px";
+    });
+  </script>
+</body>
+ </html>
