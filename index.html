@@ -5,6 +5,7 @@
   <title>Hello</title>
   <style>
     body {
+      user-select: none;
       margin: 0;
       display: flex;
       flex-direction: column;
@@ -59,13 +60,32 @@
     }
 
     h1 {
-      text-shadow: 5px 5px black, -10px 10px 10px rgba(255, 0, 0, 0.4), -20px 20px 10px rgba(0, 255, 0, 0.4), -30px 30px 10px rgba(0, 0, 255, 0.4);
+      text-shadow: 5px 5px black, -10px 10px 10px rgba(255, 0, 0, 0.1), -20px 20px 10px rgba(0, 255, 0, 0.1), -30px 30px 10px rgba(0, 0, 255, 0.1);
     }
 
-    /* 设置p元素的字体大小和隐藏溢出 */
+    #rainbow {
+      /*background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);*/
+      background: white;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: breathe 3s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
     p {
       position: absolute;
-      font-size: 36px;
+      font-size: 1rem;
       overflow: hidden;
     }
   </style>
@@ -108,50 +128,9 @@
   </div>
   <p id="rainbow">Hello啊，树哥！</p>
   <script>
-    // 获取p元素
+
     var rainbow = document.getElementById("rainbow");
 
-    // 获取p元素的文本内容
-    var text = rainbow.innerText;
-
-    // 清空p元素的内容
-    rainbow.innerText = "";
-
-    // 遍历文本中的每个字符
-    for (var i = 0; i < text.length; i++) {
-      // 创建一个span元素，用来包裹每个字符
-      var span = document.createElement("span");
-
-      // 设置span元素的文本内容为当前字符
-      span.innerText = text[i];
-
-      // 将span元素添加到p元素中
-      rainbow.appendChild(span);
-    }
-
-    // 定义一个函数，用来生成随机的HSL颜色值
-    function randomColor() {
-      // 随机生成一个0到360之间的整数，作为色相值
-      var hue = Math.floor(Math.random() * 360);
-
-      // 返回HSL颜色字符串，饱和度和亮度固定为100%
-      return "hsl(" + hue + ", 100%, 50%)";
-    }
-
-    // 定义一个函数，用来更新每个字符的颜色
-    function updateColors() {
-      // 获取所有的span元素
-      var spans = document.getElementsByTagName("span");
-
-      // 遍历每个span元素
-      for (var i = 0; i < spans.length; i++) {
-        // 设置span元素的颜色为随机颜色
-        spans[i].style.color = randomColor();
-      }
-    }
-
-    // 每隔500毫秒，调用一次updateColors函数
-    setInterval(updateColors, 500);
     // 给文档添加鼠标移动事件的监听器
     document.addEventListener("mousemove", function(e) {
       // 获取鼠标的位置
