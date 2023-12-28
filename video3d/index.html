@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIDEO 3D WEB</title>
+</head>
+<style>
+    html, body {
+     
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #000;
+      
+    }
+    .title{
+      position: absolute;
+      text-align: center;
+      width: 100%;
+      padding: 20px 0;
+      color: #fff;
+    }
+    
+      #panolens-separate-container {
+        position: absolute;
+        width: 300px;
+        height: 150px;
+        right: 0;
+        top: 100px;
+      }
+
+      #panolens-separate-container:-webkit-full-screen{
+        left: 0;
+        top: 0;
+      }
+      #panolens-separate-container:-moz-full-screen{
+        left: 0;
+        top: 0;
+      }
+      #panolens-separate-container:-ms-fullscreen{
+        left: 0;
+        top: 0;
+      }
+      #panolens-separate-container:fullscreen {
+        left: 0;
+        top: 0;
+      }
+  </style>
+<body>
+    <script src="js/three.min.js"></script>
+    <script src="js/panolens.min.js"></script>
+
+    <!-- creando el panorama -- video -->
+    <div id="panolens-separate-container"></div>
+    <script>
+      var panorama, viewer;
+      panorama = new PANOLENS.VideoPanorama( 'video/clas.mp4', { autoplay: true, muted: false });
+
+      viewer = new PANOLENS.Viewer();
+      viewer.add( panorama );
+
+    </script>
+
+</body>
+</html>
