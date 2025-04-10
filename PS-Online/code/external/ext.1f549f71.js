@@ -395,7 +395,7 @@
 		systemdict["true" ]      = {typ:"boolean", val:true };
 		systemdict["false"]      = {typ:"boolean", val:false};
 		
-		systemdict["product"      ] = {typ:"string" , val:FromPS.makeStr("Photopea") };
+		systemdict["product"      ] = {typ:"string" , val:FromPS.makeStr("tuyitu") };
 		systemdict["version"      ] = {typ:"string" , val:[51]}
 		systemdict["languagelevel"] = {typ:"integer", val:3};
 		
@@ -9989,7 +9989,7 @@ UPNG.encode.framize = function(bufs,w,h,alwaysBlend,evenCrd,forbidPrev) {
 				}
 			}
 			
-			// alwaysBlend: pokud zjistÃ­m, Å¾e blendit nelze, nastavÃ­m pÅ™edchozÃ­mu snÃ­mku dispose=1. ZajistÃ­m, aby obsahoval mÅ¯j obdÃ©lnÃ­k.
+			// alwaysBlend: pokud zjistím, že blendit nelze, nastavím předchozímu snímku dispose=1. Zajistím, aby obsahoval můj obdélník.
 			var pimg = new Uint8Array(bufs[j-1-tstp]);
 			if(tstp==1) frms[j-1].dispose = 2;
 			
@@ -11108,7 +11108,7 @@ UTIF.encodeImage = function(rgba, w, h, metadata)
 {
 	var idf = { "t256":[w], "t257":[h], "t258":[8,8,8,8], "t259":[1], "t262":[2], "t273":[1000], // strips offset
 				"t277":[4], "t278":[h], /* rows per strip */          "t279":[w*h*4], // strip byte counts
-				"t282":[1], "t283":[1], "t284":[1], "t286":[0], "t287":[0], "t296":[1], "t305": ["Photopea (UTIF.js)"], "t338":[1]
+				"t282":[1], "t283":[1], "t284":[1], "t286":[0], "t287":[0], "t296":[1], "t305": ["tuyitu (UTIF.js)"], "t338":[1]
 		};
 	if (metadata) for (var i in metadata) idf[i] = metadata[i];
 	
@@ -15605,9 +15605,9 @@ Typr.U.stringToGlyphs = function(font, str)
 	return gls;
 }
 Typr.U._getWPfeature = function(str, ci) {  // get Word Position feature
-	var wsep = "\n\t\" ,.:;!?()  ØŒ";
-	var R = "Ø¢Ø£Ø¤Ø¥Ø§Ø©Ø¯Ø°Ø±Ø²ÙˆÙ±Ù²Ù³ÙµÙ¶Ù·ÚˆÚ‰ÚŠÚ‹ÚŒÚÚŽÚÚÚ‘Ú’Ú“Ú”Ú•Ú–Ú—Ú˜Ú™Û€ÛƒÛ„Û…Û†Û‡ÛˆÛ‰ÛŠÛ‹ÛÛÛ’Û“Û•Û®Û¯ÜÜ•Ü–Ü—Ü˜Ü™ÜžÜ¨ÜªÜ¬Ü¯ÝÝ™ÝšÝ›Ý«Ý¬Ý±Ý³Ý´Ý¸Ý¹à¡€à¡†à¡‡à¡‰à¡”à¡§à¡©à¡ªà¢ªà¢«à¢¬à¢®à¢±à¢²à¢¹à«…à«‡à«‰à«Šà«Žà«à«à«‘à«’à«à«¡à«¤à«¯à®à®ƒà®„à®…à®‰à®Œà®Žà®à®‘à®©à®ªà®«à®¬";
-	var L = "ê¡²à«à«—";
+	var wsep = "\n\t\" ,.:;!?()  ،";
+	var R = "آأؤإاةدذرزوٱٲٳٵٶٷڈډڊڋڌڍڎڏڐڑڒړڔڕږڗژڙۀۃۄۅۆۇۈۉۊۋۍۏےۓەۮۯܐܕܖܗܘܙܞܨܪܬܯݍݙݚݛݫݬݱݳݴݸݹࡀࡆࡇࡉࡔࡧࡩࡪࢪࢫࢬࢮࢱࢲࢹૅેૉ૊૎૏ૐ૑૒૝ૡ૤૯஁ஃ஄அஉ஌எஏ஑னப஫஬";
+	var L = "ꡲ્૗";
 	
 	var slft = ci==0            || wsep.indexOf(str[ci-1])!=-1;
 	var srgt = ci==str.length-1 || wsep.indexOf(str[ci+1])!=-1;
@@ -16261,7 +16261,7 @@ Typr.U.SVG._toksToPath = function(ts, pth) {
 					var x2=xi+ts[i++], y2=yi+ts[i++], x3=xi+ts[i++], y3=yi+ts[i++];  
 					cmds.push("C");  crds.push(x1,y1,x2,y2,x3,y3);  x=x3;  y=y3;
 				}
-				else if(cmu=="A") {  // convert SVG Arc to four cubic bÃ©zier segments "C"
+				else if(cmu=="A") {  // convert SVG Arc to four cubic bézier segments "C"
 					var x1 = x, y1 = y;
 					var rx = ts[i++], ry = ts[i++];
 					var phi = ts[i++]*(Math.PI/180), fA = ts[i++], fS = ts[i++];
@@ -17172,7 +17172,7 @@ Script: RectanglePacker.js
 	An algorithm implementation in JavaScript for rectangle packing.
 
 Author:
-	IvÃ¡n Montes <drslump@drslump.biz>, <http://blog.netxus.es>
+	Iván Montes <drslump@drslump.biz>, <http://blog.netxus.es>
 
 License:
 	LGPL - Lesser General Public License
