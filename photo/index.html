@@ -46,7 +46,7 @@
         
         /* Home screen background */
         #home-screen {
-            background-image: url('bg.png');
+            background-image: url('bg.jpeg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -63,7 +63,7 @@
         /* Cropper container styles */
         .crop-container {
             width: 100%;
-            height: 45vh; /* 设置为45vh高度 */
+            height: 40vh;
             background-color: #f0f0f0;
             overflow: hidden;
             margin: 0 auto;
@@ -349,6 +349,8 @@
         // Variables
         let cropper = null;
         let selectedFile = null;
+        let imageOrientation = 'landscape'; // Default to landscape
+        const fixedAspectRatio = 4/3; // 固定裁剪比例为4:3(横向)
         
         // Event Listeners
         selectPhotoBtn.addEventListener('click', () => {
@@ -361,13 +363,22 @@
                 const reader = new FileReader();
                 
                 reader.onload = (event) => {
-                    cropImage.src = event.target.result;
-                    showScreen(cropScreen);
-                    
-                    // Initialize cropper after image is loaded
-                    cropImage.onload = () => {
-                        initCropper();
+                    // Create a temporary image to get dimensions
+                    const img = new Image();
+                    img.onload = function() {
+                        // Determine if the image is portrait or landscape
+                        imageOrientation = (img.height > img.width) ? 'portrait' : 'landscape';
+                        
+                        // Set image source and show crop screen
+                        cropImage.src = event.target.result;
+                        showScreen(cropScreen);
+                        
+                        // Initialize cropper after image is loaded
+                        cropImage.onload = () => {
+                            initCropper();
+                        };
                     };
+                    img.src = event.target.result;
                 };
                 
                 reader.readAsDataURL(selectedFile);
@@ -389,12 +400,13 @@
             loadingOverlay.classList.add('active');
             loadingText.textContent = '正在上传...';
             
-            // Get cropped canvas
-            const canvas = cropper.getCroppedCanvas({
-                width: 800,
-                height: 600
-            });
-            
+            // Get cropped canvas with fixed 4:3 aspect ratio
+            // const canvas = cropper.getCroppedCanvas({
+            //     width: 800,
+            //     height: 600
+            // });
+            const canvas = cropper.getCroppedCanvas();
+
             // Convert canvas to blob
             canvas.toBlob((blob) => {
                 const formData = new FormData();
@@ -554,92 +566,137 @@
         function initCropper() {
             if (cropper) {
                 cropper.destroy();
+                cropper = null;
             }
             
-            // 获取容器的实际宽度
-            const containerWidth = document.querySelector('.crop-container').clientWidth;
-            // 计算比例为4:3的高度
-            const cropBoxHeight = containerWidth * (3/4);
+            // 获取容器的实际宽度和高度
+            const container = document.querySelector('.crop-container');
+            const containerWidth = container.clientWidth;
+            const containerHeight = container.clientHeight;
             
+            // 计算裁剪框尺寸 - 宽度固定为容器宽度，高度按4:3比例计算
+            const cropBoxWidth = containerWidth;
+            const cropBoxHeight = containerHeight;
+            
+            // 重要：如果计算出的裁剪框高度超出容器高度，则不进行任何调整
+            // 这确保了裁剪框宽度始终等于容器宽度，即使这会导致裁剪框底部超出容器
+            
+            console.log(`容器尺寸: ${containerWidth}x${containerHeight}`);
+            console.log(`裁剪框尺寸: ${cropBoxWidth}x${cropBoxHeight}`);
+            
+            // 创建裁剪器
             cropper = new Cropper(cropImage, {
-                aspectRatio: 4/3, // Fixed to landscape orientation
-                viewMode: 1,
+                aspectRatio: NaN, // 固定4:3横向比例
+                viewMode: 3,
                 guides: true,
                 center: true,
                 background: false,
-                autoCropArea: 1, // Use maximum area
-                zoomable: true, // Enable zoom functionality
-                scalable: true, // Enable scale functionality
-                zoomOnTouch: true, // Enable zoom on touch devices
-                zoomOnWheel: true, // Enable zoom on mouse wheel
-                cropBoxMovable: false, // Prevent moving the crop box
-                cropBoxResizable: false, // Prevent resizing the crop box
+                autoCropArea: 1,
+                zoomable: true,
+                scalable: false,
+                zoomOnTouch: true,
+                zoomOnWheel: true,
+                cropBoxMovable: false,  // 禁止移动裁剪框
+                cropBoxResizable: false, // 禁止调整裁剪框大小
                 toggleDragModeOnDblclick: false,
-                dragMode: 'move', // Allow moving the image within the crop box
+                dragMode: 'move',
                 ready: function() {
-                    // 在cropper初始化完成后，设置裁剪框基于容器宽度
-                    const cropBoxData = cropper.getCropBoxData();
-                    const containerData = cropper.getContainerData();
+                    // 强制设置裁剪框尺寸为预定义值
+                    // 水平居中但垂直可能会超出容器
+                    const left = 0; // 左边缘对齐
+                    const top = 0;
                     
-                    // 使用容器的全宽度
-                    const newWidth = containerData.width;
-                    const newHeight = newWidth * (3/4); // 保持4:3比例
-                    
-                    // 垂直居中裁剪框
-                    const top = (containerData.height - newHeight) / 2;
-                    const left = 0;
-                    
-                    // 应用新的裁剪框尺寸和位置
+                    // 直接设置裁剪框数据，强制使用我们计算的尺寸
                     cropper.setCropBoxData({
                         left: left,
                         top: top,
-                        width: newWidth,
-                        height: newHeight
+                        width: cropBoxWidth,
+                        height: cropBoxHeight
                     });
+                    
+                    // 禁用裁剪框的所有交互
+                    const cropBox = document.querySelector('.cropper-crop-box');
+                    if (cropBox) {
+                        cropBox.style.pointerEvents = 'none';
+                    }
+                    
+                    // 调整图片缩放以适应裁剪框
+                    setTimeout(() => {
+                        const imageData = cropper.getImageData();
+                        const cropBoxData = cropper.getCropBoxData();
+
+                        // 核心算法：根据宽高比动态选择缩放基准
+                        const containerRatio = containerWidth / containerHeight;
+                        const imageRatio = imageData.naturalWidth / imageData.naturalHeight;
+
+                        // 判断逻辑：图片更宽则以高度为基准，更高则以宽度为基准
+                        const scaleRatio = imageRatio > containerRatio 
+                            ? containerHeight / imageData.naturalHeight  // 高度填满
+                            : containerWidth / imageData.naturalWidth;   // 宽度填满
+
+                        // 执行缩放
+                        cropper.zoomTo(scaleRatio, {
+                            x: cropBoxData.width / 2,
+                            y: cropBoxData.height / 2
+                        });
+                    
+                        // 自动偏移修正
+                        const newImageData = cropper.getImageData();
+                        cropper.setData({
+                            x: (containerWidth - newImageData.width) / 2,
+                            y: (containerHeight - newImageData.height) / 2
+                        });
+
+                        // 记录最终状态
+                        setTimeout(() => {
+                            console.log("最终裁剪框数据:", cropper.getCropBoxData());
+                            console.log("最终图片数据:", cropper.getImageData());
+                        }, 100);
+                    }, 300);
                 }
             });
         }
         
         function simulateUpload(formData) {
             // In a real app, this would be an actual fetch call
-            // return fetch('http://192.168.1.14:8080/upload', {
-            //     method: 'POST',
-            //     body: formData
-            // }).then(response => response.json());
+            return fetch('http://192.168.1.14:8080/upload', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json());
             // For demo purposes, simulate a delayed response
-            return new Promise((resolve) => {
-                console.log('Uploading to https://test.com/upload');
-                console.log('Form data:', formData);
+            // return new Promise((resolve) => {
+            //     console.log('Uploading to https://test.com/upload');
+            //     console.log('Form data:', formData);
                 
-                // Simulate network delay
-                setTimeout(() => {
-                    resolve({
-                        success: true
-                    });
-                }, 2000);
-            });
+            //     // Simulate network delay
+            //     setTimeout(() => {
+            //         resolve({
+            //             success: true
+            //         });
+            //     }, 2000);
+            // });
         }
         
         function sendPrintRequest(verificationCode) {
             console.log('Sending print request with code:', verificationCode);
             
             // Actual fetch call to the server
-            // return fetch('http://192.168.1.14:8080/print', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({ code: verificationCode })
-            // })
-            // .then(response => {
-            //     // This is a simulated response since the actual endpoint doesn't exist
-            //     return { success: true };
-            // })
-            // .catch(error => {
-            //     console.error('Error sending print request:', error);
-            //     // Still return a success for demo purposes
-            //     return { success: true };
-            // });
+            return fetch('http://192.168.1.14:8080/print', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ code: verificationCode })
+            })
+            .then(response => {
+                // This is a simulated response since the actual endpoint doesn't exist
+                return { success: true };
+            })
+            .catch(error => {
+                console.error('Error sending print request:', error);
+                // Still return a success for demo purposes
+                return { success: true };
+            });
         }
         
         function showToast(message) {
