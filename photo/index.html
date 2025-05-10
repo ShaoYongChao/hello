@@ -773,22 +773,22 @@
         
         function simulateUpload(formData) {
             // In a real app, this would be an actual fetch call
-            return fetch('http://192.168.1.14:8080/upload', {
-                method: 'POST',
-                body: formData
-            }).then(response => response.json());
-            // For demo purposes, simulate a delayed response
-            // return new Promise((resolve) => {
-            //     console.log('Uploading to https://test.com/upload');
-            //     console.log('Form data:', formData);
+            // return fetch('http://192.168.1.14:8080/upload', {
+            //     method: 'POST',
+            //     body: formData
+            // }).then(response => response.json());
+            For demo purposes, simulate a delayed response
+            return new Promise((resolve) => {
+                console.log('Uploading to https://test.com/upload');
+                console.log('Form data:', formData);
                 
-            //     // Simulate network delay
-            //     setTimeout(() => {
-            //         resolve({
-            //             success: true
-            //         });
-            //     }, 2000);
-            // });
+                // Simulate network delay
+                setTimeout(() => {
+                    resolve({
+                        success: true
+                    });
+                }, 2000);
+            });
         }
         
         function sendPrintRequest(verificationCode) {
