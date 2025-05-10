@@ -46,7 +46,7 @@
         
         /* Home screen background */
         #home-screen {
-            background-image: url('bg.jpeg');
+            background-image: url('bg.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -216,6 +216,27 @@
             border-radius: 1rem;
             padding: 2rem;
         }
+
+        /* 新增旋转指示器样式 */
+        .rotation-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .rotation-indicator.active {
+            opacity: 1;
+        }
+        
     </style>
 </head>
 <body class="font-sans">
@@ -261,9 +282,12 @@
                         <img id="crop-image" class="w-full">
                     </div>
                     
+                    <!-- 添加旋转指示器 -->
+                    <div id="rotation-indicator" class="rotation-indicator">0°</div>
+                    
                     <!-- Cropping Instructions -->
                     <div class="w-full max-w-xs mb-4">
-                        <p class="text-black text-sm mb-2 text-center">使用两指缩放调整图片大小</p>
+                        <p class="text-black text-sm mb-2 text-center">使用两指缩放调整图片大小，双指旋转可旋转照片</p>
                     </div>
                     
                     <!-- Action Buttons -->
@@ -345,13 +369,17 @@
         const code2 = document.getElementById('code2');
         const code3 = document.getElementById('code3');
         const code4 = document.getElementById('code4');
-        
+        const rotationIndicator = document.getElementById('rotation-indicator');
         // Variables
         let cropper = null;
         let selectedFile = null;
         let imageOrientation = 'landscape'; // Default to landscape
         const fixedAspectRatio = 4/3; // 固定裁剪比例为4:3(横向)
         
+        let startRotation = 0; // 旋转开始角度
+        let currentRotation = 0; // 当前旋转角度
+        let rotationThreshold = 45; // 旋转自动吸附阈值
+        let isRotating = false; // 是否正在旋转
         // Event Listeners
         selectPhotoBtn.addEventListener('click', () => {
             fileInput.click();
@@ -578,12 +606,6 @@
             const cropBoxWidth = containerWidth;
             const cropBoxHeight = containerHeight;
             
-            // 重要：如果计算出的裁剪框高度超出容器高度，则不进行任何调整
-            // 这确保了裁剪框宽度始终等于容器宽度，即使这会导致裁剪框底部超出容器
-            
-            console.log(`容器尺寸: ${containerWidth}x${containerHeight}`);
-            console.log(`裁剪框尺寸: ${cropBoxWidth}x${cropBoxHeight}`);
-            
             // 创建裁剪器
             cropper = new Cropper(cropImage, {
                 aspectRatio: NaN, // 固定4:3横向比例
@@ -604,15 +626,9 @@
                     // 强制设置裁剪框尺寸为预定义值
                     // 水平居中但垂直可能会超出容器
                     const left = 0; // 左边缘对齐
-                    const top = 0;
-                    
-                    // 直接设置裁剪框数据，强制使用我们计算的尺寸
-                    cropper.setCropBoxData({
-                        left: left,
-                        top: top,
-                        width: cropBoxWidth,
-                        height: cropBoxHeight
-                    });
+                    const top = (containerHeight - cropBoxWidth*3/4) / 2;
+                    // 启用旋转功能
+                    enableRotateGesture();
                     
                     // 禁用裁剪框的所有交互
                     const cropBox = document.querySelector('.cropper-crop-box');
@@ -647,6 +663,14 @@
                             y: (containerHeight - newImageData.height) / 2
                         });
 
+                        // 直接设置裁剪框数据，强制使用我们计算的尺寸
+                        cropper.setCropBoxData({
+                            left: left,
+                            top: top,
+                            width: cropBoxWidth,
+                            height: cropBoxWidth*3/4
+                        });
+                        
                         // 记录最终状态
                         setTimeout(() => {
                             console.log("最终裁剪框数据:", cropper.getCropBoxData());
@@ -655,6 +679,96 @@
                     }, 300);
                 }
             });
+        }
+
+        // 添加旋转手势功能
+        function enableRotateGesture() {
+            const cropperCanvas = document.querySelector('.cropper-container');
+            if (!cropperCanvas) return;
+            
+            // 记录触摸点
+            let touchStartPoints = [];
+            
+            // 触摸开始
+            cropperCanvas.addEventListener('touchstart', function(e) {
+                if (e.touches.length === 2) {
+                    touchStartPoints = [
+                        { x: e.touches[0].clientX, y: e.touches[0].clientY },
+                        { x: e.touches[1].clientX, y: e.touches[1].clientY }
+                    ];
+                    
+                    // 计算初始角度
+                    startRotation = getRotationAngle(touchStartPoints[0], touchStartPoints[1]);
+                    currentRotation = cropper.getData().rotate || 0;
+                    isRotating = true;
+                }
+            });
+            
+            // 触摸移动
+            cropperCanvas.addEventListener('touchmove', function(e) {
+                if (e.touches.length === 2 && isRotating) {
+                    const touchPoints = [
+                        { x: e.touches[0].clientX, y: e.touches[0].clientY },
+                        { x: e.touches[1].clientX, y: e.touches[1].clientY }
+                    ];
+                    
+                    // 计算当前角度
+                    const currentAngle = getRotationAngle(touchPoints[0], touchPoints[1]);
+                    
+                    // 计算旋转差值
+                    let rotationDiff = currentAngle - startRotation;
+                    
+                    // 应用旋转
+                    let newRotation = Math.round(currentRotation + rotationDiff);
+                    
+                    // 显示旋转指示器
+                    // rotationIndicator.textContent = `${newRotation % 360}°`;
+                    // rotationIndicator.classList.add('active');
+                    
+                    // 检查是否达到自动旋转阈值
+                    const mod90 = newRotation % 90;
+                    if (Math.abs(mod90) < rotationThreshold || Math.abs(mod90) > (90 - rotationThreshold)) {
+                        // 吸附到最近的90度
+                        newRotation = Math.round(newRotation / 90) * 90;
+                    }
+                    
+                    // 应用旋转到裁剪器
+                    cropper.rotateTo(newRotation);
+                }
+            });
+            
+            // 触摸结束
+            cropperCanvas.addEventListener('touchend', function(e) {
+                if (isRotating) {
+                    // 获取当前旋转角度
+                    const currentData = cropper.getData();
+                    let finalRotation = currentData.rotate;
+                    
+                    // 吸附到最近的90度角
+                    finalRotation = Math.round(finalRotation / 90) * 90;
+                    
+                    // 应用最终旋转
+                    cropper.rotateTo(finalRotation);
+                    
+                    // 隐藏旋转指示器
+                    setTimeout(() => {
+                        rotationIndicator.classList.remove('active');
+                    }, 1000);
+                    
+                    isRotating = false;
+                }
+            });
+            
+            // 触摸取消
+            cropperCanvas.addEventListener('touchcancel', function(e) {
+                isRotating = false;
+                rotationIndicator.classList.remove('active');
+            });
+        }
+
+        // 计算两点之间的旋转角度
+        function getRotationAngle(p1, p2) {
+            return Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
         }
         
         function simulateUpload(formData) {
