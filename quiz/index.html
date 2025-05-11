@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>江豚答题 H5</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        @import url('./css2.css');
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e1f5fe 100%);
+            min-height: 100vh;
+        }
+        .card {
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .option-card {
+            transition: all 0.3s ease;
+        }
+        .option-card:hover {
+            transform: translateY(-2px);
+        }
+        .option-card.correct {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            border-color: #38b2ac;
+        }
+        .option-card.incorrect {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            border-color: #f56565;
+        }
+    </style>
+</head>
+<body class="text-black">
+    <div id="app" class="container mx-auto px-4 py-8 max-w-md">
+        <!-- 欢迎页面 -->
+        <div id="welcome-page" class="flex flex-col items-center justify-center min-h-screen text-center">
+            <div class="card bg-white bg-opacity-80 rounded-2xl p-8 w-full">
+                <h1 class="text-3xl font-bold mb-6">湖南候鸟保护知识竞赛</h1>
+                <p class="text-lg mb-8">测试您对湖南野生动物保护的了解程度</p>
+                <button id="start-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none">
+                    开始答题
+                </button>
+            </div>
+        </div>
+
+        <!-- 题目页面 -->
+        <div id="quiz-page" class="hidden flex flex-col items-center justify-center min-h-screen">
+            <div class="card bg-white bg-opacity-80 rounded-2xl p-6 w-full">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 id="quiz-title" class="text-xl font-bold">关于江豚的微笑科普</h2>
+                    <div class="flex items-center">
+                        <span id="progress-text" class="text-sm">1/3 题</span>
+                    </div>
+                </div>
+                
+                <div id="progress-bar" class="w-full bg-gray-200 rounded-full h-2 mb-6">
+                    <div id="progress-fill" class="bg-blue-500 h-2 rounded-full" style="width: 33.33%"></div>
+                </div>
+                
+                <div id="question-container" class="mb-6">
+                    <h3 id="question-text" class="text-lg font-medium mb-4">长江江豚在2018年被升级为什么？</h3>
+                </div>
+                
+                <div id="options-container" class="space-y-3">
+                    <!-- 选项将通过 JS 动态添加 -->
+                </div>
+                
+                <div id="feedback-container" class="hidden mt-6 p-4 rounded-lg">
+                    <p id="feedback-text" class="text-center"></p>
+                </div>
+                
+                <div class="mt-8 flex justify-between">
+                    <button id="next-btn" class="hidden bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg transition duration-300 ease-in-out focus:outline-none">
+                        下一题
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mt-6 flex items-center justify-center">
+                <div id="score-display" class="text-center">
+                    <p class="text-sm">当前积分: <span id="current-score">0</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 核销页面 -->
+        <div id="verification-page" class="hidden flex flex-col items-center justify-center min-h-screen">
+            <div class="card bg-white bg-opacity-80 rounded-2xl p-8 w-full text-center">
+                <h2 class="text-2xl font-bold mb-6">恭喜完成答题!</h2>
+                <p class="mb-4">您的总得分: <span id="final-score" class="font-bold text-blue-600 text-xl">0</span> 分</p>
+                <p class="mb-6">请输入核销验证码</p>
+                
+                <div class="mb-6">
+                    <input type="text" id="verification-code" placeholder="请输入验证码" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300">
+                </div>
+                
+                <button id="verify-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out focus:outline-none">
+                    核销
+                </button>
+                
+                <div id="verification-result" class="mt-4 hidden">
+                    <p id="verification-message"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 完成页面 -->
+        <div id="completion-page" class="hidden flex flex-col items-center justify-center min-h-screen">
+            <div class="card bg-white bg-opacity-80 rounded-2xl p-8 w-full text-center">
+                <div class="text-6xl mb-6">🎉</div>
+                <h2 class="text-2xl font-bold mb-4">核销成功!</h2>
+                <p class="mb-6">感谢您参与湖南候鸟保护知识竞赛</p>
+                <p class="text-sm text-gray-600">您的积分已清除，期待下次挑战</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 定义题目数据
+        const quizData = [
+            {
+                title: "关于江豚的微笑科普",
+                questions: [
+                    {
+                        question: "长江江豚在2018年被升级为什么？",
+                        options: [
+                            "濒危物种（但未特别指明独立物种）", 
+                            "独立物种", 
+                            "保护动物（但未明确级别）", 
+                            "稀有物种（但未明确法律地位）"
+                        ],
+                        answer: 1
+                    },
+                    {
+                        question: "根据资料，长江江豚最喜爱的食物是什么？",
+                        options: [
+                            "大型鱼类", 
+                            "小型鱼类，如小型鲤鱼、鲫鱼", 
+                            "浮游生物", 
+                            "水生植物"
+                        ],
+                        answer: 1
+                    },
+                    {
+                        question: "当发现长江江豚受伤、搁浅或死亡时，非保护工作人员应该怎么做？",
+                        options: [
+                            "立即靠近拍照留念", 
+                            "积极救助，并及时报告长江江豚保护部门和机构", 
+                            "忽略不管，因为这与自己无关", 
+                            "私自移动江豚尸体"
+                        ],
+                        answer: 1
+                    }
+                ]
+            },
+            {
+                title: "关于麋鹿的倩影",
+                questions: [
+                    {
+                        question: "麋鹿因其独特的外观特征，被人们形象地称为什么？",
+                        options: [
+                            "\"三不像\"", 
+                            "\"四不像\"", 
+                            "\"五不像\"", 
+                            "\"六不像\""
+                        ],
+                        answer: 1
+                    },
+                    {
+                        question: "麋鹿在繁殖方面，雌兽的怀孕期大约为多少天？",
+                        options: [
+                            "180天", 
+                            "210天", 
+                            "270天", 
+                            "300天"
+                        ],
+                        answer: 2
+                    },
+                    {
+                        question: "麋鹿原产于中国的哪个地区，并一度广布于东亚地区？",
+                        options: [
+                            "黄河中下游", 
+                            "长江中下游", 
+                            "珠江三角洲", 
+                            "东北平原"
+                        ],
+                        answer: 1
+                    },
+                    {
+                        question: "麋鹿'点点'是在什么情况下被东洞庭湖保护区管理局的救护人员发现的？",
+                        options: [
+                            "它在保护区自由觅食时", 
+                            "它在与同伴嬉戏时", 
+                            "它刚出生，母鹿已不见踪迹", 
+                            "它受伤无法行走时"
+                        ],
+                        answer: 2
+                    }
+                ]
+            },
+            {
+                title: "关于候鸟的欢歌科普",
+                questions: [
+                    {
+                        question: "以下哪种候鸟在洞庭湖区以鱼类为主要食物，并且营巢于内陆湖泊边缘芦苇丛和沼泽地带树上？",
+                        options: [
+                            "反嘴鹬", 
+                            "卷羽鹈鹕", 
+                            "青头潜鸭", 
+                            "白尾海雕"
+                        ],
+                        answer: 1
+                    },
+                    {
+                        question: "关于黑脸琵鹭的描述，以下哪项是正确的？",
+                        options: [
+                            "它是涉禽，但嘴型并非匙状", 
+                            "它是国家一级保护鸟类，栖息于内陆湖泊", 
+                            "它是涉禽，嘴长而直，黑色，上下扁平，先端扩大成匙状", 
+                            "它主要以植物嫩叶和种子为食"
+                        ],
+                        answer: 2
+                    },
+                    {
+                        question: "关于白头鹤的描述，以下哪项是准确的？",
+                        options: [
+                            "它是夏候鸟，且数量丰富", 
+                            "它是国家二级保护鸟类，主要栖息于沙漠", 
+                            "它是涉禽，颈、脚较长，头、颈白色，且在洞庭湖区为冬候鸟", 
+                            "它主要以水生植物为食，不捕食动物"
+                        ],
+                        answer: 2
+                    }
+                ]
+            }
+        ];
+
+        // 初始化状态
+        let currentQuizIndex = 0;
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+        let selectedQuiz = 0;
+
+        // DOM 元素
+        const welcomePage = document.getElementById('welcome-page');
+        const quizPage = document.getElementById('quiz-page');
+        const verificationPage = document.getElementById('verification-page');
+        const completionPage = document.getElementById('completion-page');
+        const startBtn = document.getElementById('start-btn');
+        const quizTitle = document.getElementById('quiz-title');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const nextBtn = document.getElementById('next-btn');
+        const progressText = document.getElementById('progress-text');
+        const progressFill = document.getElementById('progress-fill');
+        const currentScoreDisplay = document.getElementById('current-score');
+        const finalScoreDisplay = document.getElementById('final-score');
+        const verifyBtn = document.getElementById('verify-btn');
+        const verificationCode = document.getElementById('verification-code');
+        const verificationResult = document.getElementById('verification-result');
+        const verificationMessage = document.getElementById('verification-message');
+        const feedbackContainer = document.getElementById('feedback-container');
+        const feedbackText = document.getElementById('feedback-text');
+
+        // 从URL获取参数
+        function getUrlParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // 初始化应用
+        function initApp() {
+            // 从本地存储加载得分
+            const savedScore = localStorage.getItem('quizScore');
+            if (savedScore) {
+                score = parseInt(savedScore);
+                currentScoreDisplay.textContent = score;
+            }
+
+            // 从URL获取题目页面参数
+            const quizParam = getUrlParam('quiz');
+            if (quizParam && quizParam >= 1 && quizParam <= 3) {
+                selectedQuiz = quizParam - 1;
+            }
+
+            // 注册事件监听器
+            startBtn.addEventListener('click', startQuiz);
+            nextBtn.addEventListener('click', goToNextQuestion);
+            verifyBtn.addEventListener('click', verifyCode);
+        }
+
+        // 开始答题
+        function startQuiz() {
+            welcomePage.classList.add('hidden');
+            quizPage.classList.remove('hidden');
+            currentQuizIndex = selectedQuiz;
+            currentQuestionIndex = 0;
+            loadQuestion();
+        }
+
+        // 加载当前问题
+        function loadQuestion() {
+            // 更新题目标题
+            quizTitle.textContent = quizData[currentQuizIndex].title;
+            
+            // 更新进度
+            const totalQuestions = quizData[currentQuizIndex].questions.length;
+            progressText.textContent = `${currentQuestionIndex + 1}/${totalQuestions} 题`;
+            progressFill.style.width = `${((currentQuestionIndex + 1) / totalQuestions) * 100}%`;
+            
+            // 加载问题
+            const currentQuestion = quizData[currentQuizIndex].questions[currentQuestionIndex];
+            questionText.textContent = currentQuestion.question;
+            
+            // 清空选项容器
+            optionsContainer.innerHTML = '';
+            
+            // 创建选项
+            const optionLetters = ['A', 'B', 'C', 'D'];
+            currentQuestion.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option-card bg-white border border-gray-200 rounded-lg p-4 cursor-pointer hover:shadow-md';
+                optionElement.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                            <span class="font-medium">${optionLetters[index]}</span>
+                        </div>
+                        <div class="flex-1">
+                            ${option}
+                        </div>
+                    </div>
+                `;
+                
+                optionElement.addEventListener('click', () => selectOption(index, optionElement));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // 重置状态
+            answered = false;
+            nextBtn.classList.add('hidden');
+            feedbackContainer.classList.add('hidden');
+        }
+
+        // 选择选项
+        function selectOption(optionIndex, optionElement) {
+            if (answered) return;
+            
+            answered = true;
+            const currentQuestion = quizData[currentQuizIndex].questions[currentQuestionIndex];
+            const isCorrect = optionIndex === currentQuestion.answer;
+            
+            // 显示反馈
+            feedbackContainer.classList.remove('hidden');
+            
+            if (isCorrect) {
+                // 回答正确
+                optionElement.classList.add('correct');
+                feedbackContainer.className = 'mt-6 p-4 rounded-lg bg-green-100 text-green-800';
+                feedbackText.textContent = '答对了！+10分';
+                
+                // 增加分数
+                score += 10;
+                localStorage.setItem('quizScore', score.toString());
+                currentScoreDisplay.textContent = score;
+            } else {
+                // 回答错误
+                optionElement.classList.add('incorrect');
+                feedbackContainer.className = 'mt-6 p-4 rounded-lg bg-red-100 text-red-800';
+                feedbackText.textContent = '答错了！正确答案是：' + 
+                    ['A', 'B', 'C', 'D'][currentQuestion.answer];
+                
+                // 显示正确答案
+                const correctOptionElement = optionsContainer.children[currentQuestion.answer];
+                correctOptionElement.classList.add('correct');
+            }
+            
+            // 显示下一题按钮
+            nextBtn.classList.remove('hidden');
+        }
+
+        // 下一题
+        function goToNextQuestion() {
+            currentQuestionIndex++;
+            
+            // 检查是否还有下一题
+            if (currentQuestionIndex < quizData[currentQuizIndex].questions.length) {
+                loadQuestion();
+            } else {
+                // 当前题目集已完成
+                if (currentQuizIndex === 2) {
+                    // 全部答题完成，跳转到核销页面
+                    quizPage.classList.add('hidden');
+                    verificationPage.classList.remove('hidden');
+                    finalScoreDisplay.textContent = score;
+                } else {
+                    // 提示跳转到下一个题目集
+                    alert(`第${currentQuizIndex + 1}部分已完成，请前往第${currentQuizIndex + 2}部分继续答题！`);
+                    // 可以选择跳转到下一个题目集页面
+                    window.location.href = `?quiz=${currentQuizIndex + 2}`;
+                }
+            }
+        }
+
+        // 验证核销码
+        function verifyCode() {
+            const code = verificationCode.value.trim();
+            
+            if (code === '1234') {
+                // 验证成功
+                verificationResult.classList.remove('hidden');
+                verificationMessage.textContent = '验证成功！';
+                verificationMessage.className = 'text-green-600';
+                
+                // 清除本地存储的分数
+                localStorage.removeItem('quizScore');
+                
+                // 显示完成页面
+                setTimeout(() => {
+                    verificationPage.classList.add('hidden');
+                    completionPage.classList.remove('hidden');
+                }, 1500);
+            } else {
+                // 验证失败
+                verificationResult.classList.remove('hidden');
+                verificationMessage.textContent = '验证失败！请输入正确的验证码';
+                verificationMessage.className = 'text-red-600';
+            }
+        }
+
+        // 当文档加载完成后，初始化应用
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
