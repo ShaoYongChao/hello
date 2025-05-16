@@ -142,19 +142,17 @@
             clearInterval(intervalId);
             intervalId = null;
 
-            // The actual prize is between 6 and 10 (inclusive)
+            // 核心: 生成一个 6 到 10 之间的随机整数作为真实奖金
             const actualPrize = Math.floor(Math.random() * 5) + 6; // (0 to 4) + 6 = 6 to 10
 
             localStorage.setItem(LOTTERY_DRAWN_KEY, 'true');
-            localStorage.setItem(ACTUAL_PRIZE_KEY, actualPrize.toString());
-            localStorage.setItem('last_displayed_number', numberDisplay.textContent); // Store the visually stopped number
+            localStorage.setItem(ACTUAL_PRIZE_KEY, actualPrize.toString()); // 存储真实奖金
+            localStorage.setItem('last_displayed_number', numberDisplay.textContent); // 存储视觉上停止的数字
 
-            console.log(`真实中奖金额 (6-10元): ${actualPrize}元`); // For testing, not shown to user
+            // 这条 console.log 用于开发测试，确认真实奖金的值，不会显示给用户
+            //console.log(`真实中奖金额 (6-10元): ${actualPrize}元`); 
 
-            messageArea.textContent = '抽奖完成！您的幸运已记录。';
-            stopButton.classList.add('btn-disabled', 'opacity-50');
-            stopButton.disabled = true;
-            rulesInfo.textContent = '结果已保存，感谢您的参与！';
+            messageArea.textContent = '抽奖完成！您的幸运已记录。'; // 通用提示
 
             // Update start button to reflect 'already drawn' state permanently
             const startIcon = startButton.querySelector('i');
