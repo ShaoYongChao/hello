@@ -1,6 +1,11 @@
 const CACHE_NAME = 'todo-app-cache-v1';
 const ASSETS_TO_CACHE = [
   '/',
+  '.',
+  './',
+  './index.html',
+  './manifest.json',
+  './vite.svg',
   '/index.html',
   '/src/main.jsx',
   '/src/App.jsx',
@@ -69,7 +74,7 @@ self.addEventListener('fetch', (event) => {
       }).catch(() => {
         // 网络请求失败时，如果请求的是HTML文件，返回缓存的index.html
         if (event.request.mode === 'navigate') {
-          return caches.match('/index.html');
+          return caches.match('./index.html');
         }
       });
     })
