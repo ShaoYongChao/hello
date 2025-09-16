@@ -1,19 +1,11 @@
 const CACHE_NAME = 'todo-app-cache-v1';
 const ASSETS_TO_CACHE = [
-  '/',
-  '.',
   './',
   './index.html',
   './manifest.json',
   './vite.svg',
-  '/index.html',
-  '/src/main.jsx',
-  '/src/App.jsx',
-  '/src/App.css',
-  '/src/index.css',
-  '/manifest.json',
-  '/vite.svg',
-  '/src/assets/react.svg'
+  './assets/index-DXo9ONEu.js',
+  './assets/index-D6Iu0so4.css'
 ];
 
 // 安装 Service Worker
