@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>距离下班倒计时</title>
+    <!-- PWA所需的meta标签 -->
+    <meta name="theme-color" content="#007bff">
+    <meta name="description" content="一个简单易用的下班倒计时工具，可以自定义目标时间、显示文字和颜色">
+    <!-- 指向manifest.json -->
+    <link rel="manifest" href="manifest.json">
+    <!-- 用于iOS设备的图标和启动画面 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="下班倒计时">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Ccircle cx='90' cy='90' r='85' fill='%23007bff'/%3E%3Ctext x='90' y='100' font-family='Arial' font-size='30' text-anchor='middle' fill='white'%3E⏰%3C/text%3E%3C/svg%3E">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            user-select: none;
+        }
+        .container {
+            text-align: center;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+            user-select: none;
+        }
+        #countdown {
+            font-size: 48px;
+            font-weight: bold;
+            color: #007bff;
+            user-select: none;
+            padding: 10px;
+        }
+        .over-time {
+            color: #dc3545 !important;
+        }
+        .settings-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        .settings-button:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+        
+        /* 设置面板样式 */
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .settings-panel.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .settings-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .settings-panel.show .settings-content {
+            transform: scale(1);
+        }
+        .setting-item {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="time"],
+        input[type="color"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="checkbox"] {
+            width: auto;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        #save-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #save-btn:hover {
+            background-color: #45a049;
+        }
+        #cancel-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        #cancel-btn:hover {
+            background-color: #da190b;
+        }
+        
+        /* 已移除拖动功能 */
+        
+        /* 响应式设计 */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            #countdown {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="main-container">
+        <button class="settings-button" id="settings-button">⚙️</button>
+        <h1 id="custom-text-display">距离下班还有</h1>
+        <div id="countdown">0小时0分钟</div>
+    </div>
+    
+    <!-- 设置面板 -->
+    <div class="settings-panel" id="settings-panel">
+        <div class="settings-content">
+            <h2>设置</h2>
+            
+            <div class="setting-item">
+                <label for="custom-text">自定义文字</label>
+                <input type="text" id="custom-text" placeholder="例如：距离下班还有">
+            </div>
+            
+            <div class="setting-item">
+                <label for="target-time">目标时间</label>
+                <input type="time" id="target-time">
+            </div>
+            
+            <div class="setting-item">
+                <label for="font-color">字体颜色</label>
+                <input type="color" id="font-color" value="#007bff">
+            </div>
+            
+            <div class="setting-item">
+                <div class="checkbox-container">
+                    <input type="checkbox" id="rainbow-color">
+                    <label for="rainbow-color">彩虹色动画</label>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button id="save-btn">保存</button>
+                <button id="cancel-btn">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 当前设置
+        let appSettings = {
+            customText: '距离下班还有',
+            targetTime: '17:00',
+            fontColor: '#007bff',
+            rainbowColor: false
+        };
+        
+        // 当前彩虹色动画ID
+        let rainbowAnimationId = null;
+        
+        // DOM元素
+        const countdownElement = document.getElementById('countdown');
+        const customTextDisplay = document.getElementById('custom-text-display');
+        const settingsButton = document.getElementById('settings-button');
+        const settingsPanel = document.getElementById('settings-panel');
+        const mainContainer = document.getElementById('main-container');
+        
+        // 已移除窗口拖动功能
+        
+        // 从localStorage加载设置
+        function loadSettings() {
+            try {
+                const savedSettings = localStorage.getItem('countdownSettings');
+                if (savedSettings) {
+                    appSettings = { ...appSettings, ...JSON.parse(savedSettings) };
+                }
+                
+                // 加载设置到表单
+                document.getElementById('custom-text').value = appSettings.customText;
+                document.getElementById('target-time').value = appSettings.targetTime;
+                document.getElementById('font-color').value = appSettings.fontColor;
+                document.getElementById('rainbow-color').checked = appSettings.rainbowColor;
+            } catch (error) {
+                console.error('加载设置失败:', error);
+            }
+        }
+        
+        // 保存设置到localStorage
+        function saveSettings(settings) {
+            try {
+                appSettings = { ...appSettings, ...settings };
+                localStorage.setItem('countdownSettings', JSON.stringify(appSettings));
+                updateDisplaySettings();
+            } catch (error) {
+                console.error('保存设置失败:', error);
+            }
+        }
+        
+        // 生成彩虹色
+        function getRainbowColor() {
+            const now = new Date();
+            const hue = (now.getSeconds() * 6) % 360; // 每秒变化6度，60秒完成一个周期
+            return `hsl(${hue}, 100%, 50%)`;
+        }
+        
+        // 应用彩虹色动画
+        function applyRainbowEffect() {
+            if (!countdownElement.classList.contains('over-time')) {
+                countdownElement.style.color = getRainbowColor();
+                rainbowAnimationId = requestAnimationFrame(applyRainbowEffect);
+            }
+        }
+        
+        // 停止彩虹色动画
+        function stopRainbowEffect() {
+            if (rainbowAnimationId) {
+                cancelAnimationFrame(rainbowAnimationId);
+                rainbowAnimationId = null;
+            }
+            
+            // 恢复到设置的颜色
+            if (!countdownElement.classList.contains('over-time')) {
+                countdownElement.style.color = appSettings.fontColor;
+            }
+        }
+        
+        // 更新显示设置
+        function updateDisplaySettings() {
+            // 更新标题文字
+            customTextDisplay.textContent = appSettings.customText;
+            
+            if (!countdownElement.classList.contains('over-time')) {
+                // 检查是否启用彩虹色动画
+                if (appSettings.rainbowColor) {
+                    // 如果还没有启动动画，则启动
+                    if (!rainbowAnimationId) {
+                        applyRainbowEffect();
+                    }
+                } else {
+                    // 如果启用了动画，则停止
+                    stopRainbowEffect();
+                }
+            }
+        }
+        
+        // 更新倒计时
+        function updateCountdown() {
+            const now = new Date();
+            const target = new Date();
+            
+            // 解析目标时间
+            const [targetHours, targetMinutes] = appSettings.targetTime.split(':').map(Number);
+            target.setHours(targetHours, targetMinutes, 0, 0);
+            
+            // 如果当前时间已经过了目标时间，则显示"已下班"
+            if (now > target) {
+                countdownElement.textContent = "已下班";
+                countdownElement.classList.add('over-time');
+                stopRainbowEffect(); // 停止彩虹色效果
+                return;
+            }
+            
+            // 如果之前显示的是"已下班"，现在时间还没到，需要移除这个类
+            countdownElement.classList.remove('over-time');
+            
+            // 调用updateDisplaySettings应用颜色设置（包括彩虹色）
+            updateDisplaySettings();
+            
+            const diff = target - now;
+            
+            // 计算小时、分钟和秒
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            countdownElement.textContent = `${hours}小时${minutes}分钟${seconds}秒`;
+        }
+        
+        // 设置面板显示/隐藏
+        function toggleSettingsPanel() {
+            settingsPanel.classList.toggle('show');
+            
+            // 如果显示设置面板，填充表单
+            if (settingsPanel.classList.contains('show')) {
+                document.getElementById('custom-text').value = appSettings.customText;
+                document.getElementById('target-time').value = appSettings.targetTime;
+                document.getElementById('font-color').value = appSettings.fontColor;
+                document.getElementById('rainbow-color').checked = appSettings.rainbowColor;
+            }
+        }
+        
+        // 保存设置按钮事件
+        document.getElementById('save-btn').addEventListener('click', () => {
+            const settings = {
+                customText: document.getElementById('custom-text').value || '距离下班还有',
+                targetTime: document.getElementById('target-time').value || '17:00',
+                fontColor: document.getElementById('font-color').value,
+                rainbowColor: document.getElementById('rainbow-color').checked
+            };
+            
+            saveSettings(settings);
+            toggleSettingsPanel();
+        });
+        
+        // 取消按钮事件
+        document.getElementById('cancel-btn').addEventListener('click', () => {
+            toggleSettingsPanel();
+        });
+        
+        // 设置按钮点击事件
+        settingsButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // 防止触发容器的拖动
+            toggleSettingsPanel();
+        });
+        
+        // 点击设置面板外部关闭面板
+        settingsPanel.addEventListener('click', (e) => {
+            if (e.target === settingsPanel) {
+                toggleSettingsPanel();
+            }
+        });
+        
+        // 初始化
+        loadSettings();
+        updateDisplaySettings();
+        updateCountdown();
+        
+        // 每秒更新一次
+        setInterval(updateCountdown, 1000);
+        
+        // 注册Service Worker，使其成为PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then((registration) => {
+                        console.log('Service Worker 注册成功:', registration.scope);
+                        
+                        // 监听控制器变化，用于处理更新
+                        navigator.serviceWorker.addEventListener('controllerchange', () => {
+                            if (confirm('应用有更新，是否刷新页面？')) {
+                                window.location.reload();
+                            }
+                        });
+                    })
+                    .catch((error) => {
+                        console.log('Service Worker 注册失败:', error);
+                    });
+            });
+        }
+        
+        // 添加beforeinstallprompt事件监听，用于捕获安装提示
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // 阻止默认的安装提示
+            e.preventDefault();
+            // 保存事件对象，以便稍后手动触发
+            deferredPrompt = e;
+            
+            // 可以在这里显示一个自定义的安装按钮
+            console.log('可以提示用户安装应用了');
+        });
+        
+        // 防止点击设置面板内部元素时关闭面板
+        document.querySelector('.settings-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>
