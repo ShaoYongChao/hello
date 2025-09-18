@@ -322,7 +322,7 @@ var DoubleTap = new Hammer.Tap({
 
 manager.add(DoubleTap);
 manager.on('doubletap', function(e) {
-  var vConsole = new window.VConsole();
+  //var vConsole = new window.VConsole();
 });
 
 function onProgress(xhr) {
@@ -926,7 +926,7 @@ function render() {
     TWEEN.update();
 
     // 判断当前场景是否是展厅
-    if (document.getElementsByClassName("tablinks")[0].classList.value.indexOf("active") != -1 && pagedisplay == false) {
+    // if (document.getElementsByClassName("tablinks")[0].classList.value.indexOf("active") != -1 && pagedisplay == false) {
         pagedisplay = true;
         if(isMobile()){
             joystickBase.style.display = "block";
@@ -934,11 +934,11 @@ function render() {
             joystickBase.style.display = "none";
         }
         // checkbgm();
-    } else {
-        pagedisplay = false;
+    // } else {
+        // pagedisplay = false;
 
-        joystickBase.style.display = "none";
-    }
+        // joystickBase.style.display = "none";
+    // }
 
     // 计算摄像头位置和朝向
     let vector = new THREE.Vector3();
