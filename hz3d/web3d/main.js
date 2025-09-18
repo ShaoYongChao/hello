@@ -221,7 +221,7 @@ stats.dom.style.top = '0px';
 scene = new THREE.Scene();
 // const SERVER_URL = isMobile() ? "http://www.mjexhibition.com/gltf/" : "http://www.mjexhibition.com/gltf_high/";
 // const SERVER_URL = isMobile() ? "https://mjexhibition-1317720708.cos-website.ap-beijing.myqcloud.com/gltf/" : "https://mjexhibition-1317720708.cos-website.ap-beijing.myqcloud.com/gltf_high/";
-const SERVER_URL = isMobile() ? "http://localhost/hz3d/gltf/" : "http://localhost/hz3d/gltf_high/";
+const SERVER_URL = isMobile() ? "../gltf/" : "../gltf_high/";
 
 const container = document.getElementById('page1');
 document.body.appendChild(container);
