@@ -4,101 +4,171 @@
   <meta charset="utf-8">
   <title>Hello</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       user-select: none;
       margin: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      font-size: 3rem;
+      min-height: 100vh;
+      font-family: 'Arial', sans-serif;
       color: white;
-      overflow: hidden; /* Hide scrollbars */
-      position: relative; /* Set position for bg-image */
+      overflow-x: hidden;
+      position: relative;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
-     .bg-image {
-      position: absolute;
+
+    .bg-image {
+      position: fixed;
       z-index: -1;
       background-image: url("IMG_0822.jpeg");
       height: 100%;
-      width: 100%; /* Add width to cover the entire area */
+      width: 100%;
       background-position: center center;
       background-repeat: no-repeat;
       background-size: cover;
       filter: blur(3px);
+      opacity: 0.3;
     }
-     .content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: white;
-      font-size: 3rem;
 
-    }
-     .button1, .button2, .button3 {
-      background-color: #1f7af3;
-      border: none;
-      color: white;
-      padding: 15px 32px;
+    .header {
       text-align: center;
-      text-decoration: none;
-      font-size: 2rem;
-      cursor: pointer;
-      border-radius: 10px;
-      margin-right: 20px;
-    }
-    .button2 {
-      background-color: #20847a;
-    }
-    .button3 {
-      background-color: #1e1f1a;
-    }
-     .btncontainer {
-      position: fixed;
-      bottom: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .abtncontainer {
-      position: absolute;
-      bottom: 10%;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 1rem;
-    }
-    .abtncontainer a {
-        color: black; /* 设置超链接文字颜色为黑色 */
-    }
-    h1 {
-      text-shadow: 5px 5px black, -10px 10px 10px rgba(255, 0, 0, 0.1), -20px 20px 10px rgba(0, 255, 0, 0.1), -30px 30px 10px rgba(0, 0, 255, 0.1);
+      padding: 2rem 0;
+      position: relative;
+      z-index: 10;
     }
 
-    #rainbow {
-      /*background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);*/
-      background: white;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
       animation: breathe 3s ease-in-out infinite;
     }
 
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    .menu-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .menu-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .menu-card:hover::before {
+      left: 100%;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .card-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-description {
+      font-size: 1rem;
+      opacity: 0.8;
+      line-height: 1.4;
+    }
+
+    .card-ps { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .card-mind { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+    .card-todo { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+    .card-hz3d { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+    .card-video3d { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+    .card-web3d { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+    .card-countdown { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+
+    #rainbow {
+      position: fixed;
+      font-size: 1rem;
+      pointer-events: none;
+      z-index: 1000;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #dda0dd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: rainbow 2s linear infinite;
+    }
+
     @keyframes breathe {
-      0% {
-        opacity: 0;
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    @keyframes rainbow {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .menu-container {
+        grid-template-columns: 1fr;
+        padding: 1rem;
       }
-      50% {
-        opacity: 1;
+      
+      h1 {
+        font-size: 2rem;
       }
-      100% {
-        opacity: 0;
+      
+      .menu-card {
+        padding: 1.5rem;
       }
     }
 
-    p {
-      position: absolute;
-      font-size: 1rem;
-      overflow: hidden;
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      opacity: 0.7;
     }
   </style>
    <script>
@@ -131,17 +201,62 @@
      setInterval(changeLanguage, 3000);
   </script>
 </head>
- <body>
+<body>
   <div class="bg-image"></div>
-  <h1 id="hello-text">Hello</h1>
-   <div class="btncontainer">
-      <a href="https://airun.life/PS-Online/"><button class="button2">PS</button></a>
-      <a href="https://airun.life/mind/"><button class="button3">思维导图</button></a>
-   </div>
-   <div class="abtncontainer">
-     <a href="https://airun.life/video3d/">全景视频</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-     <a href="https://airun.life/web3d/">3D展厅</a>
-   </div>
+  
+  <div class="header">
+    <h1 id="hello-text">Hello</h1>
+    <div class="subtitle">欢迎使用我的工具集合</div>
+  </div>
+
+  <div class="menu-container">
+    <a href="./PS-Online/" class="menu-card card-ps">
+      <div class="card-icon">🎨</div>
+      <div class="card-title">在线PS</div>
+      <div class="card-description">强大的在线图片编辑工具，支持多种滤镜和编辑功能</div>
+    </a>
+
+    <a href="./mind/" class="menu-card card-mind">
+      <div class="card-icon">🧠</div>
+      <div class="card-title">思维导图</div>
+      <div class="card-description">简洁易用的思维导图工具，帮助整理思路和知识结构</div>
+    </a>
+
+    <a href="./todolist/" class="menu-card card-todo">
+      <div class="card-icon">✅</div>
+      <div class="card-title">待办事项</div>
+      <div class="card-description">简单高效的任务管理工具，让你的工作更有条理</div>
+    </a>
+
+    <a href="./hz3d/" class="menu-card card-hz3d">
+      <div class="card-icon">🏛️</div>
+      <div class="card-title">展览馆</div>
+      <div class="card-description">民进会史展览馆，沉浸式3D虚拟展览体验</div>
+    </a>
+
+    <a href="./video3d/" class="menu-card card-video3d">
+      <div class="card-icon">📹</div>
+      <div class="card-title">全景视频</div>
+      <div class="card-description">360度全景视频播放器，带来身临其境的观看体验</div>
+    </a>
+
+    <a href="./web3d/" class="menu-card card-web3d">
+      <div class="card-icon">🌐</div>
+      <div class="card-title">3D展厅</div>
+      <div class="card-description">交互式3D虚拟展厅，探索数字化展示的无限可能</div>
+    </a>
+
+    <a href="./cd/" class="menu-card card-countdown">
+      <div class="card-icon">⏰</div>
+      <div class="card-title">下班倒计时</div>
+      <div class="card-description">实用的下班倒计时工具，支持自定义时间和个性化设置</div>
+    </a>
+  </div>
+
+  <div class="footer">
+    <p>© 2024 工具集合 - 让创意无限延伸</p>
+  </div>
+
   <p id="rainbow">Hello啊，树哥！</p>
   <script>
 
