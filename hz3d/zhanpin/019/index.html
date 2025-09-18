@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="generator" content="Exhibeo 2 2.0.12 (2124)" />
+<meta charset="utf-8">
+<meta name="viewport" content="width = device-width, initial-scale = 1.00, minimum-scale = 0.25, maximum-scale = 1.60"/>
+<title>Exhibeo Preview: PhotoSwipe</title>
+
+</head>
+<body>
+<div id="exibid" class="xb_photoswipe">
+	<script>
+		(function(s,t,y,l,e){
+			y=[].concat(y);for(l=0;l<y.length;l++){e=s.createElement(t);e.rel="stylesheet";e.href=y[l];s.getElementsByTagName("head")[0].appendChild(e)};
+		})(document,"link",["css/exibid_photoswipe-styles.css", "css/exibid_default-skin.css"]);
+		(function(ex,h,i,b,e,o){
+			ex[e]=ex[e]||function(){(ex[e].a=ex[e].a||[]).push(arguments)};b=[].concat(b);for(var l=0;l<b.length;l++){o=ex[e][b[l]]||h.createElement(i);o.async=1;o.src=b[l];h.getElementsByTagName("head")[0].appendChild(o);ex[e][b[l]]=o;}
+		})(window,document,"script",["js/exibid_photoswipe.js", "js/exibid_photoswipe-ui-default.js"],"xb_photoswipe");
+	</script>
+	<div class="xbps-container">
+		<div class="xbps-inner">
+			<ul>
+				<li>
+					<figure>
+						<a href="image/exibid_E-1-2.jpg" data-size="1024x682">
+							<img src="image/exibid_E-1-2_thumb.jpg" data-size="400x267" title="各民主党派负责人应邀出席中共十二大开幕式，在贵宾席就座。右四为民进中央副主席叶圣陶。中共十二大确定与各民主党派、无党派人士要继续坚持“长期共存，互相监督”，“肝胆相照，荣辱与共”的十六字方针。" />
+						</a>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<a href="image/exibid_E-1-4.jpg" data-size="1024x682">
+							<img src="image/exibid_E-1-4_thumb.jpg" data-size="400x267" title=" 1989年6月，中共召开了十三届四中全会，会议选举产生了以江泽民为核心的中共第三代领导集体。根据邓小平的提议，中共在与各民主党派反复协商的基础上，共同制定《中共中央关于坚持和完善中国共产党领导的多党合作和政治协商制度的意见》并于1990年2月8日公布。" />
+						</a>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<a href="image/exibid_E-1-5.jpg" data-size="1024x682">
+							<img src="image/exibid_E-1-5_thumb.jpg" data-size="400x267" title="1992年10月，中国共产党第十四次代表大会在北京举行。这次大会提出，以建立社会主义市场经济作为经济体制改革的目标，并把完善共产党领导的多党合作和政治协商制度作为推进政治体制改革、加强社会主义民主政治的一项重要内容。" />
+						</a>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<a href="image/exibid_E-1-6.jpg" data-size="1024x682">
+							<img src="image/exibid_E-1-6_thumb.jpg" data-size="400x267" title="1983年11月，民进第五次全国代表大会在北京隆重举行。周建人致开幕词，雷洁琼作工作报告，号召全会团结奋斗，自强不息，全面开创民进工作新局面。" />
+						</a>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<a href="image/exibid_E-1-7.jpg" data-size="1024x682">
+							<img src="image/exibid_E-1-7_thumb.jpg" data-size="400x267" title="中共中央和国家领导人宋任穷、彭冲、李鹏、杨静仁等出席了大会开幕式。" />
+						</a>
+					</figure>
+				</li>
+				<li class="xbps_portrait">
+					<figure>
+						<a href="image/exibid_E-1-9.jpg" data-size="768x1024">
+							<img src="image/exibid_E-1-9_thumb.jpg" data-size="300x400" title="新当选的民进领导人合影。前排左起：吴贻芳、周建人、叶圣陶、吴若安；后排左起：陈舜礼、赵朴初、雷洁琼、葛志成。（谢冰心因公请假）" />
+						</a>
+					</figure>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script>
+		var el = document.scripts[document.scripts.length-1].parentNode;
+		var exibidOptions = {
+			counterEl: true, // Display the image counter?
+			zoomEl: true, // Display the zoom button?
+			fullscreenEl: true, // Display the fullscreen button?
+			shareEl: true, // Display the share button?
+			closeOnScroll: false,
+			captionEl: true, // Display the caption?
+			showTitles: true, // Display the caption?
+			showDescriptions: true, // Display the caption?
+			addCaptionHTMLFn: function(item, captionEl, isFake) {
+				if(!item.title && !item.description) {
+					return false;
+				}
+				captionEl.children[0].innerHTML = (exibidOptions.showTitles && item.title && item.title != " " ? "\x3Cspan>" + item.title + "\x3C/span>" : "") + (exibidOptions.showDescriptions && item.description ? (exibidOptions.showTitles && item.title ? "\x3Cbr>" : "") + item.description : "");
+				return true;
+			},
+			closeEl: true // Display the close button?
+		};
+		window.xb_photoswipe(el.id,exibidOptions);
+	</script>
+</div>
+</body>
+</html>

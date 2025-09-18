@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="generator" content="Exhibeo 2 2.0.12 (2124)" />
+<meta charset="utf-8">
+<meta name="viewport" content="width = device-width, initial-scale = 1.00, minimum-scale = 0.25, maximum-scale = 1.60"/>
+<title>Exhibeo Preview: PhotoSwipe</title>
+
+</head>
+<body>
+<div id="exibid" class="xb_photoswipe">
+	<script>
+		(function(s,t,y,l,e){
+			y=[].concat(y);for(l=0;l<y.length;l++){e=s.createElement(t);e.rel="stylesheet";e.href=y[l];s.getElementsByTagName("head")[0].appendChild(e)};
+		})(document,"link",["css/exibid_photoswipe-styles.css", "css/exibid_default-skin.css"]);
+		(function(ex,h,i,b,e,o){
+			ex[e]=ex[e]||function(){(ex[e].a=ex[e].a||[]).push(arguments)};b=[].concat(b);for(var l=0;l<b.length;l++){o=ex[e][b[l]]||h.createElement(i);o.async=1;o.src=b[l];h.getElementsByTagName("head")[0].appendChild(o);ex[e][b[l]]=o;}
+		})(window,document,"script",["js/exibid_photoswipe.js", "js/exibid_photoswipe-ui-default.js"],"xb_photoswipe");
+	</script>
+	<div class="xbps-container">
+		<div class="xbps-inner">
+			<ul>
+				<li>
+					<figure>
+						<a href="image/exibid_D-1-7.jpg" data-size="1024x682">
+							<img src="image/exibid_D-1-7_thumb.jpg" data-size="400x267" title="1979年10月11日至22日，民进第四次全国代表大会在北京隆重举行。这次代表大会是与三代大会相隔21年之后，中共十一届三种全会做出把全党全国工作的重点转移到社会主义现代化建设上来的重大决策，统一战线也进入了一个新的发展时期的新形势下召开的，是民进历史上一个新的里程碑。" />
+						</a>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<a href="image/exibid_D-1-8.jpg" data-size="1024x682">
+							<img src="image/exibid_D-1-8_thumb.jpg" data-size="400x267" title="徐伯昕作题为《团结起来，为加速社会主义现代化建设贡献力量》的工作报告。" />
+						</a>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<a href="image/exibid_D-1-9.jpg" data-size="1024x682">
+							<img src="image/exibid_D-1-9_thumb.jpg" data-size="400x267" title="周建人、叶圣陶在会议期间。" />
+						</a>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<a href="image/exibid_D-1-10.jpg" data-size="1024x682">
+							<img src="image/exibid_D-1-10_thumb.jpg" data-size="400x267" title="吴贻芳、雷洁琼在会议期间。" />
+						</a>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<a href="image/exibid_D-1-11.jpg" data-size="1024x682">
+							<img src="image/exibid_D-1-11_thumb.jpg" data-size="400x267" title="谢冰心、吴若安在会议期间。" />
+						</a>
+					</figure>
+				</li>
+				<li class="xbps_portrait">
+					<figure>
+						<a href="image/exibid_D-1-12.jpg" data-size="768x1024">
+							<img src="image/exibid_D-1-12_thumb.jpg" data-size="300x400" title="中共中央和国家领导人叶剑英、邓小平、李先念、邓颖超等亲切接见全体代表和工作人员。" />
+						</a>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<a href="image/exibid_D-1-14.jpg" data-size="1024x682">
+							<img src="image/exibid_D-1-14_thumb.jpg" data-size="400x267" title="会议期间，代表们对教育、文化、出版、卫生、科技等方面的工作提出不少意见和建议。会后，教育部、国家出版事业管理局、卫生部和国家科委分别给民进中央复函感谢并作出具体答复。这是教育部办公厅的复函。" />
+						</a>
+					</figure>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script>
+		var el = document.scripts[document.scripts.length-1].parentNode;
+		var exibidOptions = {
+			counterEl: true, // Display the image counter?
+			zoomEl: true, // Display the zoom button?
+			fullscreenEl: true, // Display the fullscreen button?
+			shareEl: true, // Display the share button?
+			closeOnScroll: false,
+			captionEl: true, // Display the caption?
+			showTitles: true, // Display the caption?
+			showDescriptions: true, // Display the caption?
+			addCaptionHTMLFn: function(item, captionEl, isFake) {
+				if(!item.title && !item.description) {
+					return false;
+				}
+				captionEl.children[0].innerHTML = (exibidOptions.showTitles && item.title && item.title != " " ? "\x3Cspan>" + item.title + "\x3C/span>" : "") + (exibidOptions.showDescriptions && item.description ? (exibidOptions.showTitles && item.title ? "\x3Cbr>" : "") + item.description : "");
+				return true;
+			},
+			closeEl: true // Display the close button?
+		};
+		window.xb_photoswipe(el.id,exibidOptions);
+	</script>
+</div>
+</body>
+</html>

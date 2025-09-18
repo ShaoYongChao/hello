@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html>
+<!-- 添加分享链接预览图 -->
+<meta property="og:image" content="http://10.168.1.127/hz3d/web3d/preview.jpeg" />
+<meta property="og:title" content="民进会史展览馆" />
+<meta property="og:description" content="欢迎访问中国民主促进会会史展览馆！" />
+<meta property="og:url" content="http://10.168.1.127/hz3d/web3d/index.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="民进会史展览馆" />
+<meta property="og:locale" content="zh_CN" />
+
+<head>
+	<title>民进会史展览馆</title>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<link type="text/css" rel="stylesheet" href="maincss.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<script>
+	window.onload = function () {
+		// 阻止双击放大
+		let lastTouchEnd = 0;
+		document.addEventListener('touchstart', function (event) {
+			if (event.touches.length > 1) { event.preventDefault(); }
+		});
+		document.addEventListener('touchend', function (event) {
+			let now = (new Date()).getTime();
+			if (now - lastTouchEnd <= 300) { event.preventDefault(); }
+			lastTouchEnd = now;
+		}, false);
+		// 阻止双指放大
+		document.addEventListener('gesturestart', function (event) {
+			event.preventDefault();
+		});
+	}
+</script>
+
+<style>
+	#overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 2000;
+		display: none;
+	}
+
+	#popup {
+		text-align: center;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: #fff;
+		padding: 20px;
+		border-radius: 5px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+		z-index: 2001;
+		display: none;
+	}
+
+	#popup h2 {
+		margin-top: 0;
+		font-size: 20px;
+		font-weight: bold;
+		/* 设置字体颜色 */
+		color: #000;
+	}
+
+	#popup p {
+		margin: 10px 0;
+		font-size: 14px;
+		color: #2d2d2d;
+	}
+
+	.btn {
+		margin:auto;
+		display: block;
+		padding: 5px 10px;
+		background-color: #07c160;
+		color: #fff;
+		font-size: 15px;
+		font-weight: bold;
+		text-align: center;
+		border-radius: 5px;
+		/* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); */
+		transition: background-color 0.2s ease;
+	}
+
+	.btn:hover {
+		background-color: #06ad56;
+	}
+
+	.btn:active {
+		background-color: #059b4f;
+		box-shadow: none;
+	}
+	
+	#blocker {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background-color: rgb(255, 255, 255);
+		z-index: 1000;
+	}
+
+	#instructions {
+		width: 100%;
+		height: 100%;
+
+		display: -webkit-box;
+		display: -moz-box;
+		display: box;
+
+		-webkit-box-orient: horizontal;
+		-moz-box-orient: horizontal;
+		box-orient: horizontal;
+
+		-webkit-box-pack: center;
+		-moz-box-pack: center;
+		box-pack: center;
+
+		-webkit-box-align: center;
+		-moz-box-align: center;
+		box-align: center;
+
+		color: #777575;
+		text-align: center;
+		font-family: Arial;
+		font-size: 14px;
+		cursor: pointer;
+		z-index: 1000;
+	}
+</style>
+
+<body>
+	<script type="x-shader/x-vertex" id="vertexshader">
+
+		varying vec2 vUv;
+		void main() {
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+		}
+
+	</script>
+
+	<script type="x-shader/x-fragment" id="fragmentshader">
+
+		uniform sampler2D baseTexture;
+		uniform sampler2D bloomTexture;
+
+		varying vec2 vUv;
+		void main() {
+			gl_FragColor = ( texture2D( baseTexture, vUv ) + vec4( 1.0 ) * texture2D( bloomTexture, vUv ) );
+		}
+
+	</script>
+
+	<div id="blocker">
+		<div id="instructions">
+			<span style="font-size:36px">加载中...</span>
+		</div>
+	</div>
+	<audio id="music" src="music.mp3" autoplay="autopaly" loop="true"></audio>
+	<div id="overlay"></div>
+	<div id="popup">
+		<h2>温馨提示</h2>
+		<p>由于场景内容过多，首次加载可能会有稍许卡顿。</p>
+		<button class="btn" onclick="hidePopup()">确认</button>
+	</div>
+	<script>
+		let overlay = document.getElementById('overlay');
+		let popup = document.getElementById('popup');
+		let audio = document.getElementById('music');
+
+		function showPopup() {
+			overlay.style.display = 'block';
+			popup.style.display = 'block';
+		}
+
+		function hidePopup() {
+			overlay.style.display = 'none';
+			popup.style.display = 'none';
+			if (audio.paused) {
+				audio.play();
+			}
+		}
+	</script>
+	<!-- TODO: 分离threejs页面 -->
+	<div id="tab" class="tab">
+		<button class="tablinks" onclick="openTab(event, 'page1')"><img src="./SVG/1数字会馆.svg" alt="btn1"
+				width=""></button>
+		<button class="tablinks" onclick="openTab(event, 'page2')"><img src="./SVG/2基地在线.svg" alt="btn1"
+				width=""></button>
+		<button class="tablinks"
+			onclick="window.location.href='https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI0MzIwMjc4Ng==&scene=124#wechat_redirect'"><img
+				src="./SVG/3民进资讯.svg" alt="btn1" width=""></button>
+		<!-- <button class="tablinks" onclick="openTab(event, 'page3')"><img src="./SVG/3民进资讯.svg" alt="btn1" width=""></button> -->
+		<button class="tablinks" onclick="openTab(event, 'page4')"><img src="./SVG/4在线交流.svg" alt="btn1"
+				width=""></button>
+	</div>
+
+	<div id="page1" class="tabcontentgl">
+		<iframe id="zhanpin"></iframe>
+		<!-- 添加一个div，置于屏幕左上角，用于显示来访人数 -->
+		<div id="visitor"
+			style="position: absolute; top: 0; left: 0; z-index: 1000; color: #fff; font-size: 12px; padding: 5px 10px; background: rgba(0, 0, 0, 0.5);border-bottom-right-radius: 5px;">
+			1631人来过</div>
+	</div>
+
+	<div id="page2" class="tabcontent">
+		<iframe src="../pages/index.html" frameborder="0" name="基地在线" scrolling="auto">
+		</iframe>
+	</div>
+
+	<div id="page3" class="tabcontent">
+		<iframe src="" frameborder="0" name="基地在线" scrolling="auto">
+		</iframe>
+	</div>
+
+	<div id="page4" class="tabcontent">
+		<h2>系统维护中</h2>
+		<p>维护结束即将上线</p>
+	</div>
+
+	<script src="tab.js"></script>
+	<script type="importmap">
+		{
+			"imports": {
+				"three": "../build/three.module.js",
+				"three/addons/": "./jsm/"
+			}
+		}
+	</script>
+	<script type="module">
+		import * as THREE from 'three';
+		import { GLTFLoader } from './jsm/loaders/GLTFLoader.js';
+		import { FBXLoader } from './jsm/loaders/FBXLoader.js';
+		import { FPCameraControls } from './jsm/controls/FPCameraControls.js';
+		import { TWEEN } from './jsm/libs/tween.module.min.js';
+
+		import Stats from './jsm/libs/stats.module.js';
+
+		showPopup();
+		document.addEventListener('contextmenu', function (e) {
+			e.preventDefault();
+		});
+		//修复部分纹理随机黑色问题
+		const IS_IOS =
+			/^(iPad|iPhone|iPod)/.test(window.navigator.platform) ||
+			(/^Mac/.test(window.navigator.platform) && window.navigator.maxTouchPoints > 1);
+		// if (IS_IOS) {
+		window.createImageBitmap = undefined;
+		// }
+
+		let maxFPS = 60;
+		let then = Date.now();
+
+		let stats = new Stats();
+		stats.domElement.style.display = 'none';
+		//设置stats的透明度
+		stats.dom.style.opacity = 0.5;
+		//设置stats的中心点
+		stats.dom.style.transform = 'translate(-50%, 0)';
+		//设置stats的位置
+		stats.dom.style.left = '50%';
+		stats.dom.style.top = '0px';
+
+		let scene, renderer;
+
+		let buttons = [];
+
+		scene = new THREE.Scene();
+		const SERVER_URL = isMobile() ? "http://10.168.1.127/hz3d/gltf/" : "http://10.168.1.127/hz3d/gltf_high/";
+		
+		//是否锁定页面的相关
+		let blocker = document.getElementById('blocker');
+		let instructions = document.getElementById('instructions');
+
+		const container = document.getElementById('page1');//document.createElement('div');
+		document.body.appendChild(container);
+		container.appendChild(stats.dom);
+
+		document.body.style.overflow = 'hidden';
+		document.body.style["-webkit-user-select"] = 'none';
+		document.body.style["-user-select"] = 'none';
+
+		function onProgress(xhr) {
+			if (xhr.lengthComputable) {
+				let percentComplete = xhr.loaded / xhr.total * 100;
+				console.log('model ' + Math.round(percentComplete, 2) + '% downloaded');
+
+				instructions.children[0].innerText = '加载中...   ' + Math.round(percentComplete, 2) + '%'
+				if (percentComplete === 100) {
+					instructions.children[0].innerText = "正在渲染...\n\n请稍后..."
+					//延时一段时间再隐藏
+					setTimeout(() => {
+						instructions.style.display = 'none';
+						blocker.style.display = 'none';
+					}, 8000);
+
+				}//\n\n*首次旋转视角可能会出现短暂卡顿。
+			}
+		}
+
+		//加载场景
+		const loader = new GLTFLoader();
+		const buttonNames = ["Button011", "Button042", "Button043", "Button044", "Button045"];
+		const dengpianName = "dengpian";
+		const h1Name = "h1";
+		const dimianName = "DIMIAN";
+		const liangpName = "LIANGP";
+		let scene1Children = [];
+		let scene2Children = [];
+		let scene3Children = [];
+		//场景建筑子对象
+		const sceneBuildChildren = ["Q6","LQ", "DIH", "DIH1","buxiugang","qiang", "LIANGP", "boli", "QIANG4", "Tjx", "QIANG2", "QIANG3", "CAAA", "CBBB", "CD2", "CD3", "CD1", "CQ11", "CDXK", "CBBB", "CD4", "CD5", "CD6", "DIERUANSHI", "DIMIAN", "Q9", "Q10"];
+		//场景部分1子对象
+		const scenePart1Children = ["Text003", "Q0", "Q1", "Q2", "Q3", "Q4-1", "MEN", "SUO", "G1", "GG", "Q7-1", "Q7-2", "Q8-2", "Q8-1", "QIANG2", "Q5", "H2", "BIAOTI1","A1","A2"];
+		//场景部分2子对象
+		const scenePart2Children = ["Q30","Q31","gz","BT", "A2","A3","A4","Q6", "Tjx",  "Q12-1", "Q12-2", "Q12-3", "Q13-1", "Q13-2", "Q13-3", "Q13-4", "Q14", "MUWEN", "Q15-1", "Q15-2", "Q15-3", "Q15-4", "MUWEN2", "l1", "BIAOTI3", "li0", "GUIZI", "HONG", "CCC", "GUIZIDI"];
+		//场景部分3子对象
+		const scenePart3Children = ["gz","BT","A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12", "SUO2", "Q16-1", "Q16-2", "Q16-3", "Q16-4", "Q17-1", "Q17-2", "Q17-3", "Q18-2", "Q19-1", "Q19-2", "Q20-1", "Q20-2", "Line", "Q21-0", "Q21-1", "Q21-2", "Q21-3", "Q21-4", "Q22-1", "Q22-2",  "Q23", "Q24", "Q25", "Q26", "Q27", "Q28", "GUI1", "PM2", "PM3", "PM1", "Gz", "BIAOTI2", "Q31", "Q30",];
+		//box1区域内按钮
+		const box1ButtonNames = ["Button001", "Button041"];
+		//box2区域内按钮
+		const box2ButtonNames = ["Button000", "Button002", "Button003", "Button004", "Button005"];
+		//box3区域内按钮
+		const box3ButtonNames = ["Button006", "Button007", "Button008", "Button009", "Button010", "Button012", "Button013", "Button014", "Button015","Button016","Button017"];
+		//box4区域内按钮
+		const box4ButtonNames = ["Button018", "Button040", "Button039", "Button038", "Button037", "Button036"];
+		//box5区域内按钮
+		const box5ButtonNames = ["Button019", "Button020", "Button021", "Button022", "Button023", "Button024", "Button025", "Button026"];
+		//box6区域内按钮
+		const box6ButtonNames = ["Button26","Button027", "Button028", "Button029", "Button030", "Button031", "Button032", "Button033", "Button034", "Button035", "Button038", "Button037", "Button036"];
+		const btnNames = {"box1ButtonNames": box1ButtonNames ,"box2ButtonNames": box2ButtonNames ,"box3ButtonNames": box3ButtonNames ,"box4ButtonNames": box4ButtonNames ,"box5ButtonNames": box5ButtonNames ,"box6ButtonNames": box6ButtonNames };
+		function scaleCube(obj) {
+			const tween = new TWEEN.Tween(obj.scale)
+				.to({ x: 0.0012, y: 0.0012, z: 0.0012 }, 1000)
+				.easing(TWEEN.Easing.Quadratic.InOut)
+				.onComplete(() => {
+					const tweenOut = new TWEEN.Tween(obj.scale)
+						.to({ x: 0.001, y: 0.001, z: 0.001 }, 1000)
+						.easing(TWEEN.Easing.Quadratic.InOut)
+						.onComplete(() => {
+							// 延时一段时间再执行
+							// setTimeout(() => {
+							// 	scaleCube(obj);
+							// }, 5000);
+							scaleCube(obj);
+						})
+						.start();
+				})
+				.start();
+		}
+
+		loader.load(SERVER_URL+'0411.gltf', function (gltf) {
+			const gscene = gltf.scene;
+
+			// gscene.scale.set(2, 2, 2);
+
+			// const scene3d = gscene.children[0];
+
+			for (const element of gscene.children) {
+				const obj = element.children[0];
+				if (obj) {
+					const { name } = obj;
+					// obj.visible = false;
+
+					// if (sceneBuildChildren.includes(name)) {
+					// 	obj.visible = true;
+					// }
+
+					// if (scenePart1Children.includes(name)) {
+					// 	obj.visible = true;
+					// 	scene1Children.push(obj);
+					// }
+					// if (scenePart2Children.includes(name)) {
+					// 	scene2Children.push(obj);
+					// }
+					// if (scenePart3Children.includes(name)) {
+					// 	scene3Children.push(obj);
+					// }
+
+					//隐藏几个暂时无用的按钮
+					if (name.includes("Button")) {
+						if (buttonNames.includes(name)) {
+							obj.visible = false;
+						} else {
+							obj.visible = false;
+							buttons.push(obj);
+							scaleCube(obj);
+							if(box1ButtonNames.includes(name)){
+								obj.visible = true;
+							}
+						}
+					}
+
+					if (name.includes(dengpianName) || name.includes(h1Name)) {
+						obj.visible = false;
+					}
+
+					if (name === dimianName) {
+						obj.receiveShadow = true;
+						obj.castShadow = false;
+					}
+				}
+			}
+
+			scene.add(gscene);
+			firstperson.colliders = gscene;
+			render();
+		}, onProgress);
+
+		//box1区域内灯光
+		const box1LightNames = ["Spot017", "Spot011","Spot014","Spot015","Spot030","Spot037"];
+		//box2区域内灯光
+		const box2LightNames = ["Spot036","Spot033","Spot024"];
+		//box3区域内灯光
+		const box3LightNames = ["Spot035","Spot028","Spot025","Spot023","Spot017","Spot016"];
+		let lightsP1 = [];
+		let lightsP2 = [];
+		let lightsP3 = [];
+		// 加载FBX模型
+		const lightloader = new FBXLoader();
+		lightloader.load(SERVER_URL+'fbx/light.fbx', function (model) {
+			console.log(SERVER_URL);
+			//模型放大2倍
+			// model.scale.set(2, 2, 2);
+			//delay 5s
+			// setTimeout(() => {
+				// scene.add(model);
+			// }, 5000);
+
+			for (let index = 0; index < model.children.length; index++) {
+				const obj3d = model.children[index];
+				// console.log(obj3d.type)
+				if (obj3d.type === "SpotLight") {
+					//判断灯光名称是否在box1LightNames内，如果在则添加到box1区域内灯光数组
+					if(box1LightNames.includes(obj3d.name)){
+						lightsP1.push(obj3d);
+					}
+					if(box2LightNames.includes(obj3d.name)){
+						lightsP2.push(obj3d);
+					}
+					if(box3LightNames.includes(obj3d.name)){
+						lightsP3.push(obj3d);
+					}
+
+					//灯光强度在当前值减半
+					obj3d.intensity = obj3d.intensity / 2;
+
+					//如果灯的名称包含"33",则将其设置光强度减少到原来的1/4
+					if (obj3d.name.includes("33") || obj3d.name.includes("28")) {
+						obj3d.intensity = obj3d.intensity / 6;
+					}
+					if (obj3d.name.includes("33") || obj3d.name.includes("28")) {
+						obj3d.intensity = obj3d.intensity / 6;
+					}
+
+					//灯光距离
+					obj3d.distance = 5;
+					//灯光目标点更新位置
+					obj3d.target.updateMatrixWorld();
+
+					obj3d.penumbra = 0.2; // 边缘
+					obj3d.decay = 0.7;    // 衰减
+					scene.add(obj3d);
+				}
+			}
+			render();
+		}, onProgress);
+
+		const loaderZP = new GLTFLoader();
+		//子对象数组
+		let zpChildren = [];
+		// box1范围内展品
+		const zppart1Names = ["ZP0","ZP1","TEXT1"];
+		// box2范围内展品
+		const zppart2Names = ["ZP0", "ZP2","TEXT2"];
+		// box3范围内展品
+		const zppart3Names = ["ZP3", "ZP4", "ZP39_3", "ZP39_2", "ZP4", "ZP5", "TEXT3", "TEXT4"];
+		// box4范围内展品
+		const zppart4Names = ["ZP10","TEXT8"];
+		// box5范围内展品
+		const zppart5Names = ["ZP6", "ZP7","ZP53","TEXT5","TEXT6"];
+		// box6范围内展品
+		const zppart6Names = ["ZP8", "ZP10","TEXT7"];
+		const zpNames = {"zppart1Names": zppart1Names ,"zppart2Names": zppart2Names ,"zppart3Names": zppart3Names ,"zppart4Names": zppart4Names ,"zppart5Names": zppart5Names ,"zppart6Names": zppart6Names};
+		//加载展品
+		loaderZP.load(SERVER_URL+'zp/ZP0411.gltf', function (gltf) {
+			//遍历所有的子对象
+			gltf.scene.traverse(function (child) {
+				//判断是否是Mesh对象
+				if (child instanceof THREE.Mesh) {
+					//将所有的Mesh对象添加到数组中
+					zpChildren.push(child);
+					//隐藏所有的Mesh对象
+					child.visible = false;
+				}
+			});
+
+			//遍历子对象数组
+			for (let index = 0; index < zpChildren.length; index++) {
+				const element = zpChildren[index];
+				//判断是否是需要显示的对象
+				if (zppart1Names.includes(element.name)) {
+					//显示需要显示的对象
+					element.visible = true;
+				}
+			}
+			//delay 10s
+			setTimeout(() => {
+				scene.add(gltf.scene);
+			}, 10000);
+			// scene.add(gltf.scene);
+		});
+
+		const loaderD = new GLTFLoader();
+		loaderD.load(SERVER_URL+'dengpian.gltf', function (gltf) {
+			// gltf.scene.scale.set(2, 2, 2);
+			setTimeout(() => {
+				scene.add(gltf.scene);
+			}, 5000);
+		});
+
+		const ambientLight = new THREE.AmbientLight(0xffffff, 0.6); // 0xffffff 是光的颜色，0.5 是光强度
+		scene.add(ambientLight);
+		//添加平行光
+		// const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+		// directionalLight.position.set(0, 1, 0);
+		// directionalLight.castShadow = true;
+		// scene.add(directionalLight);
+
+		renderer = new THREE.WebGLRenderer({ antialias: true });
+		renderer.setPixelRatio(window.devicePixelRatio);
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		renderer.toneMapping = THREE.ACESFilmicToneMapping;
+		renderer.toneMappingExposure = 1;
+		renderer.outputEncoding = THREE.sRGBEncoding;
+
+		renderer.autoClear = false;
+		// renderer.shadowMap.enabled = true;
+		// renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+		container.appendChild(renderer.domElement);
+		// Set the camera to first person view
+		const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 15);
+		camera.position.set(3.63, 1.5, -2.84);
+		// 设置摄像机旋转角度
+		camera.rotation.set(0, 1.526, 0);
+
+		//延时设置摄像机far
+		setTimeout(() => {
+			camera.far = 35;
+			camera.updateProjectionMatrix(); // 更新投影矩阵，使修改生效
+		}, 15000);
+
+		const firstperson = new FPCameraControls(camera, renderer.domElement);
+		firstperson.enabled = true;
+		firstperson.applyGravity = false;//重力
+		firstperson.applyCollision = true;
+		firstperson.positionEasing = false;////上下楼梯时逐步上升
+		firstperson.moveSpeed = 0.05;////上下楼梯时逐步上升
+
+		// 创建虚拟摇杆 
+		const joystickBase = document.createElement('div');
+		const joystickHead = document.createElement('div');
+		const baseImg = document.createElement('img');
+		const headImg = document.createElement('img');
+		joystickBase.id = "joystickBase";
+		joystickHead.id = "joystickHead";
+		baseImg.id = "joystickBaseIMG";
+		headImg.id = "joystickHeadIMG";
+		baseImg.src = "./SVG/大圆.svg";
+		headImg.src = "./SVG/圆心.svg";
+		// 添加样式和事件监听器 
+		joystickBase.style.position = 'absolute';
+		joystickBase.style.bottom = '12%';
+		joystickBase.style.left = '6%';
+		joystickBase.style.width = '150px';
+		joystickBase.style.height = '150px';
+		joystickHead.style.position = 'absolute';
+		joystickHead.style.top = '50%';
+		joystickHead.style.left = '50%';
+		joystickHead.style.transform = 'translate(-50%, -50%)';
+		joystickHead.style.width = '50px';
+		joystickHead.style.height = '50px';
+		joystickBase.appendChild(baseImg);
+		joystickHead.appendChild(headImg);
+		joystickBase.appendChild(joystickHead);
+
+		firstperson.setJoystick(joystickBase, joystickHead);
+
+		// 将虚拟摇杆添加到页面中 
+		document.body.appendChild(joystickBase);
+
+		//点选场景
+		const raycaster = new THREE.Raycaster();
+		const mouse = new THREE.Vector2();
+		window.addEventListener('pointerdown', onPointerDown);
+
+
+		const iframe = document.getElementById("zhanpin");
+		iframe.style.display = "none";
+
+		const visitorDiv = document.getElementById("visitor");
+		visitorDiv.style.display = "block";
+
+		
+
+		function onPointerDown(event) {
+			const { clientX, clientY } = event;
+			const innerWidth = window.innerWidth;
+			const innerHeight = window.innerHeight;
+			const isOverLimit = clientY > 0.8 * innerHeight;
+			if (isOverLimit) return;
+
+			const mouse = new THREE.Vector2(
+				(clientX / innerWidth) * 2 - 1,
+				-(clientY / innerHeight) * 2 + 1
+			);
+
+			raycaster.setFromCamera(mouse, camera);
+			const intersects = raycaster.intersectObjects(scene.children, true);
+
+			if (intersects.length <= 0) return;
+
+			const object = intersects[0].object;
+			console.log("click:", object.name);
+
+			if (buttonNames.includes(object.name)) return;
+
+			if (object.name.indexOf("Button") != -1) {
+				joystickBase.style.display = "none";
+				visitorDiv.style.display = "none";
+				const indexName = object.name.split("n")[1];
+
+				//add close button to scene
+				const close = document.createElement('div');
+				close.id = "close";
+
+				const closeImg = document.createElement('img');
+				closeImg.id = "closeIMG";
+				closeImg.src = "./SVG/关闭.svg";
+				closeImg.style.width = '30px';
+				closeImg.style.height = '30px';
+
+				close.style.position = 'absolute';
+				close.style.transform = 'translate(50%, 0)';
+				close.style.top = '10px';
+				close.style.left = '0px';
+				close.style.zIndex = '111';
+
+				//set close button aline center
+				close.appendChild(closeImg);
+				document.body.appendChild(close);
+
+				//add close button event
+				close.addEventListener('pointerdown', function () {
+					iframe.style.display = "none";
+					joystickBase.style.display = "block";
+					visitorDiv.style.display = "block";
+					document.body.removeChild(close);
+				});
+
+				//add iframe to scene
+				iframe.style.display = "block";
+				iframe.src = `../zhanpin/${indexName}/index.html`;
+				iframe.style.position = 'absolute';
+				iframe.style.top = '0';
+				iframe.style.left = '0';
+				iframe.style.border = 'none';
+				iframe.style.zIndex = '100';
+				iframe.style.backgroundColor = 'rgba(0,0,0,0.5)';
+				document.body.appendChild(iframe);
+			}
+		}
+
+		window.addEventListener('resize', onWindowResize);
+
+		// 窗口大小改变时，重新设置相机和渲染器的大小
+		function onWindowResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			checkTabandJoy();
+			render();
+		}
+
+		let boxs = [];
+		// 创建BoxHelper
+		function createBoxHelper(center, size, color, boxName) {
+			const box = new THREE.Box3();
+			box.name = boxName;
+			box.setFromCenterAndSize(center, size);
+			boxs.push(box);
+			// const boxHelper = new THREE.Box3Helper(box, color);
+			// scene.add(boxHelper);
+		}
+
+		createBoxHelper(new THREE.Vector3(1.377, 0.0500, -3.114), new THREE.Vector3(6.4, 0.1, 6.8), 0xff0000, "box1");
+		createBoxHelper(new THREE.Vector3(6.593, 0.0500, -3.772), new THREE.Vector3(3.86, 0.1, 7.42), 0xffff00, "box2");
+		createBoxHelper(new THREE.Vector3(7.374, 0.0500, -13.349), new THREE.Vector3(2.48, 0.1, 11.64), 0x00ff00, "box3");
+		createBoxHelper(new THREE.Vector3(3.687, 0.0300, -10.745), new THREE.Vector3(4.90, 0.1, 6.80), 0x0000ff, "box4");
+		createBoxHelper(new THREE.Vector3(3.657, 0.0500, -16.395), new THREE.Vector3(4.56, 0.1, 4.44), 0x00ffff, "box5");
+		createBoxHelper(new THREE.Vector3(-0.271, 0.0500, -13.177), new THREE.Vector3(3.12, 0.1, 9.92), 0xff00ff, "box6");
+
+		//判断摄像机在哪个box内，不考虑Y轴，返回box的name
+		function getCameraBoxName() {
+			let cameraBoxName = '';
+			let cameraPosition = camera.position;
+			let cameraBox = new THREE.Box3();
+			cameraBox.setFromCenterAndSize(new THREE.Vector3(cameraPosition.x, 0, cameraPosition.z), new THREE.Vector3(0.1, 0.1, 0.1));
+			//遍历boxs，检查摄像机在哪个box内
+			for (let index = 0; index < boxs.length; index++) {
+				const box = boxs[index];
+				if (box.intersectsBox(cameraBox)) {
+					cameraBoxName = box.name;
+					break;
+				}
+			}
+			return cameraBoxName;
+		}
+
+		function showRoom(index){
+			buttons.forEach((item) => {
+				item.visible = false;
+				//如果item.name 在box1ButtonNames中，显示按钮
+				if (btnNames["box" + index + "ButtonNames"].indexOf(item.name) != -1) {
+					item.visible = true;
+				}
+			});
+			zpChildren.forEach((item) => {
+				item.visible = false;
+				if (zpNames["zppart" + index + "Names"].indexOf(item.name) != -1) {
+					item.visible = true;
+				}
+			});
+			if(index == 1){
+				// scene2Children.forEach((item) => {
+				// 	item.visible = false;
+				// });
+				// scene3Children.forEach((item) => {
+				// 	item.visible = false;
+				// });
+				// scene1Children.forEach((item) => {
+				// 	item.visible = true;
+				// });
+				lightsP2.forEach((item) => {
+					item.visible = false;
+				});
+				lightsP3.forEach((item) => {
+					item.visible = false;
+				});
+				lightsP1.forEach((item) => {
+					item.visible = true;
+				});
+				
+			}else if(index == 2){
+				lightsP2.forEach((item) => {
+					item.visible = false;
+				});
+				lightsP3.forEach((item) => {
+					item.visible = false;
+				});
+				lightsP1.forEach((item) => {
+					item.visible = true;
+				});
+				
+			}else if(index == 3){
+				lightsP3.forEach((item) => {
+					item.visible = false;
+				});
+				lightsP1.forEach((item) => {
+					item.visible = false;
+				});
+				lightsP2.forEach((item) => {
+					item.visible = true;
+				});
+			}else if(index == 4){
+			}else if(index == 5){
+			}else if(index == 6){
+			}
+			if(index > 3){
+				lightsP1.forEach((item) => {
+					item.visible = false;
+				});
+				lightsP2.forEach((item) => {
+					item.visible = false;
+				});
+				lightsP3.forEach((item) => {
+					item.visible = true;
+				});
+			}
+		}
+
+
+		let tempName = "";
+		let currentPart = 1;
+		// 渲染循环
+		function render() {
+			requestAnimationFrame(render);
+
+			TWEEN.update();
+
+			// 计算摄像头位置和朝向
+			let vector = new THREE.Vector3();
+			camera.getWorldPosition(vector);
+			for (let index = 0; index < buttons.length; index++) {
+				const btn = buttons[index];
+				btn.lookAt(vector);
+			}
+
+			//判断摄像机在哪个box内，返回box的name，相同box内不重复执行
+			let cameraBoxName = getCameraBoxName();
+			if (cameraBoxName != tempName) {
+				tempName = cameraBoxName;
+				let currentPart = cameraBoxName.substr(3, 1);
+				console.log("当前部分：", currentPart);
+				console.log("当前box：", cameraBoxName);
+				// currentPart 转换为数字
+				currentPart = parseInt(currentPart);
+				showRoom(currentPart);
+			}
+
+
+			// 控制帧数
+			let now = Date.now();
+			let interval = 1000 / maxFPS;
+			let delta = now - then;
+
+			if (delta > interval) {
+				then = now - (delta % interval);
+				// Update and render the scene here
+				firstperson.update();
+				renderer.render(scene, camera);
+				stats.update();
+			}
+		}
+		// 按下 F 键，打印相机位置和朝向
+		document.addEventListener('keydown', function (event) {
+			if (event.keyCode == 70) {
+				//添加弹窗，显示摄像机位置，位置信息可复制
+				let cameraPosition = camera.position;
+				let cameraPositionX = cameraPosition.x;
+				let cameraPositionY = cameraPosition.y;
+				let cameraPositionZ = cameraPosition.z;
+				let cameraPositionStr = "摄像机位置：X:" + cameraPositionX + " Y:" + cameraPositionY + " Z:" + cameraPositionZ;
+
+				let cameraRotation = camera.rotation;
+				let cameraRotationX = cameraRotation.x;
+				let cameraRotationY = cameraRotation.y;
+				let cameraRotationZ = cameraRotation.z;
+				let cameraRotationStr = "摄像机旋转角度：X:" + cameraRotationX + " Y:" + cameraRotationY + " Z:" + cameraRotationZ;
+				console.log(cameraPositionStr + "\n" + cameraRotationStr);
+				// alert(cameraPositionStr + cameraRotationStr);
+			}
+			//如果按下了V键，显示stats，如果显示了，再按一次，隐藏stats
+			if (event.keyCode == 86) {
+				if (stats.domElement.style.display == "block") {
+					stats.domElement.style.display = "none";
+				} else {
+					stats.domElement.style.display = "block";
+				}
+			}
+		});
+
+		// 检测屏幕方向
+		window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", orientationChange, false);
+
+		//判断是否为移动端
+		function isMobile() {
+			var userAgentInfo = navigator.userAgent;
+			var Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+			var flag = false;
+			for (var v = 0; v < Agents.length; v++) {
+				if (userAgentInfo.indexOf(Agents[v]) > 0) {
+					flag = true;
+					
+					break;
+				}
+			}
+			return flag;
+		}
+		checkTabandJoy();
+		function checkTabandJoy(){
+			if(isMobile()){
+				//显示tab
+				document.getElementById("tab").style.display = "block";
+				document.getElementById("tab").style.visibility = "visible";
+				document.getElementById("tab").style.opacity = "1";
+				document.getElementById("tab").style.zIndex = "1";
+				document.getElementById("tab").style.pointerEvents = "auto";
+				document.getElementById("tab").style.transition = "all 0.5s";
+				document.getElementById("joystickBase").style.display = "block";
+			} else {
+				//隐藏tab
+				document.getElementById("tab").style.display = "none";
+				document.getElementById("tab").style.visibility = "hidden";
+				document.getElementById("tab").style.opacity = "0";
+				document.getElementById("tab").style.zIndex = "-1";
+				document.getElementById("tab").style.pointerEvents = "none";
+				document.getElementById("tab").style.transition = "all 0.5s";
+				document.getElementById("joystickBase").style.display = "none";
+			}
+		}
+
+		//判断屏幕方向
+		function orientationChange() {
+			//如果为横屏，隐藏tab ，如果为竖屏，显示tab
+			if (window.orientation == 90 || window.orientation == -90) {
+				//横屏
+				//隐藏tab
+				document.getElementById("tab").style.display = "none";
+				document.getElementById("tab").style.visibility = "hidden";
+				document.getElementById("tab").style.opacity = "0";
+				document.getElementById("tab").style.zIndex = "-1";
+				document.getElementById("tab").style.pointerEvents = "none";
+				document.getElementById("tab").style.transition = "all 0.5s";
+			} else {
+				//竖屏
+				//显示tab
+				document.getElementById("tab").style.display = "block";
+				document.getElementById("tab").style.visibility = "visible";
+				document.getElementById("tab").style.opacity = "1";
+				document.getElementById("tab").style.zIndex = "1";
+				document.getElementById("tab").style.pointerEvents = "auto";
+				document.getElementById("tab").style.transition = "all 0.5s";
+			}
+			checkTabandJoy()
+		}
+
+		// 添加判断是否打开了控制台，如果打开了控制台则输出：请关闭控制台
+		let console = window.console;
+		if (console) {
+			console.info("%c为什么要打开控制台？", "color:red;font-size:10px");
+		}
+	</script>
+
+</body>
+
+</html>

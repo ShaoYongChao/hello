@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="generator" content="Exhibeo 2 2.0.12 (2124)" />
+<meta charset="utf-8">
+<meta name="viewport" content="width = device-width, initial-scale = 1.00, minimum-scale = 0.25, maximum-scale = 1.60"/>
+<title>Exhibeo Preview: PhotoSwipe</title>
+
+</head>
+<body>
+		
+<div id="exibid" class="xb_photoswipe">
+	<script>
+		(function(s,t,y,l,e){
+			y=[].concat(y);for(l=0;l<y.length;l++){e=s.createElement(t);e.rel="stylesheet";e.href=y[l];s.getElementsByTagName("head")[0].appendChild(e)};
+		})(document,"link",["css/exibid_photoswipe-styles.css", "css/exibid_default-skin.css"]);
+		(function(ex,h,i,b,e,o){
+			ex[e]=ex[e]||function(){(ex[e].a=ex[e].a||[]).push(arguments)};b=[].concat(b);for(var l=0;l<b.length;l++){o=ex[e][b[l]]||h.createElement(i);o.async=1;o.src=b[l];h.getElementsByTagName("head")[0].appendChild(o);ex[e][b[l]]=o;}
+		})(window,document,"script",["js/exibid_photoswipe.js", "js/exibid_photoswipe-ui-default.js"],"xb_photoswipe");
+	</script>
+	<div class="xbps-container">
+		<div class="xbps-inner">
+			<ul>
+				<li class="xbps_portrait">
+					<figure>
+						<a href="image/exibid_1a5cd21da954ac822a28e74d0f4aba0.jpg" data-size="768x1024">
+							<img src="image/exibid_1a5cd21da954ac822a28e74d0f4aba0_thumb.jpg" data-size="300x400" title="雷洁琼" />
+						</a>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<a href="image/exibid_3ba4a38999086312720092422b76c3e.jpg" data-size="1024x682">
+							<img src="image/exibid_3ba4a38999086312720092422b76c3e_thumb.jpg" data-size="400x267" title="周建人" />
+						</a>
+					</figure>
+				</li>
+				<li class="xbps_portrait">
+					<figure>
+						<a href="image/exibid_B-1-9.jpg" data-size="768x1024">
+							<img src="image/exibid_B-1-9_thumb.jpg" data-size="300x400" title="马叙伦" />
+						</a>
+					</figure>
+				</li>
+				<li class="xbps_portrait">
+					<figure>
+						<a href="image/exibid_B-1-10.jpg" data-size="768x1024">
+							<img src="image/exibid_B-1-10_thumb.jpg" data-size="300x400" title="王绍鏊" />
+						</a>
+					</figure>
+				</li>
+				<li class="xbps_portrait">
+					<figure>
+						<a href="image/exibid_B-1-11.jpg许广平头像修改.jpg" data-size="768x1024">
+							<img src="image/exibid_B-1-11.jpg许广平头像修改_thumb.jpg" data-size="300x400" title="许广平" />
+						</a>
+					</figure>
+				</li>
+				<li class="xbps_portrait">
+					<figure>
+						<a href="image/exibid_B-1-12.jpg" data-size="768x1024">
+							<img src="image/exibid_B-1-12_thumb.jpg" data-size="300x400" title="林汉达" />
+						</a>
+					</figure>
+				</li>
+				<li class="xbps_portrait">
+					<figure>
+						<a href="image/exibid_B-1-13.jpg" data-size="768x1024">
+							<img src="image/exibid_B-1-13_thumb.jpg" data-size="300x400" title="徐伯昕" />
+						</a>
+					</figure>
+				</li>
+				<li class="xbps_portrait">
+					<figure>
+						<a href="image/exibid_B-1-15.jpg" data-size="768x1024">
+							<img src="image/exibid_B-1-15_thumb.jpg" data-size="300x400" title="郑振锋" />
+						</a>
+					</figure>
+				</li>
+				<li class="xbps_portrait">
+					<figure>
+						<a href="image/exibid_B-1-16.jpg" data-size="768x1024">
+							<img src="image/exibid_B-1-16_thumb.jpg" data-size="300x400" title="柯灵" />
+						</a>
+					</figure>
+				</li>
+				<li class="xbps_portrait">
+					<figure>
+						<a href="image/exibid_d3f2e0f3ec6438c1d7b1603e5f39163.jpg" data-size="768x1024">
+							<img src="image/exibid_d3f2e0f3ec6438c1d7b1603e5f39163_thumb.jpg" data-size="300x400" title="赵朴初" />
+						</a>
+					</figure>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script>
+		var el = document.scripts[document.scripts.length-1].parentNode;
+		var exibidOptions = {
+			counterEl: true, // Display the image counter?
+			zoomEl: true, // Display the zoom button?
+			fullscreenEl: true, // Display the fullscreen button?
+			shareEl: true, // Display the share button?
+			closeOnScroll: false,
+			captionEl: true, // Display the caption?
+			showTitles: true, // Display the caption?
+			showDescriptions: true, // Display the caption?
+			addCaptionHTMLFn: function(item, captionEl, isFake) {
+				if(!item.title && !item.description) {
+					return false;
+				}
+				captionEl.children[0].innerHTML = (exibidOptions.showTitles && item.title && item.title != " " ? "\x3Cspan>" + item.title + "\x3C/span>" : "") + (exibidOptions.showDescriptions && item.description ? (exibidOptions.showTitles && item.title ? "\x3Cbr>" : "") + item.description : "");
+				return true;
+			},
+			closeEl: true // Display the close button?
+		};
+		window.xb_photoswipe(el.id,exibidOptions);
+	</script>
+</div>
+</body>
+</html>

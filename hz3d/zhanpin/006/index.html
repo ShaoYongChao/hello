@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="generator" content="Exhibeo 2 2.0.12 (2124)" />
+<meta charset="utf-8">
+<meta name="viewport" content="width = device-width, initial-scale = 1.00, minimum-scale = 0.25, maximum-scale = 1.60"/>
+<title>Exhibeo Preview: PhotoSwipe</title>
+
+</head>
+<body>
+<div id="exibid" class="xb_photoswipe">
+	<script>
+		(function(s,t,y,l,e){
+			y=[].concat(y);for(l=0;l<y.length;l++){e=s.createElement(t);e.rel="stylesheet";e.href=y[l];s.getElementsByTagName("head")[0].appendChild(e)};
+		})(document,"link",["css/exibid_photoswipe-styles.css", "css/exibid_default-skin.css"]);
+		(function(ex,h,i,b,e,o){
+			ex[e]=ex[e]||function(){(ex[e].a=ex[e].a||[]).push(arguments)};b=[].concat(b);for(var l=0;l<b.length;l++){o=ex[e][b[l]]||h.createElement(i);o.async=1;o.src=b[l];h.getElementsByTagName("head")[0].appendChild(o);ex[e][b[l]]=o;}
+		})(window,document,"script",["js/exibid_photoswipe.js", "js/exibid_photoswipe-ui-default.js"],"xb_photoswipe");
+	</script>
+	<div class="xbps-container">
+		<div class="xbps-inner">
+			<ul>
+				<li>
+					<figure>
+						<a href="image/exibid_B-6-1.jpg" data-size="1024x682">
+							<img src="image/exibid_B-6-1_thumb.jpg" data-size="400x267" title="在白色恐怖下民进顽强斗争。马叙伦公开致函张群，表示“捕杀不辞，驱胁无畏”，并预立遗嘱，明示置生死于度外，誓与国民党反动统治斗争到底的决心。" />
+						</a>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<a href="image/exibid_B-6-2.jpg" data-size="1024x682">
+							<img src="image/exibid_B-6-2_thumb.jpg" data-size="400x267" title="中共中央及时指示地下党“要保护我党及民主进步力量”。1947年底，在中国共产党帮助下，马叙伦、王绍鏊、徐伯昕等秘密转移到香港。前此，林汉达已到达东北解放区任辽北省教育厅厅长。雷洁琼、严景耀夫妇抵达北平。许广平、周建人、柯灵、郑振铎等留在上海坚持斗争。" />
+						</a>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<a href="image/exibid_B-6-3.jpg" data-size="1024x682">
+							<img src="image/exibid_B-6-3_thumb.jpg" data-size="400x267" title="民进在香港建立了港九支部。利用香港的特殊环境，坚持与蒋介石集团继续斗争。" />
+						</a>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<a href="image/exibid_B-6-4.jpg" data-size="1024x682">
+							<img src="image/exibid_B-6-4_thumb.jpg" data-size="400x267" title="1948年4月26日，民进在香港发表《为伪国大大选的宣言》，对国民党操纵的选举结果表示一概否认，并庄严宣告要消灭南京独裁政权，把美帝国主义逐出中国。" />
+						</a>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<a href="image/exibid_B-6-5.jpg" data-size="1024x682">
+							<img src="image/exibid_B-6-5_thumb.jpg" data-size="400x267" title="1948年4月21日,解放军收复延安。23日，马叙伦致电毛泽东表示祝贺。" />
+						</a>
+					</figure>
+				</li>
+				<li>
+					<figure>
+						<a href="image/exibid_B-6-6.jpg" data-size="1024x682">
+							<img src="image/exibid_B-6-6_thumb.jpg" data-size="400x267" title="1948年3月,与民进有密切联系的小教联，在理事长葛志成带领下,掀起了一场全市规模的“上海市各界抢救教育危机”的斗争。6月28日，小教联组织了“千名教师冒雨静坐街头”，反饥饿、反迫害。" />
+						</a>
+					</figure>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script>
+		var el = document.scripts[document.scripts.length-1].parentNode;
+		var exibidOptions = {
+			counterEl: true, // Display the image counter?
+			zoomEl: true, // Display the zoom button?
+			fullscreenEl: true, // Display the fullscreen button?
+			shareEl: true, // Display the share button?
+			closeOnScroll: false,
+			captionEl: true, // Display the caption?
+			showTitles: true, // Display the caption?
+			showDescriptions: true, // Display the caption?
+			addCaptionHTMLFn: function(item, captionEl, isFake) {
+				if(!item.title && !item.description) {
+					return false;
+				}
+				captionEl.children[0].innerHTML = (exibidOptions.showTitles && item.title && item.title != " " ? "\x3Cspan>" + item.title + "\x3C/span>" : "") + (exibidOptions.showDescriptions && item.description ? (exibidOptions.showTitles && item.title ? "\x3Cbr>" : "") + item.description : "");
+				return true;
+			},
+			closeEl: true // Display the close button?
+		};
+		window.xb_photoswipe(el.id,exibidOptions);
+	</script>
+</div>
+</body>
+</html>

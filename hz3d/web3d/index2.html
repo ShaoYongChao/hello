@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>SINOINT WEB 3D</title>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<link type="text/css" rel="stylesheet" href="maincss.css">
+</head>
+
+<script>
+	window.onload = function () {
+		// 阻止双击放大
+		var lastTouchEnd = 0;
+		document.addEventListener('touchstart', function (event) {
+			if (event.touches.length > 1) { event.preventDefault(); }
+		});
+		document.addEventListener('touchend', function (event) {
+			var now = (new Date()).getTime();
+			if (now - lastTouchEnd <= 300) { event.preventDefault(); }
+			lastTouchEnd = now;
+		}, false);
+		// 阻止双指放大
+		document.addEventListener('gesturestart', function (event) {
+			event.preventDefault();
+		});
+	}
+</script>
+
+<style>
+#blocker {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgb(255, 255, 255);
+	z-index: -1;
+}
+
+#instructions {
+	width: 100%;
+	height: 100%;
+
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+
+	-webkit-box-orient: horizontal;
+	-moz-box-orient: horizontal;
+	box-orient: horizontal;
+
+	-webkit-box-pack: center;
+	-moz-box-pack: center;
+	box-pack: center;
+
+	-webkit-box-align: center;
+	-moz-box-align: center;
+	box-align: center;
+
+	color: #777575;
+	text-align: center;
+	font-family: Arial;
+	font-size: 14px;
+	cursor: pointer;
+	z-index: 1000;
+}
+</style>
+
+<body>
+	<script type="x-shader/x-vertex" id="vertexshader">
+
+		varying vec2 vUv;
+		void main() {
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+		}
+
+	</script>
+
+	<script type="x-shader/x-fragment" id="fragmentshader">
+
+		uniform sampler2D baseTexture;
+		uniform sampler2D bloomTexture;
+
+		varying vec2 vUv;
+		void main() {
+			gl_FragColor = ( texture2D( baseTexture, vUv ) + vec4( 1.0 ) * texture2D( bloomTexture, vUv ) );
+		}
+
+	</script>
+
+	<div id="blocker">
+		<div id="instructions">
+			<span style="font-size:36px">加载中...</span>
+		</div>
+	</div>
+
+	<div class="tab">
+		<button class="tablinks" onclick="openTab(event, 'page1')"><img src="./SVG/1数字会馆.svg" alt="btn1"
+				width=""></button>
+		<button class="tablinks" onclick="openTab(event, 'page2')"><img src="./SVG/2基地在线.svg" alt="btn1"
+				width=""></button>
+		<button class="tablinks"
+			onclick="window.location.href='https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI0MzIwMjc4Ng==&scene=124#wechat_redirect'"><img
+				src="./SVG/3民进资讯.svg" alt="btn1" width=""></button>
+		<!-- <button class="tablinks" onclick="openTab(event, 'page3')"><img src="./SVG/3民进资讯.svg" alt="btn1" width=""></button> -->
+		<button class="tablinks" onclick="openTab(event, 'page4')"><img src="./SVG/4在线交流.svg" alt="btn1"
+				width=""></button>
+	</div>
+
+	<div id="page1" class="tabcontentgl">
+		<iframe id="zhanpin">
+		</iframe>
+	</div>
+
+	<div id="page2" class="tabcontent">
+		<iframe src="../pages/index.html" frameborder="0" name="基地在线" scrolling="auto">
+		</iframe>
+	</div>
+
+	<div id="page3" class="tabcontent">
+		<iframe src="" frameborder="0" name="基地在线" scrolling="auto">
+		</iframe>
+	</div>
+
+	<div id="page4" class="tabcontent">
+		<h2>系统维护中</h2>
+		<p>维护结束即将上线</p>
+	</div>
+
+	<script src="tab.js"></script>
+	<script type="importmap">
+		{
+			"imports": {
+				"three": "../build/three.module.js",
+				"three/addons/": "./jsm/"
+			}
+		}
+	</script>
+	<script type="module">
+		import * as THREE from 'three';
+		import { GLTFLoader } from './jsm/loaders/GLTFLoader.js';
+		import { FBXLoader } from './jsm/loaders/FBXLoader.js';
+		import { FPCameraControls } from './jsm/controls/FPCameraControls.js';
+		import { TWEEN } from './jsm/libs/tween.module.min.js';
+
+		import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+		import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+		import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+		import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+
+		import Stats from './jsm/libs/stats.module.js';
+
+
+		//修复部分纹理随机黑色问题
+		const IS_IOS =
+			/^(iPad|iPhone|iPod)/.test(window.navigator.platform) ||
+			(/^Mac/.test(window.navigator.platform) && window.navigator.maxTouchPoints > 1);
+		// if (IS_IOS) {
+		window.createImageBitmap = undefined;
+		// }
+
+		var maxFPS = 60;
+		var then = Date.now();
+
+		const BLOOM_LAYER = 1;
+		const bloomLayer = new THREE.Layers();
+		bloomLayer.set(BLOOM_LAYER);
+		const params = {
+			exposure: 1,
+			bloomStrength: 5,
+			bloomThreshold: 0,
+			bloomRadius: 0,
+			scene: 'Scene with Glow'
+		};
+
+		const darkMaterial = new THREE.MeshBasicMaterial({ color: 'black' });
+		const materials = {};
+
+		var stats = new Stats();
+		var scene, renderer;
+
+		var buttons = [];
+
+		scene = new THREE.Scene();
+
+		//
+		//是否锁定页面的相关
+		var blocker = document.getElementById('blocker');
+		var instructions = document.getElementById('instructions');
+
+		const container = document.getElementById('page1');//document.createElement('div');
+		document.body.appendChild(container);
+		container.appendChild(stats.dom);
+
+		document.body.style.overflow = 'hidden';
+		document.body.style["-webkit-user-select"] = 'none';
+		document.body.style["-user-select"] = 'none';
+
+		function onProgress(xhr) {
+			if (xhr.lengthComputable) {
+				var percentComplete = xhr.loaded / xhr.total * 100;
+				console.log('model ' + Math.round(percentComplete, 2) + '% downloaded');
+
+				instructions.children[0].innerText = '加载中...   ' + Math.round(percentComplete, 2) + '%'
+				if (percentComplete === 100) {
+					// instructions.style.display = 'none';
+					// blocker.style.display = 'none';
+					instructions.children[0].innerText = "正在渲染...\n\n请稍后...\n\n*首次旋转视角可能会出现短暂卡顿。"
+				}
+			}
+		}
+
+		//加载场景
+		const loader = new GLTFLoader();
+		loader.load('http://10.168.1.127/gltf/output.gltf', function (gltf) {
+			// return;
+			gltf.scene.scale.set(2, 2, 2);
+			gltf.scene.castShadow = false;
+			gltf.scene.receiveShadow = true;
+
+			const scene3d = gltf.scene.children[0];
+
+			for (const obj3d in scene3d.children) {
+				if (Object.hasOwnProperty.call(scene3d.children, obj3d)) {
+					const element = scene3d.children[obj3d];
+
+					const obj = element.children[0];
+					
+					// console.log(obj.hasOwnProperty("name"));
+					if (obj) {
+						if (obj.name.indexOf("Button") != -1) {
+							if (obj.name === "Button011" || obj.name === "Button042" || obj.name === "Button043" || obj.name === "Button044" || obj.name === "Button045") {
+								obj.visible = false;
+							}
+							buttons.push(obj);
+							console.log(obj.name);
+
+							function scaleCube() {
+								var tween = new TWEEN.Tween(obj.scale)
+									.to({ x: 0.0012, y: 0.0012, z: 0.0012 }, 1000)
+									.easing(TWEEN.Easing.Quadratic.InOut)
+									.onComplete(function () {
+										var tweenOut = new TWEEN.Tween(obj.scale)
+											.to({ x: 0.001, y: 0.001, z: 0.001 }, 1000)
+											.easing(TWEEN.Easing.Quadratic.InOut)
+											.onComplete(function () {
+												scaleCube(); // 循环调用缩放函数
+											})
+											.start();
+									})
+									.start();
+							}
+							scaleCube();
+						}
+						// if (obj.name.indexOf("ZP53") != -1) {
+						// 	obj.visible = false;
+						// }
+						if (obj.name.indexOf("dengpian") != -1) {
+							obj.visible = false;
+						}
+						if (obj.name.indexOf("h1") != -1) {
+							obj.visible = false;
+						}
+						if (obj.name === "DIMIAN") {
+							obj.receiveShadow = true;
+							obj.castShadow = false;
+						}
+						if (obj.name === "LIANGP") {
+							obj.layers.toggle(BLOOM_LAYER);
+						}
+					}
+
+
+				}
+			}
+
+			scene.add(gltf.scene);
+			firstperson.colliders = gltf.scene;
+			render();
+		}, onProgress);
+
+		// 加载FBX模型
+		const lightloader = new FBXLoader();
+		lightloader.load('http://10.168.1.127/hz3d/fbx/light.fbx', function (model) {
+			model.scale.set(2, 2, 2);
+			model.castShadow = true;
+			scene.add(model);
+
+			for (let index = 0; index < model.children.length; index++) {
+				const obj3d = model.children[index];
+				// console.log(obj3d.type)
+				if (obj3d.type === "SpotLight") {
+					obj3d.penumbra = 0.2; // 边缘衰减
+					obj3d.decay = 0.7;    // 衰减
+				}
+			}
+			render();
+		}, onProgress);
+
+		const loaderZP = new GLTFLoader();
+		loaderZP.load('http://10.168.1.127/gltf/zp.gltf', function (gltf) {
+			gltf.scene.scale.set(2, 2, 2);
+			scene.add(gltf.scene);
+		});
+
+		const loaderD = new GLTFLoader();
+		loaderD.load('http://10.168.1.127/gltf/dengpian.gltf', function (gltf) {
+			gltf.scene.scale.set(2, 2, 2);
+			scene.add(gltf.scene);
+		});
+
+		const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // 0xffffff 是光的颜色，0.5 是光强度
+		scene.add(ambientLight);
+
+		renderer = new THREE.WebGLRenderer({ antialias: true });
+		renderer.setPixelRatio(window.devicePixelRatio);
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		renderer.toneMapping = THREE.ReinhardToneMapping;
+		renderer.toneMappingExposure = 1;
+		renderer.outputEncoding = THREE.sRGBEncoding;
+
+		renderer.autoClear = false;
+		renderer.shadowMap.enabled = true;
+		renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+		container.appendChild(renderer.domElement);
+		// Set the camera to first person view
+		const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 35);
+		camera.position.set(7.7005, 3, -5.5683);
+
+		const firstperson = new FPCameraControls(camera, renderer.domElement);
+		firstperson.enabled = true;
+		firstperson.applyGravity = false;//重力
+		firstperson.applyCollision = true;
+		firstperson.positionEasing = false;////上下楼梯时逐步上升
+		firstperson.moveSpeed = 0.05;////上下楼梯时逐步上升
+
+		camera.lookAt(new THREE.Vector3(0, 3, -6));
+
+		// 创建虚拟摇杆 
+		const joystickBase = document.createElement('div');
+		const joystickHead = document.createElement('div');
+		const baseImg = document.createElement('img');
+		const headImg = document.createElement('img');
+		joystickBase.id = "joystickBase";
+		joystickHead.id = "joystickHead";
+		baseImg.id = "joystickBaseIMG";
+		headImg.id = "joystickHeadIMG";
+		baseImg.src = "./SVG/大圆.svg";
+		headImg.src = "./SVG/圆心.svg";
+		// 添加样式和事件监听器 
+		joystickBase.style.position = 'absolute';
+		joystickBase.style.bottom = '12%';
+		joystickBase.style.left = '6%';
+		joystickBase.style.width = '150px';
+		joystickBase.style.height = '150px';
+		joystickHead.style.position = 'absolute';
+		joystickHead.style.top = '50%';
+		joystickHead.style.left = '50%';
+		joystickHead.style.transform = 'translate(-50%, -50%)';
+		joystickHead.style.width = '50px';
+		joystickHead.style.height = '50px';
+		joystickBase.appendChild(baseImg);
+		joystickHead.appendChild(headImg);
+		joystickBase.appendChild(joystickHead);
+
+		firstperson.setJoystick(joystickBase, joystickHead);
+
+		// 将虚拟摇杆添加到页面中 
+		document.body.appendChild(joystickBase);
+
+		//辉光
+		const renderScene = new RenderPass(scene, camera);
+
+		const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+		bloomPass.threshold = params.bloomThreshold;
+		bloomPass.strength = params.bloomStrength;
+		bloomPass.radius = params.bloomRadius;
+
+		const bloomComposer = new EffectComposer(renderer);
+		bloomComposer.renderToScreen = false;
+		bloomComposer.addPass(renderScene);
+		bloomComposer.addPass(bloomPass);
+
+		const finalPass = new ShaderPass(
+			new THREE.ShaderMaterial({
+				uniforms: {
+					baseTexture: { value: null },
+					bloomTexture: { value: bloomComposer.renderTarget2.texture }
+				},
+				vertexShader: document.getElementById('vertexshader').textContent,
+				fragmentShader: document.getElementById('fragmentshader').textContent,
+				defines: {}
+			}), 'baseTexture'
+		);
+		finalPass.needsSwap = true;
+
+		const finalComposer = new EffectComposer(renderer);
+		finalComposer.addPass(renderScene);
+		finalComposer.addPass(finalPass);
+
+		//点选场景
+		const raycaster = new THREE.Raycaster();
+		const mouse = new THREE.Vector2();
+		window.addEventListener('pointerdown', onPointerDown);
+		const iframe = document.getElementById("zhanpin");
+		iframe.style.display = "none";
+
+		function onPointerDown(event) {
+
+			mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+			mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+			raycaster.setFromCamera(mouse, camera);
+			const intersects = raycaster.intersectObjects(scene.children, true);
+			if (intersects.length > 0) {
+				const object = intersects[0].object;
+				console.log("click:", object.name);
+				if(object.name.indexOf("Button") != -1){
+					//joystickBase display
+					joystickBase.style.display = "none";
+					var indexName = object.name.split("n")[1];
+					//add close button to scene
+					const close = document.createElement('div');
+					close.id = "close";
+					const closeImg = document.createElement('img');
+					closeImg.id = "closeIMG";
+					closeImg.src = "./SVG/关闭.svg";
+					close.appendChild(closeImg);
+					close.style.position = 'absolute';
+					close.style.transform = 'translate(50%, 0)';
+					close.style.bottom = '30%';
+					close.style.right = '50%';
+					closeImg.style.width = '50px';
+					closeImg.style.height = '50px';
+					close.style.zIndex = '111';
+					//set close button aline center
+					
+					document.body.appendChild(close);
+
+					//add close button event
+					close.addEventListener('pointerdown', function(){
+						iframe.style.display = "none";
+						joystickBase.style.display = "block";
+						document.body.removeChild(close);
+					});
+
+					//add iframe to scene
+					iframe.style.display = "block";
+					iframe.src = "../zhanpin/"+ indexName +"/index.html";
+					iframe.style.position = 'absolute';
+					iframe.style.top = '0';
+					iframe.style.left = '0';
+					iframe.style.border = 'none';
+					iframe.style.zIndex = '100';
+					iframe.style.backgroundColor = 'rgba(0,0,0,0.5)';
+					document.body.appendChild(iframe);
+				}
+			}
+
+		}
+
+		window.addEventListener('resize', onWindowResize);
+
+		function onWindowResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			bloomComposer.setSize(window.innerWidth, window.innerHeight);
+			finalComposer.setSize(window.innerWidth, window.innerHeight);
+			render();
+		}
+
+		function render() {
+			TWEEN.update();
+
+			// 计算摄像头位置和朝向
+			var vector = new THREE.Vector3();
+			camera.getWorldPosition(vector);
+			for (let index = 0; index < buttons.length; index++) {
+				const btn = buttons[index];
+				btn.lookAt(vector);
+			}
+
+			if (renderer.info.render.frame > 0) {
+				// console.log("Scene is displayed");
+				instructions.style.display = 'none';
+				blocker.style.display = 'none';
+			} else {
+
+			}
+			requestAnimationFrame(render);
+			// bloomComposer.render();
+			// finalComposer.render();
+			var now = Date.now();
+			var interval = 1000 / maxFPS;
+			var delta = now - then;
+
+			if (delta > interval) {
+				then = now - (delta % interval);
+				// Update and render the scene here
+				firstperson.update();
+				renderer.render(scene, camera);
+				stats.update();
+			}
+			// renderer.render(scene, camera);
+
+		}
+
+		document.addEventListener('keydown', function (event) {
+			if (event.keyCode == 70) {
+				console.log("摄像机位置：", camera.position);
+				// 相机朝向默认为 z 轴负向，即相机从屏幕外往场景内看
+				var cameraDirection = new THREE.Vector3(0, 0, -1);
+				// 获取相机的朝向
+				var matrix = new THREE.Matrix4();
+				matrix.extractRotation(camera.matrixWorld);
+				cameraDirection.applyMatrix4(matrix);
+
+				console.log("摄像机角度：", cameraDirection);
+			}
+		});
+	</script>
+
+</body>
+
+</html>
