@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>太阳系模拟器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="planet-list-section">
+                <h3>天体列表</h3>
+                <ul class="planet-list">
+                <li class="planet-item" data-planet="sun">
+                    <span class="planet-color sun-color"></span>
+                    <span class="planet-name">太阳</span>
+                </li>
+                <li class="planet-item" data-planet="mercury">
+                    <span class="planet-color mercury-color"></span>
+                    <span class="planet-name">水星</span>
+                </li>
+                <li class="planet-item" data-planet="venus">
+                    <span class="planet-color venus-color"></span>
+                    <span class="planet-name">金星</span>
+                </li>
+                <li class="planet-item" data-planet="earth">
+                    <span class="planet-color earth-color"></span>
+                    <span class="planet-name">地球</span>
+                </li>
+                <li class="planet-item" data-planet="mars">
+                    <span class="planet-color mars-color"></span>
+                    <span class="planet-name">火星</span>
+                </li>
+                <li class="planet-item" data-planet="jupiter">
+                    <span class="planet-color jupiter-color"></span>
+                    <span class="planet-name">木星</span>
+                </li>
+                <li class="planet-item" data-planet="saturn">
+                    <span class="planet-color saturn-color"></span>
+                    <span class="planet-name">土星</span>
+                </li>
+                <li class="planet-item" data-planet="uranus">
+                    <span class="planet-color uranus-color"></span>
+                    <span class="planet-name">天王星</span>
+                </li>
+                <li class="planet-item" data-planet="neptune">
+                    <span class="planet-color neptune-color"></span>
+                    <span class="planet-name">海王星</span>
+                </li>
+                </ul>
+            </div>
+            
+            <div class="info-panel">
+                <h3>行星信息</h3>
+                <div id="planet-info">
+                    <p>点击行星查看详细信息</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <h1>太阳系模拟器</h1>
+            <div class="controls">
+            <button id="playPause">暂停</button>
+            <button id="reset">重置</button>
+            <label for="speed">速度: </label>
+            <input type="range" id="speed" min="0.1" max="3" step="0.1" value="1">
+            <span id="speedValue">1x</span>
+        </div>
+        
+            <div class="solar-system">
+            <!-- 太阳 -->
+            <div class="sun" data-planet="sun"></div>
+            
+            <!-- 水星轨道 -->
+            <div class="orbit mercury-orbit">
+                <div class="planet mercury" data-planet="mercury"></div>
+            </div>
+            
+            <!-- 金星轨道 -->
+            <div class="orbit venus-orbit">
+                <div class="planet venus" data-planet="venus"></div>
+            </div>
+            
+            <!-- 地球轨道 -->
+            <div class="orbit earth-orbit">
+                <div class="planet earth" data-planet="earth">
+                    <div class="moon-orbit">
+                        <div class="moon"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 火星轨道 -->
+            <div class="orbit mars-orbit">
+                <div class="planet mars" data-planet="mars"></div>
+            </div>
+            
+            <!-- 木星轨道 -->
+            <div class="orbit jupiter-orbit">
+                <div class="planet jupiter" data-planet="jupiter"></div>
+            </div>
+            
+            <!-- 土星轨道 -->
+            <div class="orbit saturn-orbit">
+                <div class="planet saturn" data-planet="saturn">
+                    <div class="saturn-rings"></div>
+                </div>
+            </div>
+            
+            <!-- 天王星轨道 -->
+            <div class="orbit uranus-orbit">
+                <div class="planet uranus" data-planet="uranus"></div>
+            </div>
+            
+            <!-- 海王星轨道 -->
+            <div class="orbit neptune-orbit">
+                <div class="planet neptune" data-planet="neptune"></div>
+            </div>
+            </div>
+            
+
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

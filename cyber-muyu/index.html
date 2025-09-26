@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赛博木鱼 - 电子功德</title>
+    <link rel="stylesheet" href="cyber-muyu.css">
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 标题 -->
+        <h1 class="title">
+            <span class="cyber-text">赛博木鱼</span>
+            <span class="subtitle">CYBER MUYU</span>
+        </h1>
+        
+        <!-- 功德显示 -->
+        <div class="merit-display">
+            <div class="merit-label">功德值</div>
+            <div class="merit-counter" id="merit-counter">0</div>
+            <div class="merit-unit">点</div>
+        </div>
+        
+        <!-- 木鱼容器 -->
+        <div class="muyu-container">
+            <div class="muyu-glow"></div>
+            <div class="muyu" id="muyu">
+                <div class="muyu-body">
+                    <div class="muyu-pattern"></div>
+                    <div class="muyu-text">木鱼</div>
+                </div>
+                <div class="muyu-shadow"></div>
+            </div>
+            
+            <!-- 敲击效果 -->
+            <div class="hit-effect" id="hit-effect"></div>
+            
+            <!-- 功德粒子效果 -->
+            <div class="particles-container" id="particles-container"></div>
+        </div>
+        
+        <!-- 提示文字 -->
+        <div class="instruction">
+            <p>点击木鱼积累功德</p>
+            <p class="blessing">南无阿弥陀佛 🙏</p>
+        </div>
+        
+        <!-- 统计信息 -->
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-label">今日敲击</span>
+                <span class="stat-value" id="today-hits">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">总计敲击</span>
+                <span class="stat-value" id="total-hits">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">功德等级</span>
+                <span class="stat-value" id="merit-level">初心</span>
+            </div>
+        </div>
+        
+        <!-- 功德等级说明 -->
+        <div class="level-info">
+            <div class="level-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="level-text" id="level-text">距离下一等级还需 <span id="next-level-need">100</span> 功德</div>
+            </div>
+        </div>
+        
+        <!-- 重置按钮 -->
+        <button class="reset-btn" id="reset-btn">重置功德</button>
+    </div>
+    
+    <!-- 音效 -->
+    <audio id="hit-sound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT" type="audio/wav">
+    </audio>
+    
+    <script src="cyber-muyu.js"></script>
+</body>
+</html>

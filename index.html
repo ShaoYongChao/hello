@@ -139,6 +139,10 @@
     .card-excel { background: linear-gradient(135deg, #00c851 0%, #007e33 100%); }
     .card-special { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); }
     .card-minesweeper { background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%); }
+    .card-solar { background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%); }
+    .card-snake { background: linear-gradient(135deg, #00b894 0%, #00cec9 100%); }
+    .card-breakout { background: linear-gradient(135deg, #e17055 0%, #fab1a0 100%); }
+    .card-muyu { background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%); }
 
     #rainbow {
       position: fixed;
@@ -182,6 +186,32 @@
       padding: 2rem;
       font-size: 0.9rem;
       opacity: 0.7;
+    }
+
+    .category-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 3rem 0 2rem 0;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .category-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+      border-radius: 2px;
+    }
+
+    .category-title:first-of-type {
+      margin-top: 1rem;
     }
   </style>
    <script>
@@ -506,6 +536,7 @@
     <div class="subtitle">Welcome</div>
   </div>
 
+  <h2 class="category-title">🛠️ 工具</h2>
   <div class="menu-container">
     <a href="./PS-Online/" class="menu-card card-ps">
       <div class="card-icon">🎨</div>
@@ -554,17 +585,44 @@
       <div class="card-title">Excel参考指南</div>
       <div class="card-description">全面的Excel函数和功能参考手册，提高办公效率的必备工具</div>
     </a>
+  </div>
 
+  <h2 class="category-title">🎮 娱乐</h2>
+  <div class="menu-container">
     <a href="./!/" class="menu-card card-special">
       <div class="card-icon">❗</div>
-      <div class="card-title">特殊工具</div>
-      <div class="card-description">❗❗❗</div>
+      <div class="card-title">反应测试</div>
+      <div class="card-description">测试你的反应速度，挑战极限反应时间</div>
     </a>
 
     <a href="./MinesweeperGame/" class="menu-card card-minesweeper">
       <div class="card-icon">💣</div>
       <div class="card-title">扫雷游戏</div>
       <div class="card-description">经典的扫雷游戏，挑战你的逻辑思维和反应能力</div>
+    </a>
+
+    <a href="./SolarSystemSimulator/" class="menu-card card-solar">
+      <div class="card-icon">🌌</div>
+      <div class="card-title">太阳系模拟器</div>
+      <div class="card-description">3D太阳系模拟器，探索宇宙奥秘和行星运动</div>
+    </a>
+
+    <a href="./snake/" class="menu-card card-snake">
+      <div class="card-icon">🐍</div>
+      <div class="card-title">贪吃蛇</div>
+      <div class="card-description">经典贪吃蛇游戏，简单易上手的休闲娱乐</div>
+    </a>
+
+    <a href="./breakout/" class="menu-card card-breakout">
+      <div class="card-icon">🧱</div>
+      <div class="card-title">打砖块</div>
+      <div class="card-description">经典的打砖块游戏，考验你的反应和策略</div>
+    </a>
+
+    <a href="./cyber-muyu/" class="menu-card card-muyu">
+      <div class="card-icon">🪵</div>
+      <div class="card-title">电子木鱼</div>
+      <div class="card-description">数字时代的木鱼，让心灵得到宁静</div>
     </a>
   </div>
 

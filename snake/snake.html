@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贪吃蛇游戏</title>
+    <link rel="stylesheet" href="snake.css">
+</head>
+<body>
+    <!-- 游戏菜单 -->
+    <div id="game-menu" class="game-menu">
+        <h1>🐍 贪吃蛇游戏</h1>
+        <div class="menu-content">
+            <div class="difficulty-selection">
+                <h3>选择难度</h3>
+                <div class="difficulty-buttons">
+                    <button class="difficulty-btn" data-speed="150">简单</button>
+                    <button class="difficulty-btn active" data-speed="100">普通</button>
+                    <button class="difficulty-btn" data-speed="60">困难</button>
+                    <button class="difficulty-btn" data-speed="30">极限</button>
+                </div>
+            </div>
+            
+            <div class="game-mode-selection">
+                <h3>游戏模式</h3>
+                <div class="mode-buttons">
+                    <button class="mode-btn active" data-mode="classic">经典模式</button>
+                    <button class="mode-btn" data-mode="border">穿墙模式</button>
+                </div>
+            </div>
+            
+            <button id="start-game" class="start-btn">开始游戏</button>
+            
+            <div class="instructions">
+                <h3>游戏说明</h3>
+                <p>• 使用方向键或 WASD 控制蛇的移动</p>
+                <p>• 吃到食物蛇身会变长，分数增加</p>
+                <p>• 撞到墙壁或自己的身体游戏结束</p>
+                <p>• 穿墙模式下可以穿越边界</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 游戏界面 -->
+    <div id="game-container" class="game-container hidden">
+        <!-- 游戏信息栏 -->
+        <div class="game-info">
+            <div class="info-group">
+                <div class="info-item">
+                    <span class="info-label">分数</span>
+                    <span id="score" class="info-value">0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">长度</span>
+                    <span id="length" class="info-value">1</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">最高分</span>
+                    <span id="high-score" class="info-value">0</span>
+                </div>
+            </div>
+            
+            <div class="control-buttons">
+                <button id="pause-btn" class="control-btn">⏸️ 暂停</button>
+                <button id="restart-btn" class="control-btn">🔄 重新开始</button>
+                <button id="menu-btn" class="control-btn">📋 菜单</button>
+            </div>
+        </div>
+
+        <!-- 游戏画布 -->
+        <div class="game-board-container">
+            <canvas id="game-canvas" width="600" height="600"></canvas>
+            
+            <!-- 移动端控制按钮 -->
+            <div class="mobile-controls">
+                <div class="control-row">
+                    <button class="direction-btn" data-direction="up">⬆️</button>
+                </div>
+                <div class="control-row">
+                    <button class="direction-btn" data-direction="left">⬅️</button>
+                    <button class="direction-btn" data-direction="down">⬇️</button>
+                    <button class="direction-btn" data-direction="right">➡️</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 游戏结束界面 -->
+        <div id="game-over" class="game-over hidden">
+            <div class="game-over-content">
+                <h2 id="game-over-title">游戏结束</h2>
+                <div class="score-display">
+                    <p>本次分数: <span id="final-score">0</span></p>
+                    <p>蛇的长度: <span id="final-length">1</span></p>
+                    <p id="new-record" class="new-record hidden">🎉 新纪录！</p>
+                </div>
+                <div class="game-over-buttons">
+                    <button id="play-again" class="game-over-btn">再玩一次</button>
+                    <button id="back-menu" class="game-over-btn">返回菜单</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="snake.js"></script>
+</body>
+</html>

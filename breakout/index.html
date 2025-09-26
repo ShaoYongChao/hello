@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>弹球游戏</title>
+    <link rel="stylesheet" href="breakout.css">
+</head>
+<body>
+    <!-- 游戏菜单 -->
+    <div id="game-menu" class="game-menu">
+        <h1>🎮 弹球游戏</h1>
+        <div class="menu-buttons">
+            <button id="start-game" class="menu-btn">开始游戏</button>
+            <button id="show-instructions" class="menu-btn">游戏说明</button>
+        </div>
+        
+        <!-- 游戏说明 -->
+        <div id="instructions" class="instructions hidden">
+            <h3>游戏说明</h3>
+            <div class="instruction-content">
+                <p><strong>操作方式：</strong></p>
+                <p>• 使用鼠标移动挡板</p>
+                <p>• 或使用 A/D 键、左右方向键控制</p>
+                
+                <p><strong>道具效果：</strong></p>
+                <div class="powerup-list">
+                    <div class="powerup-item">🔴 分裂球 - 球分裂成多个</div>
+                    <div class="powerup-item">📏 长挡板 - 挡板变长</div>
+                    <div class="powerup-item">📐 短挡板 - 挡板变短</div>
+                    <div class="powerup-item">⚡ 快球 - 球速度加快</div>
+                    <div class="powerup-item">🐌 慢球 - 球速度减慢</div>
+                    <div class="powerup-item">🔥 火球 - 穿透砖块</div>
+                    <div class="powerup-item">🎯 磁力 - 球粘在挡板上</div>
+                    <div class="powerup-item">💎 额外生命 - 增加一条生命</div>
+                </div>
+            </div>
+            <button id="close-instructions" class="close-btn">关闭</button>
+        </div>
+    </div>
+
+    <!-- 游戏界面 -->
+    <div id="game-container" class="game-container hidden">
+        <!-- 游戏信息栏 -->
+        <div class="game-info">
+            <div class="info-item">
+                <span>分数: </span>
+                <span id="score">0</span>
+            </div>
+            <div class="info-item">
+                <span>生命: </span>
+                <span id="lives">3</span>
+            </div>
+            <div class="info-item">
+                <span>关卡: </span>
+                <span id="level">1</span>
+            </div>
+            <button id="pause-game" class="pause-btn">⏸️ 暂停</button>
+        </div>
+
+        <!-- 游戏画布 -->
+        <canvas id="game-canvas" width="800" height="600"></canvas>
+        
+        <!-- 游戏结束界面 -->
+        <div id="game-over" class="game-over hidden">
+            <h2 id="game-over-title">游戏结束</h2>
+            <p id="final-score">最终分数: 0</p>
+            <div class="game-over-buttons">
+                <button id="restart-game" class="menu-btn">重新开始</button>
+                <button id="back-to-menu" class="menu-btn">返回菜单</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="breakout.js"></script>
+</body>
+</html>
