@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel 快捷键与函数参考手册</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .search-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            border-color: #667eea;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .shortcut-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .shortcut-key {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+        }
+
+        .shortcut-desc {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .function-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+
+        .function-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .function-syntax {
+            background: #2d3748;
+            color: #68d391;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        .function-example {
+            background: #e6fffa;
+            border: 1px solid #38b2ac;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .example-title {
+            font-weight: bold;
+            color: #2c7a7b;
+            margin-bottom: 5px;
+        }
+
+        .reference-section {
+            background: #fff5f5;
+            border: 1px solid #feb2b2;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .reference-title {
+            color: #c53030;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background-color: #ffd700;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .shortcut-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Excel 快捷键与函数参考手册</h1>
+            <p>快速查找Excel操作技巧和函数用法</p>
+        </div>
+
+        <div class="search-container">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 搜索快捷键或函数名称...">
+        </div>
+
+        <div class="content">
+            <!-- 快捷键部分 -->
+            <div class="section" id="shortcuts">
+                <h2>⌨️ 常用快捷键</h2>
+                
+                <!-- 基础操作 -->
+                <h3 style="color: #667eea; margin: 20px 0 15px 0; font-size: 1.3em;">📋 基础操作</h3>
+                
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+C</div>
+                    <div class="shortcut-desc">复制</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+V</div>
+                    <div class="shortcut-desc">粘贴</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+X</div>
+                    <div class="shortcut-desc">剪切</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+Alt+V</div>
+                    <div class="shortcut-desc">选择性粘贴</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+Shift+V</div>
+                    <div class="shortcut-desc">粘贴值（仅粘贴数值，不含格式）</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+Z</div>
+                    <div class="shortcut-desc">撤销</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+Y</div>
+                    <div class="shortcut-desc">重做</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+A</div>
+                    <div class="shortcut-desc">全选</div>
+                </div>
+
+                <!-- 格式设置 -->
+                <h3 style="color: #667eea; margin: 20px 0 15px 0; font-size: 1.3em;">🎨 格式设置</h3>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+1</div>
+                    <div class="shortcut-desc">打开格式单元格对话框</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+B / Ctrl+2</div>
+                    <div class="shortcut-desc">字体加粗</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+I / Ctrl+3</div>
+                    <div class="shortcut-desc">字体倾斜</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+U / Ctrl+4</div>
+                    <div class="shortcut-desc">字体下划线</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+5</div>
+                    <div class="shortcut-desc">删除线</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+Shift+%</div>
+                    <div class="shortcut-desc">百分比格式</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+Shift+$</div>
+                    <div class="shortcut-desc">货币格式</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+Shift+#</div>
+                    <div class="shortcut-desc">日期格式</div>
+                </div>
+
+                <!-- 编辑功能 -->
+                <h3 style="color: #667eea; margin: 20px 0 15px 0; font-size: 1.3em;">✏️ 编辑功能</h3>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+M</div>
+                    <div class="shortcut-desc">合并单元格</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">F2</div>
+                    <div class="shortcut-desc">编辑单元格</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Delete</div>
+                    <div class="shortcut-desc">删除单元格内容</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Alt+Enter</div>
+                    <div class="shortcut-desc">单元格内换行</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+;</div>
+                    <div class="shortcut-desc">插入当前日期</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+Shift+;</div>
+                    <div class="shortcut-desc">插入当前时间</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+K</div>
+                    <div class="shortcut-desc">插入超链接</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Shift+F11</div>
+                    <div class="shortcut-desc">插入新工作表</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl + +</div>
+                    <div class="shortcut-desc">添加行/列</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl + -</div>
+                    <div class="shortcut-desc">删除行/列</div>
+                </div>
+
+                <!-- 导航操作 -->
+                <h3 style="color: #667eea; margin: 20px 0 15px 0; font-size: 1.3em;">🧭 导航操作</h3>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+Home</div>
+                    <div class="shortcut-desc">跳转到A1单元格</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+End</div>
+                    <div class="shortcut-desc">跳转到数据区域的最后一个单元格</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+方向键</div>
+                    <div class="shortcut-desc">快速跳转到数据边界</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+Page Up/Down</div>
+                    <div class="shortcut-desc">切换工作表</div>
+                </div>
+
+                <!-- 视图控制 -->
+                <h3 style="color: #667eea; margin: 20px 0 15px 0; font-size: 1.3em;">👁️ 视图控制</h3>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+7</div>
+                    <div class="shortcut-desc">隐藏列</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+9</div>
+                    <div class="shortcut-desc">隐藏行</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+T</div>
+                    <div class="shortcut-desc">筛选</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+Shift+L</div>
+                    <div class="shortcut-desc">开启/关闭筛选</div>
+                </div>
+
+                <!-- 文件操作 -->
+                <h3 style="color: #667eea; margin: 20px 0 15px 0; font-size: 1.3em;">💾 文件操作</h3>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+S</div>
+                    <div class="shortcut-desc">保存</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+N</div>
+                    <div class="shortcut-desc">新建工作簿</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+O</div>
+                    <div class="shortcut-desc">打开文件</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">F12</div>
+                    <div class="shortcut-desc">另存为</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+P</div>
+                    <div class="shortcut-desc">打印</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+Alt+P</div>
+                    <div class="shortcut-desc">打印预览</div>
+                </div>
+
+                <!-- 数据处理 -->
+                <h3 style="color: #667eea; margin: 20px 0 15px 0; font-size: 1.3em;">📊 数据处理</h3>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Alt+=</div>
+                    <div class="shortcut-desc">自动求和（Sum），行、列均可</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Shift+F3</div>
+                    <div class="shortcut-desc">插入函数</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">F9</div>
+                    <div class="shortcut-desc">刷新（重新计算，函数刷新）</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+R</div>
+                    <div class="shortcut-desc">复制上一行内容</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+D</div>
+                    <div class="shortcut-desc">复制上一行内容</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+F</div>
+                    <div class="shortcut-desc">搜索</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+H</div>
+                    <div class="shortcut-desc">替换</div>
+                </div>
+
+                <div class="shortcut-grid">
+                    <div class="shortcut-key">Ctrl+F3</div>
+                    <div class="shortcut-desc">自定义名称</div>
+                </div>
+
+                <div class="reference-section">
+                    <div class="reference-title">📌 序号生成技巧</div>
+                    <p><strong>ROW()-x</strong> 可以生成序号，其中x为调整值</p>
+                    <div class="function-example">
+                        <div class="example-title">示例：</div>
+                        在A2单元格输入 =ROW()-1，向下拖拽即可生成 1, 2, 3...
+                    </div>
+                </div>
+
+                <div class="reference-section">
+                    <div class="reference-title">🔒 单元格引用锁定</div>
+                    <p><strong>$符号锁定：</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>绝对引用：</strong>$A$1 - 行列都不变</li>
+                        <li><strong>列绝对行相对：</strong>$A1 - 列不变，行变化</li>
+                        <li><strong>行绝对列相对：</strong>A$1 - 行不变，列变化</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 函数部分 -->
+            <div class="section" id="functions">
+                <h2>🔢 常用函数</h2>
+
+                <!-- 求和函数 -->
+                <div class="function-item">
+                    <div class="function-name">SUMIF - 单条件求和</div>
+                    <div class="function-syntax">=SUMIF(range, criteria, sum_range)</div>
+                    <p><strong>参数说明：</strong></p>
+                    <ul style="margin-left: 20px;">
+                        <li>range：条件区域</li>
+                        <li>criteria：求和条件</li>
+                        <li>sum_range：实际求和区域</li>
+                    </ul>
+                    <div class="function-example">
+                        <div class="example-title">实例：</div>
+                        =SUMIF(A:A,"苹果",B:B) <br>
+                        统计A列中所有"苹果"对应B列的数值总和
+                    </div>
+                </div>
+
+                <div class="function-item">
+                    <div class="function-name">SUMIFS - 多条件求和</div>
+                    <div class="function-syntax">=SUMIFS(sum_range, criteria_range1, criteria1, criteria_range2, criteria2, ...)</div>
+                    <div class="function-example">
+                        <div class="example-title">实例：</div>
+                        =SUMIFS(C:C, A:A, "苹果", B:B, ">10") <br>
+                        统计A列为"苹果"且B列大于10的C列数值总和
+                    </div>
+                </div>
+
+                <!-- 平均值函数 -->
+                <div class="function-item">
+                    <div class="function-name">AVERAGE - 求平均值</div>
+                    <div class="function-syntax">=AVERAGE(number1, number2, ...)</div>
+                    <div class="function-example">
+                        <div class="example-title">实例：</div>
+                        =AVERAGE(A1:A10) <br>
+                        计算A1到A10单元格的平均值
+                    </div>
+                </div>
+
+                <div class="function-item">
+                    <div class="function-name">AVERAGEIF - 单条件求平均</div>
+                    <div class="function-syntax">=AVERAGEIF(range, criteria, [average_range])</div>
+                    <div class="function-example">
+                        <div class="example-title">实例：</div>
+                        =AVERAGEIF(A:A, ">=60", B:B) <br>
+                        计算A列中大于等于60的对应B列数值的平均值
+                    </div>
+                </div>
+
+                <!-- 最值函数 -->
+                <div class="function-item">
+                    <div class="function-name">MAX/MIN - 最大值/最小值</div>
+                    <div class="function-syntax">=MAX(number1, number2, ...)<br>=MIN(number1, number2, ...)</div>
+                    <div class="function-example">
+                        <div class="example-title">实例：</div>
+                        =MAX(A1:A10) 返回最大值<br>
+                        =MIN(A1:A10) 返回最小值
+                    </div>
+                </div>
+
+                <!-- 数值处理函数 -->
+                <div class="function-item">
+                    <div class="function-name">ROUND - 四舍五入</div>
+                    <div class="function-syntax">=ROUND(number, num_digits)</div>
+                    <div class="function-example">
+                        <div class="example-title">实例：</div>
+                        =ROUND(3.14159, 2) 返回 3.14<br>
+                        =ROUND(1234.5, -2) 返回 1200
+                    </div>
+                </div>
+
+                <div class="function-item">
+                    <div class="function-name">TRUNC - 截取整数</div>
+                    <div class="function-syntax">=TRUNC(number, [num_digits])</div>
+                    <div class="function-example">
+                        <div class="example-title">实例：</div>
+                        =TRUNC(3.99) 返回 3<br>
+                        =TRUNC(123.456, 1) 返回 123.4
+                    </div>
+                </div>
+
+                <!-- 条件判断函数 -->
+                <div class="function-item">
+                    <div class="function-name">IF - 条件判断</div>
+                    <div class="function-syntax">=IF(logical_test, value_if_true, value_if_false)</div>
+                    <div class="function-example">
+                        <div class="example-title">实例：</div>
+                        =IF(A1>=60, "及格", "不及格")<br>
+                        如果A1大于等于60显示"及格"，否则显示"不及格"
+                    </div>
+                </div>
+
+                <div class="function-item">
+                    <div class="function-name">IFS - 多条件判断</div>
+                    <div class="function-syntax">=IFS(条件1, 值1, 条件2, 值2, ...)</div>
+                    <div class="function-example">
+                        <div class="example-title">实例：</div>
+                        =IFS(A1>=90,"优秀", A1>=80,"良好", A1>=60,"及格", TRUE,"不及格")
+                    </div>
+                </div>
+
+                <!-- 日期函数 -->
+                <div class="function-item">
+                    <div class="function-name">TODAY/NOW - 当前日期时间</div>
+                    <div class="function-syntax">=TODAY()<br>=NOW()</div>
+                    <div class="function-example">
+                        <div class="example-title">实例：</div>
+                        =TODAY() 返回当前日期<br>
+                        =NOW() 返回当前日期和时间
+                    </div>
+                </div>
+
+                <div class="function-item">
+                    <div class="function-name">DATEDIF - 计算日期差</div>
+                    <div class="function-syntax">=DATEDIF(start_date, end_date, unit)</div>
+                    <p><strong>Unit参数：</strong>"Y"年、"M"月、"D"天、"MD"同月天数差、"YD"同年天数差、"YM"同年月数差</p>
+                    <div class="function-example">
+                        <div class="example-title">实例：</div>
+                        =DATEDIF("2020/1/1", "2023/1/1", "Y") 返回 3（年）<br>
+                        =DATEDIF("2023/1/1", "2023/3/15", "D") 返回天数差
+                    </div>
+                </div>
+
+                <!-- 文本函数 -->
+                <div class="function-item">
+                    <div class="function-name">LEFT/RIGHT/MID - 文本提取</div>
+                    <div class="function-syntax">=LEFT(text, [num_chars])<br>=RIGHT(text, [num_chars])<br>=MID(text, start_num, num_chars)</div>
+                    <div class="function-example">
+                        <div class="example-title">实例：</div>
+                        =LEFT("Hello World", 5) 返回 "Hello"<br>
+                        =RIGHT("Hello World", 5) 返回 "World"<br>
+                        =MID("Hello World", 7, 5) 返回 "World"
+                    </div>
+                </div>
+
+                <!-- 查找函数 -->
+                <div class="function-item">
+                    <div class="function-name">VLOOKUP - 纵向查找</div>
+                    <div class="function-syntax">=VLOOKUP(lookup_value, table_array, col_index_num, [range_lookup])</div>
+                    <div class="function-example">
+                        <div class="example-title">实例：</div>
+                        =VLOOKUP("张三", A:D, 3, FALSE)<br>
+                        在A到D列中查找"张三"，返回第3列的值（精确匹配）
+                    </div>
+                </div>
+
+                <!-- 统计函数 -->
+                <div class="function-item">
+                    <div class="function-name">COUNT/COUNTA/COUNTBLANK - 计数函数</div>
+                    <div class="function-syntax">=COUNT(value1, value2, ...)<br>=COUNTA(value1, value2, ...)<br>=COUNTBLANK(range)</div>
+                    <div class="function-example">
+                        <div class="example-title">实例：</div>
+                        =COUNT(A1:A10) 统计数字个数<br>
+                        =COUNTA(A1:A10) 统计非空单元格个数<br>
+                        =COUNTBLANK(A1:A10) 统计空白单元格个数
+                    </div>
+                </div>
+
+                <!-- 万能函数 -->
+                <div class="function-item">
+                    <div class="function-name">SUBTOTAL - 万能统计函数</div>
+                    <div class="function-syntax">=SUBTOTAL(function_num, ref1, [ref2], ...)</div>
+                    <p><strong>Function_num：</strong>1-11（包含隐藏值），101-111（不包含隐藏值）</p>
+                    <div class="function-example">
+                        <div class="example-title">实例：</div>
+                        =SUBTOTAL(9, A1:A10) 对A1:A10求和（包含隐藏行）<br>
+                        =SUBTOTAL(109, A1:A10) 对A1:A10求和（不包含隐藏行）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 搜索功能
+        document.getElementById('searchBox').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const sections = document.querySelectorAll('.section');
+            
+            sections.forEach(section => {
+                const items = section.querySelectorAll('.shortcut-grid, .function-item');
+                let hasVisibleItems = false;
+                
+                items.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        item.style.display = '';
+                        hasVisibleItems = true;
+                        
+                        // 高亮搜索词
+                        if (searchTerm) {
+                            highlightText(item, searchTerm);
+                        } else {
+                            removeHighlight(item);
+                        }
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // 如果没有匹配项，隐藏整个section
+                if (hasVisibleItems || !searchTerm) {
+                    section.style.display = '';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        });
+
+        function highlightText(element, searchTerm) {
+            // 移除之前的高亮
+            removeHighlight(element);
+            
+            const walker = document.createTreeWalker(
+                element,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+            
+            const textNodes = [];
+            let node;
+            while (node = walker.nextNode()) {
+                textNodes.push(node);
+            }
+            
+            textNodes.forEach(textNode => {
+                const text = textNode.textContent;
+                const regex = new RegExp(`(${searchTerm})`, 'gi');
+                if (regex.test(text)) {
+                    const highlightedText = text.replace(regex, '<span class="highlight">$1</span>');
+                    const span = document.createElement('span');
+                    span.innerHTML = highlightedText;
+                    textNode.parentNode.replaceChild(span, textNode);
+                }
+            });
+        }
+
+        function removeHighlight(element) {
+            const highlights = element.querySelectorAll('.highlight');
+            highlights.forEach(highlight => {
+                const parent = highlight.parentNode;
+                parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+                parent.normalize();
+            });
+        }
+
+        // 平滑滚动效果
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
