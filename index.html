@@ -194,7 +194,13 @@
     var currentLanguageIndex = 0;
      function changeLanguage() {
       var helloText = document.getElementById("hello-text");
-      currentLanguageIndex = (currentLanguageIndex + 1) % languages.length;
+      var subtitle = document.querySelector(".subtitle");
+      
+      // 随机选择语言而不是按顺序
+      currentLanguageIndex = Math.floor(Math.random() * languages.length);
+      
+      // 在subtitle中显示当前语言名称
+      subtitle.innerText = languages[currentLanguageIndex];
        switch(languages[currentLanguageIndex]) {
         case "中文":
           helloText.innerText = "你好";
