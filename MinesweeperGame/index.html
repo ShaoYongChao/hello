@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>扫雷游戏</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 顶部菜单栏 -->
+    <div class="top-menu">
+        <div class="menu-item">
+            <select id="difficulty-select" class="difficulty-select">
+                <option value="beginner">新手 (9×9, 10雷)</option>
+                <option value="intermediate">标准 (16×16, 40雷)</option>
+                <option value="expert">大师 (30×16, 99雷)</option>
+                <option value="custom">自定义</option>
+            </select>
+        </div>
+        <div class="menu-item">
+            <button id="settings-btn" class="settings-btn">⚙️ 设置</button>
+        </div>
+    </div>
+
+    <!-- 设置面板 -->
+    <div id="settings-panel" class="settings-panel hidden">
+        <div class="settings-content">
+            <h3>自定义设置</h3>
+            <div class="setting-row">
+                <label>宽度 (5-30):</label>
+                <input type="number" id="custom-width" min="5" max="30" value="9">
+            </div>
+            <div class="setting-row">
+                <label>高度 (5-24):</label>
+                <input type="number" id="custom-height" min="5" max="24" value="9">
+            </div>
+            <div class="setting-row">
+                <label>雷数:</label>
+                <input type="number" id="custom-mines" min="1" max="200" value="10">
+            </div>
+            <div class="settings-buttons">
+                <button id="apply-custom" class="apply-btn">应用</button>
+                <button id="close-settings" class="close-btn">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 游戏信息栏 -->
+        <div class="game-info">
+            <div class="info-display">
+                <div class="counter">
+                    <span class="counter-label">💣</span>
+                    <span id="mines-count" class="counter-value">010</span>
+                </div>
+                <button id="restart" class="restart-btn">🙂</button>
+                <div class="counter">
+                    <span class="counter-label">⏱️</span>
+                    <span id="timer" class="counter-value">000</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 游戏区域 -->
+        <div id="game-board" class="game-board"></div>
+        
+        <!-- 游戏消息 -->
+        <div id="game-message" class="game-message hidden"></div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
