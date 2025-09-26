@@ -182,7 +182,15 @@
     }
   </style>
    <script>
-    var languages = ["English", "中文", "Français", "日本語", "한국어"];
+//     中国少数民族语言：藏语(བཀྲ་ཤིས་བདེ་ལེགས)、维语(ياخشىمۇسىز)、蒙语(ᠰᠠᠢᠨ ᠪᠠᠢᠨᠠ ᠤᠤ)
+// 欧洲语言：西班牙语、德语、俄语、意大利语、荷兰语、瑞典语、挪威语等
+// 中东语言：阿拉伯语、希伯来语、波斯语、土耳其语等
+// 南亚语言：印地语、孟加拉语、泰米尔语、乌尔都语等
+// 东南亚语言：泰语、越南语、印尼语、缅甸语、高棉语等
+// 非洲语言：斯瓦希里语、阿姆哈拉语、约鲁巴语、祖鲁语等
+// 中亚语言：哈萨克语、吉尔吉斯语、塔吉克语、乌兹别克语等
+// 欧洲少数民族语言：威尔士语、苏格兰盖尔语、巴斯克语、加泰罗尼亚语等
+    var languages = ["English", "中文", "Français", "日本語", "한국어", "Español", "Deutsch", "Русский", "العربية", "हिन्दी", "Português", "Italiano", "Nederlands", "Svenska", "Norsk", "Dansk", "Suomi", "Ελληνικά", "Türkçe", "Polski", "Čeština", "Magyar", "Română", "Български", "Українська", "עברית", "فارسی", "اردو", "বাংলা", "தமிழ்", "తెలుగు", "ಕನ್ನಡ", "മലയാളം", "ગુજરાતી", "ਪੰਜਾبੀ", "मराठी", "नेपाली", "සිංහල", "မြန်မာ", "ខ្មែរ", "ລາວ", "ไทย", "Tiếng Việt", "Bahasa Indonesia", "Bahasa Melayu", "Filipino", "Kiswahili", "Afrikaans", "አማርኛ", "Yorùbá", "Igbo", "Hausa", "isiZulu", "isiXhosa", "Sesotho", "Setswana", "Xitsonga", "Tshivenda", "siSwati", "isiNdebele", "བོད་ཡིག", "ئۇيغۇرچە", "ᠮᠣᠩᠭᠣᠯ", "Қазақша", "Кыргызча", "Тоҷикӣ", "O'zbekcha", "Azərbaycan", "Հայերեն", "ქართული", "Eesti", "Latviešu", "Lietuvių", "Slovenčina", "Slovenščina", "Hrvatski", "Srpski", "Bosanski", "Македонски", "Shqip", "Malti", "Gaeilge", "Cymraeg", "Gàidhlig", "Brezhoneg", "Euskera", "Català", "Galego", "Occitan", "Corsu", "Sardu", "Furlan", "Ladin", "Rumantsch", "Mirandés"];
     var currentLanguageIndex = 0;
      function changeLanguage() {
       var helloText = document.getElementById("hello-text");
@@ -202,6 +210,276 @@
           break;
         case "한국어":
           helloText.innerText = "안녕하세요";
+          break;
+        case "Español":
+          helloText.innerText = "Hola";
+          break;
+        case "Deutsch":
+          helloText.innerText = "Hallo";
+          break;
+        case "Русский":
+          helloText.innerText = "Привет";
+          break;
+        case "العربية":
+          helloText.innerText = "مرحبا";
+          break;
+        case "हिन्दी":
+          helloText.innerText = "नमस्ते";
+          break;
+        case "Português":
+          helloText.innerText = "Olá";
+          break;
+        case "Italiano":
+          helloText.innerText = "Ciao";
+          break;
+        case "Nederlands":
+          helloText.innerText = "Hallo";
+          break;
+        case "Svenska":
+          helloText.innerText = "Hej";
+          break;
+        case "Norsk":
+          helloText.innerText = "Hei";
+          break;
+        case "Dansk":
+          helloText.innerText = "Hej";
+          break;
+        case "Suomi":
+          helloText.innerText = "Hei";
+          break;
+        case "Ελληνικά":
+          helloText.innerText = "Γεια σας";
+          break;
+        case "Türkçe":
+          helloText.innerText = "Merhaba";
+          break;
+        case "Polski":
+          helloText.innerText = "Cześć";
+          break;
+        case "Čeština":
+          helloText.innerText = "Ahoj";
+          break;
+        case "Magyar":
+          helloText.innerText = "Szia";
+          break;
+        case "Română":
+          helloText.innerText = "Salut";
+          break;
+        case "Български":
+          helloText.innerText = "Здравей";
+          break;
+        case "Українська":
+          helloText.innerText = "Привіт";
+          break;
+        case "עברית":
+          helloText.innerText = "שלום";
+          break;
+        case "فارسی":
+          helloText.innerText = "سلام";
+          break;
+        case "اردو":
+          helloText.innerText = "السلام علیکم";
+          break;
+        case "বাংলা":
+          helloText.innerText = "নমস্কার";
+          break;
+        case "தமிழ்":
+          helloText.innerText = "வணக்கம்";
+          break;
+        case "తెలుగు":
+          helloText.innerText = "నమస్కారం";
+          break;
+        case "ಕನ್ನಡ":
+          helloText.innerText = "ನಮಸ್ಕಾರ";
+          break;
+        case "മലയാളം":
+          helloText.innerText = "നമസ്കാരം";
+          break;
+        case "ગુજરાતી":
+          helloText.innerText = "નમસ્તે";
+          break;
+        case "ਪੰਜਾਬੀ":
+          helloText.innerText = "ਸਤ ਸ੍ਰੀ ਅਕਾਲ";
+          break;
+        case "मराठी":
+          helloText.innerText = "नमस्कार";
+          break;
+        case "नेपाली":
+          helloText.innerText = "नमस्ते";
+          break;
+        case "සිංහල":
+          helloText.innerText = "ආයුබෝවන්";
+          break;
+        case "မြန်မာ":
+          helloText.innerText = "မင်္ဂလာပါ";
+          break;
+        case "ខ្មែរ":
+          helloText.innerText = "ជំរាបសួរ";
+          break;
+        case "ລາວ":
+          helloText.innerText = "ສະບາຍດີ";
+          break;
+        case "ไทย":
+          helloText.innerText = "สวัสดี";
+          break;
+        case "Tiếng Việt":
+          helloText.innerText = "Xin chào";
+          break;
+        case "Bahasa Indonesia":
+          helloText.innerText = "Halo";
+          break;
+        case "Bahasa Melayu":
+          helloText.innerText = "Hello";
+          break;
+        case "Filipino":
+          helloText.innerText = "Kumusta";
+          break;
+        case "Kiswahili":
+          helloText.innerText = "Hujambo";
+          break;
+        case "Afrikaans":
+          helloText.innerText = "Hallo";
+          break;
+        case "አማርኛ":
+          helloText.innerText = "ሰላም";
+          break;
+        case "Yorùbá":
+          helloText.innerText = "Báwo";
+          break;
+        case "Igbo":
+          helloText.innerText = "Ndewo";
+          break;
+        case "Hausa":
+          helloText.innerText = "Sannu";
+          break;
+        case "isiZulu":
+          helloText.innerText = "Sawubona";
+          break;
+        case "isiXhosa":
+          helloText.innerText = "Molo";
+          break;
+        case "Sesotho":
+          helloText.innerText = "Dumela";
+          break;
+        case "Setswana":
+          helloText.innerText = "Dumela";
+          break;
+        case "Xitsonga":
+          helloText.innerText = "Avuxeni";
+          break;
+        case "Tshivenda":
+          helloText.innerText = "Ndaa";
+          break;
+        case "siSwati":
+          helloText.innerText = "Sawubona";
+          break;
+        case "isiNdebele":
+          helloText.innerText = "Lotjhani";
+          break;
+        case "བོད་ཡིག":
+          helloText.innerText = "བཀྲ་ཤིས་བདེ་ལེགས";
+          break;
+        case "ئۇيغۇرچە":
+          helloText.innerText = "ياخشىمۇسىز";
+          break;
+        case "ᠮᠣᠩᠭᠣᠯ":
+          helloText.innerText = "ᠰᠠᠢᠨ ᠪᠠᠢᠨᠠ ᠤᠤ";
+          break;
+        case "Қазақша":
+          helloText.innerText = "Сәлем";
+          break;
+        case "Кыргызча":
+          helloText.innerText = "Салам";
+          break;
+        case "Тоҷикӣ":
+          helloText.innerText = "Салом";
+          break;
+        case "O'zbekcha":
+          helloText.innerText = "Salom";
+          break;
+        case "Azərbaycan":
+          helloText.innerText = "Salam";
+          break;
+        case "Հայերեն":
+          helloText.innerText = "Բարև";
+          break;
+        case "ქართული":
+          helloText.innerText = "გამარჯობა";
+          break;
+        case "Eesti":
+          helloText.innerText = "Tere";
+          break;
+        case "Latviešu":
+          helloText.innerText = "Sveiki";
+          break;
+        case "Lietuvių":
+          helloText.innerText = "Labas";
+          break;
+        case "Slovenčina":
+          helloText.innerText = "Ahoj";
+          break;
+        case "Slovenščina":
+          helloText.innerText = "Živjo";
+          break;
+        case "Hrvatski":
+          helloText.innerText = "Bok";
+          break;
+        case "Srpski":
+          helloText.innerText = "Здраво";
+          break;
+        case "Bosanski":
+          helloText.innerText = "Zdravo";
+          break;
+        case "Македонски":
+          helloText.innerText = "Здраво";
+          break;
+        case "Shqip":
+          helloText.innerText = "Përshëndetje";
+          break;
+        case "Malti":
+          helloText.innerText = "Bonġu";
+          break;
+        case "Gaeilge":
+          helloText.innerText = "Dia dhuit";
+          break;
+        case "Cymraeg":
+          helloText.innerText = "Helo";
+          break;
+        case "Gàidhlig":
+          helloText.innerText = "Halò";
+          break;
+        case "Brezhoneg":
+          helloText.innerText = "Demat";
+          break;
+        case "Euskera":
+          helloText.innerText = "Kaixo";
+          break;
+        case "Català":
+          helloText.innerText = "Hola";
+          break;
+        case "Galego":
+          helloText.innerText = "Ola";
+          break;
+        case "Occitan":
+          helloText.innerText = "Adieu";
+          break;
+        case "Corsu":
+          helloText.innerText = "Bonghjornu";
+          break;
+        case "Sardu":
+          helloText.innerText = "Ciao";
+          break;
+        case "Furlan":
+          helloText.innerText = "Mandi";
+          break;
+        case "Ladin":
+          helloText.innerText = "Bun dì";
+          break;
+        case "Rumantsch":
+          helloText.innerText = "Allegra";
+          break;
+        case "Mirandés":
+          helloText.innerText = "Oulá";
           break;
         default:
           break;
