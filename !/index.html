@@ -224,8 +224,10 @@
                 
                 let message = '';
                 let color = '';
-                
-                if (reactionTime < 200) {
+                if (reactionTime < 50) {
+                    message = '人类？';
+                    color = '#2ed573';
+                }else if (reactionTime < 200) {
                     message = '超快反应！';
                     color = '#2ed573';
                 } else if (reactionTime < 300) {
