@@ -33,9 +33,11 @@ class BreakoutGame {
         
         this.keys = {};
         this.mouse = { x: 0, y: 0 };
+        this.touch = { x: 0, y: 0, active: false };
         
         this.initializeElements();
         this.setupEventListeners();
+        this.setupResponsiveCanvas();
     }
     
     initializeElements() {
@@ -84,8 +86,46 @@ class BreakoutGame {
         this.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e));
         this.canvas.addEventListener('click', (e) => this.handleMouseClick(e));
         
-        // 防止右键菜单
+        // 触摸事件
+        this.canvas.addEventListener('touchstart', (e) => this.handleTouchStart(e));
+        this.canvas.addEventListener('touchmove', (e) => this.handleTouchMove(e));
+        this.canvas.addEventListener('touchend', (e) => this.handleTouchEnd(e));
+        
+        // 防止右键菜单和触摸默认行为
         this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+        this.canvas.addEventListener('touchstart', (e) => e.preventDefault());
+        this.canvas.addEventListener('touchmove', (e) => e.preventDefault());
+        this.canvas.addEventListener('touchend', (e) => e.preventDefault());
+        
+        // 窗口大小变化事件
+        window.addEventListener('resize', () => this.handleResize());
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => this.handleResize(), 100);
+        });
+    }
+    
+    setupResponsiveCanvas() {
+        this.handleResize();
+    }
+    
+    handleResize() {
+        const container = this.gameContainer;
+        if (!container || container.classList.contains('hidden')) return;
+        
+        const containerWidth = container.clientWidth - 40; // 减去padding
+        const containerHeight = window.innerHeight - 200; // 为UI元素留出空间
+        
+        // 计算缩放比例，保持宽高比
+        const scaleX = containerWidth / this.canvasWidth;
+        const scaleY = containerHeight / this.canvasHeight;
+        const scale = Math.min(scaleX, scaleY, 1); // 不放大，只缩小
+        
+        // 应用缩放
+        this.canvas.style.width = (this.canvasWidth * scale) + 'px';
+        this.canvas.style.height = (this.canvasHeight * scale) + 'px';
+        
+        // 存储缩放比例，用于坐标转换
+        this.canvasScale = scale;
     }
     
     showInstructions() {
@@ -101,6 +141,7 @@ class BreakoutGame {
         this.gameContainer.classList.remove('hidden');
         this.gameState = 'playing';
         this.initializeGame();
+        this.handleResize(); // 确保画布大小正确
         this.gameLoop();
     }
     
@@ -195,14 +236,49 @@ class BreakoutGame {
     
     handleMouseMove(e) {
         const rect = this.canvas.getBoundingClientRect();
-        this.mouse.x = e.clientX - rect.left;
-        this.mouse.y = e.clientY - rect.top;
+        const scaleX = this.canvasWidth / rect.width;
+        const scaleY = this.canvasHeight / rect.height;
+        this.mouse.x = (e.clientX - rect.left) * scaleX;
+        this.mouse.y = (e.clientY - rect.top) * scaleY;
     }
     
     handleMouseClick(e) {
         if (this.gameState === 'playing') {
             this.releaseStickyBalls();
         }
+    }
+    
+    handleTouchStart(e) {
+        e.preventDefault();
+        const rect = this.canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        const scaleX = this.canvasWidth / rect.width;
+        const scaleY = this.canvasHeight / rect.height;
+        this.touch.x = (touch.clientX - rect.left) * scaleX;
+        this.touch.y = (touch.clientY - rect.top) * scaleY;
+        this.touch.active = true;
+        
+        // 触摸开始时释放粘性球
+        if (this.gameState === 'playing') {
+            this.releaseStickyBalls();
+        }
+    }
+    
+    handleTouchMove(e) {
+        e.preventDefault();
+        if (!this.touch.active) return;
+        
+        const rect = this.canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        const scaleX = this.canvasWidth / rect.width;
+        const scaleY = this.canvasHeight / rect.height;
+        this.touch.x = (touch.clientX - rect.left) * scaleX;
+        this.touch.y = (touch.clientY - rect.top) * scaleY;
+    }
+    
+    handleTouchEnd(e) {
+        e.preventDefault();
+        this.touch.active = false;
     }
     
     releaseStickyBalls() {
@@ -284,8 +360,12 @@ class BreakoutGame {
     }
     
     updatePaddle() {
-        // 鼠标控制
-        if (this.mouse.x > 0) {
+        // 触摸控制（优先级最高）
+        if (this.touch.active && this.touch.x > 0) {
+            this.paddle.x = this.touch.x - this.paddle.width / 2;
+        }
+        // 鼠标控制（当没有触摸时）
+        else if (this.mouse.x > 0 && !this.touch.active) {
             this.paddle.x = this.mouse.x - this.paddle.width / 2;
         }
         

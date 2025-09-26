@@ -4,6 +4,7 @@ class CyberMuyu {
         this.todayHits = 0;
         this.totalHits = 0;
         this.level = 1;
+        this.isLevelUpShowing = false; // 添加标志位防止重复显示
         
         // 功德等级配置
         this.levels = [
@@ -244,7 +245,7 @@ class CyberMuyu {
         const currentLevel = this.getCurrentLevel();
         const nextLevel = this.getNextLevel();
         
-        this.level = currentLevel.index + 1;
+        // 只更新显示，不修改等级值（等级值在checkLevelUp中更新）
         this.meritLevelElement.textContent = currentLevel.name;
         this.meritLevelElement.style.color = currentLevel.color;
         
@@ -278,14 +279,23 @@ class CyberMuyu {
     
     checkLevelUp() {
         const currentLevel = this.getCurrentLevel();
-        const previousLevel = this.level - 1;
+        const newLevel = currentLevel.index + 1;
         
-        if (currentLevel.index + 1 > previousLevel) {
+        // 只有当等级真正提升且没有正在显示升级提示时才显示
+        if (newLevel > this.level && !this.isLevelUpShowing) {
+            this.level = newLevel; // 更新等级
             this.showLevelUpEffect(currentLevel);
         }
     }
     
     showLevelUpEffect(level) {
+        // 如果已经在显示升级提示，则不创建新的
+        if (this.isLevelUpShowing) {
+            return;
+        }
+        
+        this.isLevelUpShowing = true;
+        
         // 创建升级提示
         const levelUpElement = document.createElement('div');
         levelUpElement.innerHTML = `
@@ -304,7 +314,7 @@ class CyberMuyu {
                 z-index: 1000;
                 border: 2px solid ${level.color};
                 box-shadow: 0 0 30px ${level.color};
-                animation: levelUpSlideIn 2s ease-in-out;
+                animation: levelUpSlideIn 3s ease-in-out;
                 min-width: 200px;
                 backdrop-filter: blur(10px);
             ">
@@ -317,34 +327,37 @@ class CyberMuyu {
         
         document.body.appendChild(levelUpElement);
         
-        // 添加动画样式
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes levelUpSlideIn {
-                0% { 
-                    transform: translateY(-50%) translateX(100%);
-                    opacity: 0;
+        // 添加动画样式（只添加一次）
+        if (!document.getElementById('levelUpAnimation')) {
+            const style = document.createElement('style');
+            style.id = 'levelUpAnimation';
+            style.textContent = `
+                @keyframes levelUpSlideIn {
+                    0% { 
+                        transform: translateY(-50%) translateX(100%);
+                        opacity: 0;
+                    }
+                    15% { 
+                        transform: translateY(-50%) translateX(0);
+                        opacity: 1;
+                    }
+                    85% { 
+                        transform: translateY(-50%) translateX(0);
+                        opacity: 1;
+                    }
+                    100% { 
+                        transform: translateY(-50%) translateX(100%);
+                        opacity: 0;
+                    }
                 }
-                20% { 
-                    transform: translateY(-50%) translateX(0);
-                    opacity: 1;
-                }
-                80% { 
-                    transform: translateY(-50%) translateX(0);
-                    opacity: 1;
-                }
-                100% { 
-                    transform: translateY(-50%) translateX(100%);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
+            `;
+            document.head.appendChild(style);
+        }
         
-        // 3秒后移除
+        // 3秒后移除并重置标志位
         setTimeout(() => {
             levelUpElement.remove();
-            style.remove();
+            this.isLevelUpShowing = false;
         }, 3000);
     }
     
