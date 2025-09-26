@@ -154,6 +154,9 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       animation: rainbow 2s linear infinite;
+      opacity: 0;
+      transform: scale(1);
+      transition: all 0.3s ease;
     }
 
     @keyframes breathe {
@@ -635,15 +638,25 @@
 
     var rainbow = document.getElementById("rainbow");
 
-    // 给文档添加鼠标移动事件的监听器
-    document.addEventListener("mousemove", function(e) {
-      // 获取鼠标的位置
+    // 给文档添加点击事件的监听器
+    document.addEventListener("click", function(e) {
+      // 获取点击的位置
       var x = e.clientX;
       var y = e.clientY;
 
-      // 设置文字的位置为鼠标的位置
+      // 设置文字的位置为点击的位置
       rainbow.style.left = x + "px";
       rainbow.style.top = y + "px";
+      
+      // 显示文字
+      rainbow.style.opacity = "1";
+      rainbow.style.transform = "scale(1.2)";
+      
+      // 1.5秒后淡出
+      setTimeout(function() {
+        rainbow.style.opacity = "0";
+        rainbow.style.transform = "scale(1)";
+      }, 1500);
     });
   </script>
 </body>
