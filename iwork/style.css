@@ -1,0 +1,301 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 基础样式设置 */
+body {
+    font-family: 'Arial', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    color: white;
+    /* cursor: pointer; */
+    background-image: url('bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* 添加半透明遮罩以提高文字可读性 */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(26, 32, 44, 0.5);
+    z-index: -1;
+}
+
+/* 容器样式 */
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1;
+    pointer-events: none;
+    /* 禁止文本选择 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* 标题样式 */
+h1 {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+/* 段落样式 */
+p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    text-shadow: 0 1px 5px rgba(255, 255, 255, 0.2);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+/* 发光动画 */
+@keyframes glow {
+    from {
+        text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
+    }
+    to {
+        text-shadow: 0 2px 20px rgba(255, 255, 255, 0.6), 0 0 30px rgba(255, 255, 255, 0.3);
+    }
+}
+
+/* 彩虹字效果 */
+.rainbow-text {
+    background: linear-gradient(90deg, 
+        red, orange, yellow, green, blue, indigo, violet,
+        red, orange, yellow, green, blue, indigo, violet
+    );
+    background-size: 400% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    animation: rainbowAnimation 8s linear infinite;
+}
+
+/* 彩虹动画 - 从左向右流动 */
+@keyframes rainbowAnimation {
+    0% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* 拖尾元素基础样式 */
+.trail {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* 爆炸粒子基础样式 */
+.particle {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+    opacity: 0;
+}
+
+/* 倒计时元素样式 */
+.countdown {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    z-index: 100;
+    text-align: center;
+    min-width: 250px;
+    /* 禁止文本选择 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* 倒计时文本样式 */
+.countdown-text {
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 5px;
+    animation: glow 3s ease-in-out infinite alternate;
+}
+
+/* 倒计时时间样式 - 添加发光动画 */
+.countdown-time {
+    font-size: 1.8rem;
+}
+
+/* 设置按钮样式 */
+.settings-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: rgba(255, 99, 71, 0.9);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 99, 71, 0.3);
+}
+
+.settings-btn:hover {
+    background-color: rgba(255, 99, 71, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 99, 71, 0.4);
+}
+
+/* 弹窗样式 */
+.modal {
+    display: none; /* 默认隐藏 */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+}
+
+/* 弹窗内容样式 */
+.modal-content {
+    background-color: rgba(26, 32, 44, 0.95);
+    margin: 15% auto;
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 90%;
+    max-width: 400px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+/* 关闭按钮样式 */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover,
+.close:focus {
+    color: white;
+    text-decoration: none;
+}
+
+/* 弹窗标题样式 */
+.modal-content h2 {
+    color: white;
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+/* 时间选择器样式 */
+.time-picker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+.time-picker label {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.time-picker select {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgb(0, 167, 111);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.time-picker select:hover {
+    border-color: rgba(255, 99, 71, 0.8);
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.time-picker select:focus {
+    outline: none;
+    border-color: rgba(255, 99, 71, 1);
+    box-shadow: 0 0 10px rgba(255, 99, 71, 0.3);
+}
+
+/* 保存按钮样式 */
+.save-btn {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    background-color: rgba(34, 197, 94, 0.9);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+    margin-top: 20px;
+}
+
+.save-btn:hover {
+    background-color: rgba(34, 197, 94, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+}
+
+/* 响应式设计 */
+@media (max-width: 500px) {
+    .modal-content {
+        margin: 30% auto;
+        padding: 20px;
+    }
+    
+    .time-picker {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .time-picker select {
+        width: 100%;
+        max-width: 200px;
+    }
+}

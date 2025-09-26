@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鼠标特效合集</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 下班倒计时元素 -->
+    <div id="countdown" class="countdown"></div>
+    
+    <!-- 设置按钮 -->
+    <button id="settingsBtn" class="settings-btn">设置</button>
+    
+    <!-- 设置弹窗 -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>设置下班时间</h2>
+            <div class="time-picker">
+                <label for="workEndHour">小时:</label>
+                <select id="workEndHour">
+                    <!-- 小时选项将由JS动态生成 -->
+                </select>
+                <label for="workEndMinute">分钟:</label>
+                <select id="workEndMinute">
+                    <!-- 分钟选项将由JS动态生成 -->
+                </select>
+            </div>
+            <button id="saveSettingsBtn" class="save-btn">保存</button>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1 class="rainbow-text">我爱工作</h1>
+        <p>工作使我快乐</p>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
