@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000000;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            color: white;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .message {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .exclamation {
+            font-size: 8rem;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            animation: pulse 0.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        .result {
+            font-size: 3rem;
+            color: #2ed573;
+            text-shadow: 0 0 10px rgba(46, 213, 115, 0.5);
+            margin-bottom: 1rem;
+        }
+
+        .instruction {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-top: 1rem;
+        }
+
+        .waiting-message {
+            font-size: 2rem;
+            color: #ffa502;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .restart-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        .restart-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .history {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            max-width: 200px;
+        }
+
+        .history h3 {
+            margin-bottom: 10px;
+            color: #ffa502;
+        }
+
+        .history-item {
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="message" id="message">点击屏幕开始</div>
+        <div class="instruction">准备好后点击屏幕任意位置</div>
+    </div>
+
+    <div class="history" id="history" style="display: none;">
+        <h3>历史记录</h3>
+        <div id="historyList"></div>
+        <div id="average" style="margin-top: 10px; color: #2ed573;"></div>
+    </div>
+
+    <script>
+        class ReactionTimeTest {
+            constructor() {
+                this.container = document.getElementById('container');
+                this.message = document.getElementById('message');
+                this.history = document.getElementById('history');
+                this.historyList = document.getElementById('historyList');
+                this.average = document.getElementById('average');
+                
+                this.state = 'ready'; // ready, waiting, reaction, result
+                this.startTime = 0;
+                this.timeoutId = null;
+                this.results = [];
+                
+                this.init();
+            }
+
+            init() {
+                this.container.addEventListener('click', (e) => this.handleClick(e));
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                        this.handleClick(e);
+                    }
+                });
+            }
+
+            handleClick(e) {
+                switch(this.state) {
+                    case 'ready':
+                        this.startWaiting();
+                        break;
+                    case 'waiting':
+                        this.tooEarly();
+                        break;
+                    case 'reaction':
+                        this.recordReaction();
+                        break;
+                    case 'result':
+                        this.restart();
+                        break;
+                }
+            }
+
+            startWaiting() {
+                this.state = 'waiting';
+                this.message.textContent = '等待...';
+                this.message.className = 'message waiting-message';
+                this.container.innerHTML = '<div class="message waiting-message">等待感叹号出现...</div><div class="instruction">保持专注，准备点击</div>';
+                
+                // 随机延迟 1-5 秒（毫秒级精度）
+                const delay = Math.random() * 4000 + 1000; // 1000-5000ms
+                
+                this.timeoutId = setTimeout(() => {
+                    this.showExclamation();
+                }, delay);
+            }
+
+            showExclamation() {
+                this.state = 'reaction';
+                this.startTime = performance.now();
+                this.container.innerHTML = '<div class="exclamation">!</div>';
+            }
+
+            recordReaction() {
+                const endTime = performance.now();
+                const reactionTime = Math.round(endTime - this.startTime);
+                
+                this.results.push(reactionTime);
+                this.showResult(reactionTime);
+                this.updateHistory();
+            }
+
+            showResult(reactionTime) {
+                this.state = 'result';
+                
+                let message = '';
+                let color = '';
+                
+                if (reactionTime < 200) {
+                    message = '超快反应！';
+                    color = '#2ed573';
+                } else if (reactionTime < 300) {
+                    message = '反应很快！';
+                    color = '#26d0ce';
+                } else if (reactionTime < 400) {
+                    message = '反应良好';
+                    color = '#ffa502';
+                } else {
+                    message = '需要多练习';
+                    color = '#ff4757';
+                }
+
+                this.container.innerHTML = `
+                    <div class="result" style="color: ${color}">${reactionTime} 毫秒</div>
+                    <div class="message" style="color: ${color}">${message}</div>
+                    <button class="restart-btn" onclick="reactionTest.restart()">再试一次</button>
+                    <div class="instruction">点击按钮或屏幕任意位置重新开始</div>
+                `;
+            }
+
+            tooEarly() {
+                if (this.timeoutId) {
+                    clearTimeout(this.timeoutId);
+                }
+                
+                this.state = 'result';
+                this.container.innerHTML = `
+                    <div class="result" style="color: #ff4757">太早了！</div>
+                    <div class="message" style="color: #ff4757">请等待感叹号出现后再点击</div>
+                    <button class="restart-btn" onclick="reactionTest.restart()">重新开始</button>
+                    <div class="instruction">点击按钮或屏幕任意位置重新开始</div>
+                `;
+            }
+
+            restart() {
+                this.state = 'ready';
+                if (this.timeoutId) {
+                    clearTimeout(this.timeoutId);
+                }
+                
+                this.container.innerHTML = `
+                    <div class="message">点击屏幕开始</div>
+                    <div class="instruction">准备好后点击屏幕任意位置</div>
+                `;
+            }
+
+            updateHistory() {
+                if (this.results.length > 0) {
+                    this.history.style.display = 'block';
+                    
+                    // 显示最近5次结果
+                    const recentResults = this.results.slice(-5).reverse();
+                    this.historyList.innerHTML = recentResults.map((time, index) => 
+                        `<div class="history-item">${recentResults.length - index}. ${time}ms</div>`
+                    ).join('');
+                    
+                    // 计算平均值
+                    const avg = Math.round(this.results.reduce((a, b) => a + b, 0) / this.results.length);
+                    this.average.textContent = `平均: ${avg}ms`;
+                }
+            }
+        }
+
+        // 初始化游戏
+        const reactionTest = new ReactionTimeTest();
+
+        // 防止右键菜单
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        
+        // 防止选择文本
+        document.addEventListener('selectstart', e => e.preventDefault());
+    </script>
+</body>
+</html>
