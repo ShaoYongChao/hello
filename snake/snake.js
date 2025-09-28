@@ -26,8 +26,16 @@ class SnakeGame {
         this.keys = {};
         this.lastMoveTime = 0;
         
+        // 触摸控制
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+        this.touchEndX = 0;
+        this.touchEndY = 0;
+        this.minSwipeDistance = 30; // 最小滑动距离
+        
         this.initializeElements();
         this.setupEventListeners();
+        this.setupResponsiveCanvas();
         this.updateHighScoreDisplay();
     }
     
@@ -93,11 +101,26 @@ class SnakeGame {
             btn.addEventListener('click', (e) => this.handleDirectionClick(e));
         });
         
+        // 触摸事件
+        this.canvas.addEventListener('touchstart', (e) => this.handleTouchStart(e));
+        this.canvas.addEventListener('touchend', (e) => this.handleTouchEnd(e));
+        
+        // 防止触摸默认行为
+        this.canvas.addEventListener('touchstart', (e) => e.preventDefault());
+        this.canvas.addEventListener('touchmove', (e) => e.preventDefault());
+        this.canvas.addEventListener('touchend', (e) => e.preventDefault());
+        
         // 防止方向键滚动页面
         window.addEventListener('keydown', (e) => {
             if(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
                 e.preventDefault();
             }
+        });
+        
+        // 窗口大小变化事件
+        window.addEventListener('resize', () => this.handleResize());
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => this.handleResize(), 100);
         });
     }
     
@@ -118,6 +141,7 @@ class SnakeGame {
         this.gameContainer.classList.remove('hidden');
         this.gameState = 'playing';
         this.initializeGame();
+        this.handleResize(); // 确保画布大小正确
         this.gameLoop();
     }
     
@@ -216,6 +240,79 @@ class SnakeGame {
                 }
                 break;
         }
+    }
+    
+    handleTouchStart(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        this.touchStartX = touch.clientX;
+        this.touchStartY = touch.clientY;
+    }
+    
+    handleTouchEnd(e) {
+        e.preventDefault();
+        if (this.gameState !== 'playing') return;
+        
+        const touch = e.changedTouches[0];
+        this.touchEndX = touch.clientX;
+        this.touchEndY = touch.clientY;
+        
+        this.handleSwipe();
+    }
+    
+    handleSwipe() {
+        const deltaX = this.touchEndX - this.touchStartX;
+        const deltaY = this.touchEndY - this.touchStartY;
+        
+        // 计算滑动距离
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        // 如果滑动距离太小，忽略
+        if (distance < this.minSwipeDistance) return;
+        
+        // 判断滑动方向
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            // 水平滑动
+            if (deltaX > 0 && this.direction.x === 0) {
+                // 向右滑动
+                this.nextDirection = { x: 1, y: 0 };
+            } else if (deltaX < 0 && this.direction.x === 0) {
+                // 向左滑动
+                this.nextDirection = { x: -1, y: 0 };
+            }
+        } else {
+            // 垂直滑动
+            if (deltaY > 0 && this.direction.y === 0) {
+                // 向下滑动
+                this.nextDirection = { x: 0, y: 1 };
+            } else if (deltaY < 0 && this.direction.y === 0) {
+                // 向上滑动
+                this.nextDirection = { x: 0, y: -1 };
+            }
+        }
+    }
+    
+    setupResponsiveCanvas() {
+        this.handleResize();
+    }
+    
+    handleResize() {
+        const container = this.gameContainer;
+        if (!container || container.classList.contains('hidden')) return;
+        
+        // 获取可用空间
+        const maxWidth = Math.min(window.innerWidth - 40, 600);
+        const maxHeight = Math.min(window.innerHeight - 200, 600);
+        
+        // 保持正方形比例
+        const size = Math.min(maxWidth, maxHeight);
+        
+        // 应用新尺寸
+        this.canvas.style.width = size + 'px';
+        this.canvas.style.height = size + 'px';
+        
+        // 存储缩放比例
+        this.canvasScale = size / this.canvasSize;
     }
     
     togglePause() {
