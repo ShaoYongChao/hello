@@ -653,6 +653,26 @@
                         =SUBTOTAL(109, A1:A10) 对A1:A10求和（不包含隐藏行）
                     </div>
                 </div>
+
+                <div class="function-item">
+                    <div class="function-name">INDIRECT - 文本转引用（间接引用）</div>
+                    <div class="function-syntax">=INDIRECT(ref_text, [a1])</div>
+                    <p><strong>参数说明：</strong></p>
+                    <ul style="margin-left: 20px;">
+                        <li>ref_text：文本形式的单元格/区域/表名，如 "A1"、"Sheet2!B3"、"B"&E1</li>
+                        <li>a1：[可选] 引用样式，省略或TRUE为A1样式；FALSE为R1C1样式</li>
+                    </ul>
+                    <div class="function-example">
+                        <div class="example-title">实例：</div>
+                        1) 动态行引用：=INDIRECT("A"&ROW()) 引用当前行的A列<br>
+                        2) 动态工作表引用：=INDIRECT($B$1&"!A1")，当B1=Sheet2 时，等同于 =Sheet2!A1<br>
+                        3) 动态区域求和：=SUM(INDIRECT("B"&E1&":B"&E2))，当E1=2,E2=10 时等同于 =SUM(B2:B10)
+                    </div>
+                    <div class="function-example" style="background:#fffaf0; border-color:#f6ad55;">
+                        <div class="example-title">提示：</div>
+                        INDIRECT 为易变函数（每次重算都会计算），大量使用会影响性能；与合并单元格、关闭的外部工作簿配合时要注意引用是否有效。
+                    </div>
+                </div>
             </div>
         </div>
     </div>
