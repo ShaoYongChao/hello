@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+    background: radial-gradient(ellipse at center, #1C2837 0%, #050608 100%);
     color: white;
     min-height: 100vh;
     overflow-x: hidden;
@@ -180,6 +180,21 @@ input[type="range"] {
     width: 800px;
     height: 800px;
     margin: 20px auto;
+}
+.solar-system #space-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+/* 隐藏原有DOM天体与轨道，改用Canvas渲染 */
+.solar-system .sun,
+.solar-system .orbit,
+.solar-system .planet,
+.solar-system .moon-orbit,
+.solar-system .saturn-rings {
+    display: none !important;
 }
 
 .sun {

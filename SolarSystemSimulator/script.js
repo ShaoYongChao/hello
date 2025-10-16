@@ -10,6 +10,7 @@ class SolarSystemSimulator {
         this.setupPlanetInfo();
         this.setupPlanetList();
         this.updateAnimationSpeed();
+        this.setupCanvas();
     }
 
     setupControls() {
@@ -49,22 +50,12 @@ class SolarSystemSimulator {
     }
 
     reset() {
-        const orbits = document.querySelectorAll('.orbit');
-        const moonOrbit = document.querySelector('.moon-orbit');
-        
-        // 重置所有轨道动画
-        orbits.forEach(orbit => {
-            orbit.style.animation = 'none';
-            orbit.offsetHeight; // 触发重排
-            orbit.style.animation = null;
-        });
-        
-        if (moonOrbit) {
-            moonOrbit.style.animation = 'none';
-            moonOrbit.offsetHeight;
-            moonOrbit.style.animation = null;
-        }
-        
+        // 仅重置速度为 1，并同步 UI 与动画速度
+        this.speed = 1;
+        const speedSlider = document.getElementById('speed');
+        const speedValue = document.getElementById('speedValue');
+        if (speedSlider) speedSlider.value = '1';
+        if (speedValue) speedValue.textContent = '1x';
         this.updateAnimationSpeed();
     }
 
@@ -296,6 +287,161 @@ class SolarSystemSimulator {
     }
 }
 
+SolarSystemSimulator.prototype.setupCanvas = function() {
+    const container = document.querySelector('.solar-system');
+    const canvas = document.getElementById('space-canvas');
+    if (!container || !canvas) return;
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
+
+    const resize = () => {
+        const dpr = window.devicePixelRatio || 1;
+        const rect = container.getBoundingClientRect();
+        canvas.width = Math.floor(rect.width * dpr);
+        canvas.height = Math.floor(rect.height * dpr);
+        canvas.style.width = rect.width + 'px';
+        canvas.style.height = rect.height + 'px';
+        this.cx = canvas.width / 2;
+        this.cy = canvas.height / 2;
+        this.scaleY = 0.8; // 椭圆纵向压缩比例
+    };
+    window.addEventListener('resize', resize);
+    resize();
+
+    this.loadImages().then(() => {
+        this.initPlanets();
+        this.lastTs = performance.now();
+        const tick = (ts) => {
+            if (!this.isPlaying) {
+                this.lastTs = ts;
+                requestAnimationFrame(tick);
+                return;
+            }
+            const dt = Math.min(50, ts - this.lastTs); // ms
+            this.lastTs = ts;
+            this.update(dt);
+            this.draw();
+            requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+    });
+};
+
+SolarSystemSimulator.prototype.loadImages = function() {
+    const urls = {
+        sun: 'https://img.alicdn.com/imgextra/i1/O1CN01oVLbLx22VlN34KDQs_!!6000000007126-2-tps-800-800.png',
+        mercury: 'https://img.alicdn.com/imgextra/i2/O1CN01UjgqIB1SrRxQfrflh_!!6000000002300-2-tps-800-800.png',
+        venus: 'https://img.alicdn.com/imgextra/i3/O1CN01JGEgLU1dfxnVvp91R_!!6000000003764-2-tps-800-800.png',
+        earth: 'https://img.alicdn.com/imgextra/i4/O1CN01R6wlzD1IhhMlBcGLg_!!6000000000925-2-tps-800-800.png',
+        moon: 'https://img.alicdn.com/imgextra/i4/O1CN01Ad5SeB20tv1nfRoA2_!!6000000006908-2-tps-800-800.png',
+        mars: 'https://img.alicdn.com/imgextra/i1/O1CN01OlZAk81OVEHJ0pazq_!!6000000001710-2-tps-800-800.png',
+        jupiter: 'https://img.alicdn.com/imgextra/i2/O1CN01MA3Mk51bAhWxWxHim_!!6000000003425-2-tps-800-800.png',
+        saturn: 'https://img.alicdn.com/imgextra/i2/O1CN01NG2FjS1XDDEofNNhg_!!6000000002889-2-tps-800-800.png',
+        uranus: 'https://img.alicdn.com/imgextra/i1/O1CN01wnxTX51xIPkTHqPBr_!!6000000006420-2-tps-800-800.png',
+        neptune: 'https://img.alicdn.com/imgextra/i1/O1CN01LTf0rT25zwJWsIDkD_!!6000000007598-2-tps-800-800.png'
+    };
+    this.images = {};
+    const load = (key, src) => new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => resolve({ key, img });
+        img.onerror = reject;
+        img.src = src;
+    });
+    const tasks = Object.entries(urls).map(([k, v]) => load(k, v));
+    return Promise.all(tasks).then(res => {
+        res.forEach(({ key, img }) => this.images[key] = img);
+    });
+};
+
+SolarSystemSimulator.prototype.initPlanets = function() {
+    this.planetConfigs = [
+        { key: 'mercury', rx: 60, factor: 4, size: 5 },
+        { key: 'venus',   rx: 90, factor: 3, size: 8 },
+        { key: 'earth',   rx: 120, factor: 2, size: 10 },
+        { key: 'mars',    rx: 150, factor: 1.5, size: 7 },
+        { key: 'jupiter', rx: 180, factor: 1, size: 12 },
+        { key: 'saturn',  rx: 210, factor: 0.8, size: 24 },
+        { key: 'uranus',  rx: 240, factor: 0.5, size: 9 },
+        { key: 'neptune', rx: 270, factor: 0.4, size: 8 }
+    ];
+    this.angles = {};
+    this.planetConfigs.forEach(p => this.angles[p.key] = 0);
+    this.moonAngle = 0;
+    this.baseAngularSpeed = 0.0015; // rad/ms
+};
+
+SolarSystemSimulator.prototype.update = function(dt) {
+    const speed = this.speed;
+    this.planetConfigs.forEach(p => {
+        this.angles[p.key] += dt * this.baseAngularSpeed * p.factor * speed;
+    });
+    this.moonAngle += dt * this.baseAngularSpeed * 6 * speed;
+};
+
+SolarSystemSimulator.prototype.draw = function() {
+    const ctx = this.ctx;
+    if (!ctx) return;
+    const dpr = window.devicePixelRatio || 1;
+    const cx = this.cx;
+    const cy = this.cy;
+    const scaleY = this.scaleY || 1;
+
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    // 轨道 - 虚线+透明度0.2
+    ctx.save();
+    ctx.setLineDash([6 * dpr, 6 * dpr]);
+    ctx.lineWidth = 1 * dpr;
+    ctx.strokeStyle = 'white';
+    ctx.globalAlpha = 0.2;
+    (this.planetConfigs || []).forEach(p => {
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, p.rx * dpr, p.rx * scaleY * dpr, 0, 0, Math.PI * 2);
+        ctx.stroke();
+    });
+    ctx.restore();
+
+    // 太阳 60px
+    if (this.images && this.images.sun) {
+        const size = 60 * dpr;
+        ctx.drawImage(this.images.sun, cx - size / 2, cy - size / 2, size, size);
+    }
+
+    // 行星与地月
+    (this.planetConfigs || []).forEach(p => {
+        const a = this.angles[p.key];
+        const rx = p.rx * dpr;
+        const ry = p.rx * scaleY * dpr;
+        const x = cx + rx * Math.cos(a);
+        const y = cy + ry * Math.sin(a);
+        const img = this.images[p.key];
+        if (img) {
+            const size = p.size * dpr;
+            ctx.drawImage(img, x - size / 2, y - size / 2, size, size);
+        }
+        if (p.key === 'earth' && this.images.moon) {
+            const orbitR = 10 * dpr;
+            const moonSize = 20 * dpr; // 直径=20px（半径10px）
+            const mx = x + orbitR * Math.cos(this.moonAngle);
+            const my = y + orbitR * Math.sin(this.moonAngle) * scaleY;
+
+            // 月球轨道
+            ctx.save();
+            ctx.setLineDash([4 * dpr, 4 * dpr]);
+            ctx.lineWidth = 1 * dpr;
+            ctx.strokeStyle = 'white';
+            ctx.globalAlpha = 0.15;
+            ctx.beginPath();
+            ctx.ellipse(x, y, orbitR, orbitR * scaleY, 0, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.drawImage(this.images.moon, mx - moonSize / 2, my - moonSize / 2, moonSize, moonSize);
+        }
+    });
+};
+
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', () => {
     new SolarSystemSimulator();
@@ -320,13 +466,14 @@ function createStarField() {
     for (let i = 0; i < 200; i++) {
         const star = document.createElement('div');
         star.style.position = 'absolute';
-        star.style.width = Math.random() * 2 + 'px';
-        star.style.height = star.style.width;
+        const size = (Math.random() * 0.5 + 0.5);
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
         star.style.backgroundColor = 'white';
         star.style.borderRadius = '50%';
         star.style.left = Math.random() * 100 + '%';
         star.style.top = Math.random() * 100 + '%';
-        star.style.opacity = Math.random() * 0.8 + 0.2;
+        star.style.opacity = (Math.random() * 0.5 + 0.5).toFixed(2);
         
         // 添加闪烁效果
         star.style.animation = `twinkle ${Math.random() * 3 + 2}s infinite`;
