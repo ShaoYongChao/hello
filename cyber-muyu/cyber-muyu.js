@@ -28,6 +28,7 @@ class CyberMuyu {
     initializeElements() {
         this.meritCounter = document.getElementById('merit-counter');
         this.muyu = document.getElementById('muyu');
+        this.hammer = document.getElementById('hammer');
         this.hitEffect = document.getElementById('hit-effect');
         this.particlesContainer = document.getElementById('particles-container');
         this.todayHitsElement = document.getElementById('today-hits');
@@ -67,6 +68,8 @@ class CyberMuyu {
         this.playHitSound();
         
         // 视觉效果
+        this.showHammerAnimation();
+        this.showMuyuAnimation();
         this.showHitEffect();
         this.createParticles(e);
         this.animateMeritCounter(meritGain);
@@ -132,6 +135,22 @@ class CyberMuyu {
         } catch (e) {
             // 忽略音频上下文错误
         }
+    }
+    
+    showHammerAnimation() {
+        // 添加锤子敲击动画
+        this.hammer.classList.add('hit');
+        setTimeout(() => {
+            this.hammer.classList.remove('hit');
+        }, 100);
+    }
+    
+    showMuyuAnimation() {
+        // 添加木鱼放大动画
+        this.muyu.classList.add('hit');
+        setTimeout(() => {
+            this.muyu.classList.remove('hit');
+        }, 100);
     }
     
     showHitEffect() {

@@ -157,10 +157,42 @@ body {
     transform: scale(0.95);
 }
 
+.muyu.hit {
+    transform: scale(1.1);
+}
+
+/* 锤子样式 */
+.hammer {
+    position: absolute;
+    top: 0px;
+    right: -15px;
+    width: 119px;
+    height: 69px;
+    pointer-events: none;
+    z-index: 10;
+    transition: transform 0.1s ease;
+}
+
+.hammer-body {
+    width: 100%;
+    height: 100%;
+    background: url('https://img.alicdn.com/imgextra/i1/O1CN01tKb5Et1aSjWRjCHK3_!!6000000003329-2-tps-119-69.png') center/contain no-repeat;
+    transform-origin: 30% 50%;
+    transition: transform 0.1s ease;
+}
+
+.hammer.hit {
+    transform: translate(-15px, 30px);
+}
+
+.hammer.hit .hammer-body {
+    transform: rotate(-45deg);
+}
+
 .muyu-body {
     width: 100%;
     height: 100%;
-    background: url('./木鱼.png') center/contain no-repeat;
+    background: url('https://img.alicdn.com/imgextra/i3/O1CN012CO0YU1VSfNs506ZS_!!6000000002652-2-tps-284-236.png') center/contain no-repeat;
     border-radius: 50%;
     position: relative;
     /* border: 3px solid #654321; */
@@ -168,6 +200,7 @@ body {
         0 10px 30px rgba(0, 0, 0, 0.5),
         inset 0 5px 15px rgba(255, 255, 255, 0.2),
         inset 0 -5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.1s ease;
 }
 
 .muyu-pattern {
