@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>键盘与鼠标按键测试</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root{
+      --bg:#0f1218;
+      --panel:#1a1f29;
+      --key:#2a3242;
+      --key-top:#323b4f;
+      --key-press:#4e8cff;
+      --key-text:#e7ecf3;
+      --hint:#8aa0bd;
+      --good:#32d27a;
+      --warn:#ffc857;
+      --danger:#ff6b6b;
+      --gap:8px;
+      --radius:8px;
+      --unit:42px; /* 单位键宽 */
+      --cluster-gap:24px; /* 功能键分组间距 */
+      --nav-offset:1; /* 方向键上方留白(单位倍数)，用于与Space底对齐 */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#0e1117,#121826 30%,#0e1117);
+      color:var(--key-text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,'Microsoft Yahei',sans-serif;
+      -webkit-font-smoothing:antialiased;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:16px;
+      padding:16px;
+    }
+    header{
+      width:100%;
+      max-width:1400px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .title{
+      font-weight:700;
+      font-size:20px;
+      letter-spacing:.5px;
+    }
+    .help{
+      color:var(--hint);
+      font-size:13px;
+    }
+    .wrap{
+      width:100%;
+      max-width:1400px;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+    .bottom{
+      display:grid;
+      grid-template-columns: 1fr 360px; /* 左：状态，右：鼠标 */
+      gap:16px;
+      align-items:stretch;
+    }
+    .board{
+      background:var(--panel);
+      border-radius:16px;
+      padding:16px;
+      box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .row{
+      display:flex;
+      flex-wrap:nowrap;
+      gap:var(--gap);
+      align-items:stretch;
+      min-height:var(--unit);
+    }
+    .cluster{
+      display:flex;
+      gap:16px;
+    }
+    /* 功能键分组占位 */
+    .spacer{
+      width:var(--cluster-gap);
+      height:var(--unit);
+      flex:0 0 auto;
+    }
+    /* 数字小键盘网格 */
+    .numpad{
+      display:grid;
+      grid-template-columns: repeat(4, var(--unit));
+      grid-auto-rows: var(--unit);
+      gap:var(--gap);
+      margin: left 14px;;
+    }
+    /* 数字小键盘上方指示灯 */
+    .leds{
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:flex-end;
+      margin-left:auto;
+      margin-bottom:0;
+      padding:0 2px;
+    }
+    .led{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:12px;
+      color:var(--hint);
+      user-select:none;
+    }
+    .lamp{
+      width:10px;height:10px;border-radius:50%;
+      background:#3a4256;
+      box-shadow:inset 0 1px 2px rgba(0,0,0,.5);
+      border:1px solid rgba(255,255,255,.08);
+      transition:background .12s ease, box-shadow .12s ease;
+    }
+    .lamp.on{
+      background:var(--good);
+      box-shadow:
+        0 0 6px rgba(50,210,122,.6),
+        0 0 0 2px rgba(50,210,122,.15),
+        inset 0 1px 2px rgba(0,0,0,.4);
+    }
+    .block{
+      display:flex;
+      flex-direction:column;
+      gap:var(--gap);
+    }
+    .key{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:var(--unit);
+      width:var(--unit);
+      background:linear-gradient(180deg,var(--key-top),var(--key));
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.06);
+      box-shadow:
+        0 3px 0 rgba(0,0,0,.4),
+        inset 0 1px 0 rgba(255,255,255,.05);
+      color:var(--key-text);
+      font-weight:600;
+      font-size:13px;
+      user-select:none;
+      transition:transform .04s ease, box-shadow .04s ease, background .1s ease, color .1s ease, outline-color .1s ease;
+      outline:2px solid transparent;
+      padding:0 6px;
+      text-align:center;
+      flex:0 0 auto;
+    }
+    .key .small{font-size:11px;font-weight:500;color:var(--hint)}
+    .key .sub{position:absolute;right:6px;bottom:4px;font-size:10px;color:var(--hint)}
+    /* 不同宽度键：宽度=单位宽*倍数 + 间隙*(倍数-1) 以贴近物理键间距 */
+    .key.w2{width:calc(var(--unit)*2 + var(--gap))}
+    .key.w3{width:calc(var(--unit)*3 + var(--gap)*2)}
+    .key.w4{width:calc(var(--unit)*4 + var(--gap)*3)}
+    .key.w5{width:calc(var(--unit)*5 + var(--gap)*4)}
+    .key.w6{width:calc(var(--unit)*6 + var(--gap)*5)}
+    .key.w7{width:calc(var(--unit)*7 + var(--gap)*6)}
+    .key.sticky{justify-content:flex-start;padding-left:10px}
+    .key.pressed{
+      transform:translateY(2px);
+      background:linear-gradient(180deg, #3a6fe0, #1e4fb5);
+      box-shadow:
+        0 1px 0 rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.08);
+      color:#fff;
+      outline-color:rgba(78,140,255,.6);
+    }
+    .sep{height:2px;background:rgba(255,255,255,.04);margin:4px 0}
+    /* 右侧面板 */
+    .side{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+    .card{
+      background:var(--panel);
+      border-radius:16px;
+      padding:16px;
+      box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
+    }
+    .status{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:8px;
+      font-size:14px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      background:#0f1626;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:999px;
+      color:var(--hint);
+      width:100%;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--warn)}
+    .badge.ok .dot{background:var(--good)}
+    .kbd{
+      background:#101521;border:1px solid rgba(255,255,255,.08);padding:2px 6px;border-radius:6px;color:#cfe1ff
+    }
+    /* 鼠标外形 */
+    .mouse{
+      position:relative;
+      width:220px;
+      height:360px;
+      margin:0 auto;
+      border-radius:120px;
+      background:radial-gradient(110% 60% at 50% 20%, #2b3447, #1f2634);
+      border:1px solid rgba(255,255,255,.06);
+      box-shadow:inset 0 8px 20px rgba(0,0,0,.35), 0 20px 40px rgba(0,0,0,.35);
+    }
+    .mouse .split{
+      position:absolute;top:56px;left:14px;right:14px;height:100px;display:flex;gap:10px
+    }
+    .btn{
+      flex:1;
+      border-radius:14px;
+      background:linear-gradient(180deg,#3a455c,#2a3246);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:inset 0 3px 10px rgba(0,0,0,.35);
+      position:relative;
+      transition:transform .04s ease, background .1s ease, outline-color .1s ease;
+      outline:2px solid transparent;
+    }
+    .btn .label{
+      position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:12px;color:var(--hint)
+    }
+    .btn.middle{
+      position:absolute;left:50%;transform:translateX(-50%);top:60px;width:44px;height:116px;border-radius:12px
+    }
+    .wheel{
+      position:absolute;left:50%;transform:translateX(-50%);top:188px;width:46px;height:46px;border-radius:12px;
+      background:linear-gradient(180deg,#444f66,#2c3448);
+      border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;gap:4px;color:var(--hint);font-size:11px
+    }
+    .arrow{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent}
+    .arrow.up{border-bottom:8px solid var(--hint)}
+    .arrow.down{border-top:8px solid var(--hint)}
+    .btn.pressed{
+      transform:translateY(2px);
+      background:linear-gradient(180deg,#3f79ff,#1e4fb5);
+      outline-color:rgba(78,140,255,.6);
+    }
+    /* 中键按下仅高亮，保持水平居中 */
+    .btn.middle.pressed{ transform:translateX(-50%) !important }
+    .wheel.flash{
+      box-shadow:0 0 0 6px rgba(255,255,255,.05), 0 0 0 12px rgba(78,140,255,.15);
+      color:#cfe1ff;
+    }
+    footer{color:var(--hint);font-size:12px}
+    /* 响应式 */
+    @media (max-width: 1100px){
+      .bottom{grid-template-columns:1fr}
+      .mouse{transform:scale(.9);transform-origin:top center}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title">键盘与鼠标按键测试</div>
+    <div class="help">提示：按下实际键盘/鼠标，页面会同步高亮对应按键；右键测试时页面会阻止默认菜单</div>
+  </header>
+
+  <div class="wrap">
+    <!-- 键盘区域 -->
+    <div class="board" id="keyboardBoard">
+      <div class="row" id="row-fn"></div>
+      <div class="leds" id="ledsPanel">
+        <div class="led">Caps <span id="capsLamp" class="lamp"></span></div>
+        <div class="led">Num <span id="numLamp" class="lamp"></span></div>
+        <div class="led">Scroll <span id="scrollLamp" class="lamp"></span></div>
+      </div>
+      <div class="sep"></div>
+      <div class="cluster">
+        <div class="block" id="block-main"></div>
+        <div class="block" id="block-nav"></div>
+        <div class="block" id="block-num"></div>
+      </div>
+    </div>
+
+    <!-- 下方：状态与鼠标 -->
+    <div class="bottom">
+      <div class="card status">
+        <div class="badge ok"><span class="dot"></span>状态：就绪</div>
+        <div class="badge">最近按键：<span id="lastKey" class="kbd" style="margin-left:8px">无</span></div>
+        <div class="badge">当前按下数量：<span id="count" class="kbd" style="margin-left:8px">0</span></div>
+        
+        <div class="badge">提示：若切出窗口，所有高亮会自动清空</div>
+      </div>
+
+      <div class="card side">
+        <div class="mouse" id="mouse">
+          <div class="split">
+            <div class="btn" id="btn-left"><div class="label">左键</div></div>
+            <div class="btn" id="btn-right"><div class="label">右键</div></div>
+          </div>
+          <div class="btn middle" id="btn-middle"></div>
+          <div class="wheel" id="wheel">
+            <div class="arrow up"></div>
+            <div class="arrow down"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>ANSI 布局示意，可能与个别键盘物理布局略有差异；数字小键盘与导航区独立高亮。</footer>
+
+<script>
+(function(){
+  // 定义布局（使用 KeyboardEvent.code）
+  const fnRow = [
+    {label:'Esc', code:'Escape'},
+    {spacer:true},
+    {spacer:true},
+    {label:'F1', code:'F1'},{label:'F2', code:'F2'},{label:'F3', code:'F3'},{label:'F4', code:'F4'},
+    {spacer:true},
+    {label:'F5', code:'F5'},{label:'F6', code:'F6'},{label:'F7', code:'F7'},{label:'F8', code:'F8'},
+    {spacer:true},
+    {label:'F9', code:'F9'},{label:'F10', code:'F10'},{label:'F11', code:'F11'},{label:'F12', code:'F12'},
+    {spacer:true},
+    {label:'PrtSc', code:'PrintScreen'},{label:'Scroll', code:'ScrollLock'},{label:'Pause', code:'Pause'}
+  ];
+
+  const mainRows = [
+    [
+      {label:'~', sub:'`', code:'Backquote'},
+      {label:'1', code:'Digit1'},{label:'2', code:'Digit2'},{label:'3', code:'Digit3'},{label:'4', code:'Digit4'},
+      {label:'5', code:'Digit5'},{label:'6', code:'Digit6'},{label:'7', code:'Digit7'},{label:'8', code:'Digit8'},
+      {label:'9', code:'Digit9'},{label:'0', code:'Digit0'},{label:'-', code:'Minus'},{label:'=', code:'Equal'},
+      {label:'Backspace', code:'Backspace', w:3}
+    ],
+    [
+      {label:'Tab', code:'Tab', w:2, sticky:true},
+      {label:'Q', code:'KeyQ'},{label:'W', code:'KeyW'},{label:'E', code:'KeyE'},{label:'R', code:'KeyR'},
+      {label:'T', code:'KeyT'},{label:'Y', code:'KeyY'},{label:'U', code:'KeyU'},{label:'I', code:'KeyI'},
+      {label:'O', code:'KeyO'},{label:'P', code:'KeyP'},{label:'[', code:'BracketLeft'},{label:']', code:'BracketRight'},
+      {label:'\\', code:'Backslash', w:2}
+    ],
+    [
+      {label:'Caps', code:'CapsLock', w:2, sticky:true},
+      {label:'A', code:'KeyA'},{label:'S', code:'KeyS'},{label:'D', code:'KeyD'},{label:'F', code:'KeyF'},
+      {label:'G', code:'KeyG'},{label:'H', code:'KeyH'},{label:'J', code:'KeyJ'},{label:'K', code:'KeyK'},
+      {label:'L', code:'KeyL'},{label:';', code:'Semicolon'},{label:"'", code:'Quote'},
+      {label:'Enter', code:'Enter', w:3, sticky:true}
+    ],
+    [
+      {label:'Shift', code:'ShiftLeft', w:3, sticky:true},
+      {label:'Z', code:'KeyZ'},{label:'X', code:'KeyX'},{label:'C', code:'KeyC'},{label:'V', code:'KeyV'},
+      {label:'B', code:'KeyB'},{label:'N', code:'KeyN'},{label:'M', code:'KeyM'},{label:',', code:'Comma'},
+      {label:'.', code:'Period'},{label:'/', code:'Slash'},
+      {label:'Shift', code:'ShiftRight', w:3, sticky:true}
+    ],
+    [
+      {label:'Ctrl', code:'ControlLeft', w:2, sticky:true},
+      {label:'Win', code:'MetaLeft', w:1.5, sticky:true},
+      {label:'Alt', code:'AltLeft', w:2, sticky:true},
+      {label:'Space', code:'Space', w:5},
+      {label:'Alt', code:'AltRight', w:2, sticky:true},
+      {label:'Menu', code:'ContextMenu', w:1.5},
+      {label:'Ctrl', code:'ControlRight', w:2, sticky:true}
+    ],
+  ];
+
+  const navBlock = [
+    [
+      {label:'Ins', code:'Insert'},{label:'Home', code:'Home'},{label:'PgUp', code:'PageUp'}
+    ],
+    [
+      {label:'Del', code:'Delete'},{label:'End', code:'End'},{label:'PgDn', code:'PageDown'}
+    ],
+    [
+      {label:'↑', code:'ArrowUp', w:3}
+    ],
+    [
+      {label:'←', code:'ArrowLeft', w:1},
+      {label:'↓', code:'ArrowDown', w:1},
+      {label:'→', code:'ArrowRight', w:1}
+    ]
+  ];
+
+  const numBlock = [
+    [
+      {label:'Num', code:'NumLock'},
+      {label:'/', code:'NumpadDivide'},
+      {label:'*', code:'NumpadMultiply'},
+      {label:'-', code:'NumpadSubtract'}
+    ],
+    [
+      {label:'7', code:'Numpad7'},
+      {label:'8', code:'Numpad8'},
+      {label:'9', code:'Numpad9'},
+      {label:'+ ', code:'NumpadAdd', w:1, h2:true}
+    ],
+    [
+      {label:'4', code:'Numpad4'},
+      {label:'5', code:'Numpad5'},
+      {label:'6', code:'Numpad6'}
+    ],
+    [
+      {label:'1', code:'Numpad1'},
+      {label:'2', code:'Numpad2'},
+      {label:'3', code:'Numpad3'},
+      {label:'Enter', code:'NumpadEnter', w:1, h2:true}
+    ],
+    [
+      {label:'0', code:'Numpad0', w:2},
+      {label:'.', code:'NumpadDecimal'}
+    ],
+  ];
+
+  // DOM 构建
+  const elFn = document.getElementById('row-fn');
+  const elMain = document.getElementById('block-main');
+  const elNav = document.getElementById('block-nav');
+  const elNum = document.getElementById('block-num');
+
+  function createKey(k){
+    if(k.spacer){
+      const s = document.createElement('div');
+      s.className = 'spacer';
+      return s;
+    }
+    const div = document.createElement('div');
+    div.className = 'key' + (Number.isInteger(k.w)?(' w'+k.w):'') + (k.sticky?' sticky':'');
+    if(k.code){
+      div.dataset.code = k.code;
+      div.title = k.code;
+    }
+    // 支持小数倍宽
+    if(k.w && !Number.isInteger(k.w)){
+      div.style.width = `calc(var(--unit)*${k.w} + var(--gap)*(${k.w} - 1))`;
+    }
+    if(k.h2){
+      div.style.height = 'calc(var(--unit)*2 + var(--gap))';
+    }
+    const label = document.createElement('span');
+    label.textContent = k.label ?? '';
+    div.appendChild(label);
+    if(k.sub){
+      const sub = document.createElement('span');
+      sub.className = 'sub';
+      sub.textContent = k.sub;
+      div.appendChild(sub);
+    }
+    return div;
+  }
+
+  function createRow(container, rowDef){
+    const row = document.createElement('div');
+    row.className = 'row';
+    rowDef.forEach(k=>{
+      row.appendChild(createKey(k));
+    });
+    container.appendChild(row);
+  }
+
+  // 功能键行
+  createRow(elFn, fnRow);
+  // 将 LED 指示灯移入功能键行右侧，保持与 F* 同一行
+  (function(){
+    const rowFnEl = document.getElementById('row-fn');
+    const ledsPanel = document.getElementById('ledsPanel');
+    if(rowFnEl && ledsPanel && ledsPanel.parentElement !== rowFnEl){
+      rowFnEl.appendChild(ledsPanel);
+    }
+  })();
+  // 使 LED 左侧与小键盘左侧对齐（自适应全屏/非全屏）
+  // LED 与小键盘左侧保持固定原始间隙（防全屏时间隙变大）
+  let ledBaseDelta = null;
+  function alignLeds(){
+    const panel = document.getElementById('ledsPanel');
+    const num = document.getElementById('block-num');
+    if(!panel || !num) return;
+    const pr = panel.getBoundingClientRect();
+    const nr = num.getBoundingClientRect();
+    const measured = Math.max(16, Math.round(nr.left - pr.left)); // 最小16px视觉缓冲
+    if(ledBaseDelta === null){
+      ledBaseDelta = measured; // 第一次记录原始间隙
+    }
+    panel.style.marginLeft = ledBaseDelta + 'px'; // 后续保持原间隙
+  }
+  alignLeds();
+  window.addEventListener('resize', alignLeds);
+  // 主键区 5 行
+  mainRows.forEach(r => createRow(elMain, r));
+  // 导航区与方向键
+  navBlock.forEach(r => createRow(elNav, r));
+  // 在方向键上方添加空隙并使底部对齐
+  alignNavPad();
+  // 数字小键盘采用网格布局，修复错乱
+  buildNumPad(elNum);
+
+  // 事件处理
+  const pressed = new Set();
+  const lastKeyEl = document.getElementById('lastKey');
+  const countEl = document.getElementById('count');
+
+  function setKeyPressed(code, isDown){
+    const el = document.querySelector(`.key[data-code="${CSS.escape(code)}"]`);
+    if(!el) return;
+    if(isDown){
+      el.classList.add('pressed');
+      pressed.add(code);
+    }else{
+      el.classList.remove('pressed');
+      pressed.delete(code);
+    }
+    countEl.textContent = String(pressed.size);
+  }
+
+  window.addEventListener('keydown', (e)=>{
+    const code = e.code || '';
+    setKeyPressed(code, true);
+    lastKeyEl.textContent = (e.ctrlKey?'Ctrl+':'') + (e.altKey?'Alt+':'') + (e.shiftKey?'Shift+':'') + (e.metaKey?'Meta+':'') + (code || e.key);
+    if(code === 'Tab'){ e.preventDefault(); }
+    updateLocks(e);
+  }, {passive:false});
+
+  window.addEventListener('keyup', (e)=>{
+    const code = e.code || '';
+    setKeyPressed(code, false);
+    updateLocks(e);
+  });
+
+  window.addEventListener('blur', ()=>{
+    // 清空所有高亮，避免卡住
+    pressed.forEach(code=>setKeyPressed(code, false));
+    pressed.clear();
+    countEl.textContent = '0';
+  });
+
+  // 指示灯（横线上方静态面板）
+  const capsLamp = document.getElementById('capsLamp');
+  const numLamp = document.getElementById('numLamp');
+  const scrollLamp = document.getElementById('scrollLamp');
+  function updateLocks(e){
+    const caps = e?.getModifierState ? e.getModifierState('CapsLock') : false;
+    const num = e?.getModifierState ? e.getModifierState('NumLock') : false;
+    const scr = e?.getModifierState ? e.getModifierState('ScrollLock') : false;
+    if(capsLamp){ capsLamp.classList.toggle('on', !!caps); }
+    if(numLamp){ numLamp.classList.toggle('on', !!num); }
+    if(scrollLamp){ scrollLamp.classList.toggle('on', !!scr); }
+  }
+  updateLocks();
+
+  // 鼠标区域
+  const btnLeft = document.getElementById('btn-left');
+  const btnMiddle = document.getElementById('btn-middle');
+  const btnRight = document.getElementById('btn-right');
+  const wheel = document.getElementById('wheel');
+
+  function setMouse(btn, down){
+    if(!btn) return;
+    btn.classList.toggle('pressed', !!down);
+  }
+
+  window.addEventListener('mousedown', (e)=>{
+    if(e.button === 0) setMouse(btnLeft, true);
+    if(e.button === 1) setMouse(btnMiddle, true);
+    if(e.button === 2) setMouse(btnRight, true);
+  });
+
+  window.addEventListener('mouseup', (e)=>{
+    if(e.button === 0) setMouse(btnLeft, false);
+    if(e.button === 1) setMouse(btnMiddle, false);
+    if(e.button === 2) setMouse(btnRight, false);
+  });
+
+  window.addEventListener('contextmenu', (e)=>{ e.preventDefault(); }); // 便于右键测试
+
+  let wheelTimer;
+  window.addEventListener('wheel', (e)=>{
+    wheel.classList.add('flash');
+    clearTimeout(wheelTimer);
+    wheelTimer = setTimeout(()=>wheel.classList.remove('flash'), 120);
+  }, {passive:true});
+  // 在导航区插入一个空白块，使方向键与底部对齐，并与上方留空隙
+  function alignNavPad(){
+    const rows = elNav.querySelectorAll('.row');
+    if(rows.length >= 3){
+      const spacer = document.createElement('div');
+      spacer.style.height = 'calc(var(--unit) * var(--nav-offset))';
+      spacer.style.margin = '0';
+      elNav.insertBefore(spacer, rows[2]);
+    }
+  }
+
+  // 数字小键盘：4 列网格 + 跨行/跨列
+  function buildNumPad(container){
+    // 使用独立网格容器，避免清空指示灯面板
+    let grid = document.getElementById('numpadGrid');
+    if(!grid){
+      grid = document.createElement('div');
+      grid.id = 'numpadGrid';
+      grid.className = 'numpad';
+      container.appendChild(grid);
+    }else{
+      grid.innerHTML = '';
+    }
+    const defs = [
+      {label:'Num', code:'NumLock'},
+      {label:'/', code:'NumpadDivide'},
+      {label:'*', code:'NumpadMultiply'},
+      {label:'-', code:'NumpadSubtract'},
+
+      {label:'7', code:'Numpad7'},
+      {label:'8', code:'Numpad8'},
+      {label:'9', code:'Numpad9'},
+      {label:'+ ', code:'NumpadAdd', h2:true},
+
+      {label:'4', code:'Numpad4'},
+      {label:'5', code:'Numpad5'},
+      {label:'6', code:'Numpad6'},
+
+      {label:'1', code:'Numpad1'},
+      {label:'2', code:'Numpad2'},
+      {label:'3', code:'Numpad3'},
+      {label:'Enter', code:'NumpadEnter', h2:true},
+
+      {label:'0', code:'Numpad0', w:2},
+      {label:'.', code:'NumpadDecimal'}
+    ];
+    defs.forEach(item=>{
+      const key = createKey(item);
+      if(item.h2){ key.style.gridRow = 'auto / span 2'; }
+      if(item.w === 2){ key.style.gridColumn = 'auto / span 2'; }
+      grid.appendChild(key);
+    });
+    container.appendChild(grid);
+  }
+
+})();
+</script>
