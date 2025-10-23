@@ -3,537 +3,130 @@
 <head>
   <meta charset="utf-8">
   <title>Hello</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      user-select: none;
-      margin: 0;
-      min-height: 100vh;
-      font-family: 'Arial', sans-serif;
-      color: white;
-      overflow-x: hidden;
-      position: relative;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-
-    .bg-image {
-      position: fixed;
-      z-index: -1;
-      background-image: url("IMG_0822.jpeg");
-      height: 100%;
-      width: 100%;
-      background-position: center center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      filter: blur(3px);
-      opacity: 0.3;
-    }
-
-    .header {
-      text-align: center;
-      padding: 2rem 0;
-      position: relative;
-      z-index: 10;
-    }
-
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-      animation: breathe 3s ease-in-out infinite;
-      height: 4rem;
-      line-height: 4rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .subtitle {
-      font-size: 1.2rem;
-      opacity: 0.9;
-      margin-bottom: 2rem;
-      height: 2rem;
-      line-height: 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .menu-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-      position: relative;
-      z-index: 10;
-    }
-
-    .menu-card {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      padding: 2rem;
-      text-align: center;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      text-decoration: none;
-      color: rgb(53, 53, 53);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .menu-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-      transition: left 0.5s;
-    }
-
-    .menu-card:hover::before {
-      left: 100%;
-    }
-
-    .menu-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-      background: rgba(255, 255, 255, 0.15);
-    }
-
-    .card-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      display: block;
-    }
-
-    .card-title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-    }
-
-    .card-description {
-      font-size: 1rem;
-      opacity: 0.8;
-      line-height: 1.4;
-    }
-
-    /* .card-ps { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); } */
-    .card-mind { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-    .card-todo { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-    .card-iwork { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-    .card-video3d { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
-    .card-web3d { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
-    .card-countdown { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
-    .card-excel { background: linear-gradient(135deg, #00c851 0%, #007e33 100%); }
-    .card-special { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); }
-    .card-minesweeper { background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%); }
-    .card-solar { background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%); }
-    .card-snake { background: linear-gradient(135deg, #00b894 0%, #00cec9 100%); }
-    .card-breakout { background: linear-gradient(135deg, #e17055 0%, #fab1a0 100%); }
-    .card-muyu { background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%); }
-    .card-png { background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%); }
-    .card-lookup { background: linear-gradient(135deg, #00cec9 0%, #00b894 100%); }
-    .card-serial-modify { background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%); }
-    .card-serial-view { background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%); }
-    .card-keyboard { background: linear-gradient(135deg, #d429e7 0%, #32d6ff 100%); }
-
-    #rainbow {
-      position: fixed;
-      font-size: 1rem;
-      pointer-events: none;
-      z-index: 1000;
-      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #dda0dd);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: rainbow 2s linear infinite;
-      opacity: 0;
-      transform: scale(1);
-      transition: all 0.3s ease;
-    }
-
-    @keyframes breathe {
-      0%, 100% { opacity: 0.8; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.05); }
-    }
-
-    @keyframes rainbow {
-      0% { filter: hue-rotate(0deg); }
-      100% { filter: hue-rotate(360deg); }
-    }
-
-    @media (max-width: 768px) {
-      .menu-container {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-      }
-      
-      h1 {
-        font-size: 2rem;
-      }
-      
-      .menu-card {
-        padding: 1.5rem;
-      }
-    }
-
-    .footer {
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.9rem;
-      opacity: 0.7;
-    }
-
-    .category-title {
-      text-align: center;
-      font-size: 2rem;
-      font-weight: bold;
-      margin: 3rem 0 2rem 0;
-      color: white;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-      position: relative;
-    }
-
-    .category-title::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
-      border-radius: 2px;
-    }
-
-    .category-title:first-of-type {
-      margin-top: 1rem;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
    <script>
-//     中国少数民族语言：藏语(བཀྲ་ཤིས་བདེ་ལེགས)、维语(ياخشىمۇسىز)、蒙语(ᠰᠠᠢᠨ ᠪᠠᠢᠨᠠ ᠤᠤ)
-// 欧洲语言：西班牙语、德语、俄语、意大利语、荷兰语、瑞典语、挪威语等
-// 中东语言：阿拉伯语、希伯来语、波斯语、土耳其语等
-// 南亚语言：印地语、孟加拉语、泰米尔语、乌尔都语等
-// 东南亚语言：泰语、越南语、印尼语、缅甸语、高棉语等
-// 非洲语言：斯瓦希里语、阿姆哈拉语、约鲁巴语、祖鲁语等
-// 中亚语言：哈萨克语、吉尔吉斯语、塔吉克语、乌兹别克语等
-// 欧洲少数民族语言：威尔士语、苏格兰盖尔语、巴斯克语、加泰罗尼亚语等
-    var languages = ["English", "中文", "Français", "日本語", "한국어", "Español", "Deutsch", "Русский", "العربية", "हिन्दी", "Português", "Italiano", "Nederlands", "Svenska", "Norsk", "Dansk", "Suomi", "Ελληνικά", "Türkçe", "Polski", "Čeština", "Magyar", "Română", "Български", "Українська", "עברית", "فارسی", "اردو", "বাংলা", "தமிழ்", "తెలుగు", "ಕನ್ನಡ", "മലയാളം", "ગુજરાતી", "ਪੰਜਾبੀ", "मराठी", "नेपाली", "සිංහල", "မြန်မာ", "ខ្មែរ", "ລາວ", "ไทย", "Tiếng Việt", "Bahasa Indonesia", "Bahasa Melayu", "Filipino", "Kiswahili", "Afrikaans", "አማርኛ", "Yorùbá", "Igbo", "Hausa", "isiZulu", "isiXhosa", "Sesotho", "Setswana", "Xitsonga", "Tshivenda", "siSwati", "isiNdebele", "བོད་ཡིག", "ئۇيغۇرچە", "ᠮᠣᠩᠭᠣᠯ", "Қазақша", "Кыргызча", "Тоҷикӣ", "O'zbekcha", "Azərbaycan", "Հայերեն", "ქართული", "Eesti", "Latviešu", "Lietuvių", "Slovenčina", "Slovenščina", "Hrvatski", "Srpski", "Bosanski", "Македонски", "Shqip", "Malti", "Gaeilge", "Cymraeg", "Gàidhlig", "Brezhoneg", "Euskera", "Català", "Galego", "Occitan", "Corsu", "Sardu", "Furlan", "Ladin", "Rumantsch", "Mirandés"];
-    var currentLanguageIndex = 0;
-     function changeLanguage() {
-      var helloText = document.getElementById("hello-text");
-      var subtitle = document.querySelector(".subtitle");
+    // 使用对象映射存储语言名称和对应的"你好"翻译
+    const languageData = {
+      "中文": "你好",
+      "English": "Hello",
+      "Français": "Bonjour",
+      "日本語": "こんにちは",
+      "한국어": "안녕하세요",
+      "Español": "Hola",
+      "Deutsch": "Hallo",
+      "Русский": "Привет",
+      "العربية": "مرحبا",
+      "हिन्दी": "नमस्ते",
+      "Português": "Olá",
+      "Italiano": "Ciao",
+      "Nederlands": "Hallo",
+      "Svenska": "Hej",
+      "Norsk": "Hei",
+      "Dansk": "Hej",
+      "Suomi": "Hei",
+      "Ελληνικά": "Γεια σας",
+      "Türkçe": "Merhaba",
+      "Polski": "Cześć",
+      "Čeština": "Ahoj",
+      "Magyar": "Szia",
+      "Română": "Salut",
+      "Български": "Здравей",
+      "Українська": "Привіт",
+      "עברית": "שלום",
+      "فارسی": "سلام",
+      "اردو": "السلام علیکم",
+      "বাংলা": "নমস্কার",
+      "தமிழ்": "வணக்கம்",
+      "తెలుగు": "नमस्कारం",
+      "ಕನ್ನಡ": "ನಮಸ್ಕಾರ",
+      "മലയാളം": "നമസ്കാരം",
+      "ગુજરાતી": "नमस्ते",
+      "ਪੰਜਾਬੀ": "ਸਤ ਸ੍ਰੀ ਅਕਾਲ",
+      "मराठी": "नमस्कार",
+      "नेपाली": "नमस्ते",
+      "සිංහල": "ආයුබෝවන්",
+      "မြန်မာ": "မင်္ဂလာပါ",
+      "ខ្មែរ": "ជំរាបសួរ",
+      "ລາວ": "ສະບາຍດີ",
+      "ไทย": "สวัสดี",
+      "Tiếng Việt": "Xin chào",
+      "Bahasa Indonesia": "Halo",
+      "Bahasa Melayu": "Hello",
+      "Filipino": "Kumusta",
+      "Kiswahili": "Hujambo",
+      "Afrikaans": "Hallo",
+      "አማርኛ": "ሰላም",
+      "Yorùbá": "Báwo",
+      "Igbo": "Ndewo",
+      "Hausa": "Sannu",
+      "isiZulu": "Sawubona",
+      "isiXhosa": "Molo",
+      "Sesotho": "Dumela",
+      "Setswana": "Dumela",
+      "Xitsonga": "Avuxeni",
+      "Tshivenda": "Ndaa",
+      "siSwati": "Sawubona",
+      "isiNdebele": "Lotjhani",
+      "བོད་ཡིག": "བཀྲ་ཤིས་བདེ་ལེགས",
+      "ئۇيغۇرچە": "ياخشىمۇسىز",
+      "ᠮᠣᠩᠭᠣᠯ": "ᠰᠠᠢᠨ ᠪᠠᠢᠨᠠ ᠤᠤ",
+      "Қазақша": "Сәлем",
+      "Кыргызча": "Салам",
+      "Тоҷикӣ": "Салом",
+      "O'zbekcha": "Salom",
+      "Azərbaycan": "Salam",
+      "Հայերեն": "Բարև",
+      "ქართული": "გამარჯობა",
+      "Eesti": "Tere",
+      "Latviešu": "Sveiki",
+      "Lietuvių": "Labas",
+      "Slovenčina": "Ahoj",
+      "Slovenščina": "Živjo",
+      "Hrvatski": "Bok",
+      "Srpski": "Здраво",
+      "Bosanski": "Zdravo",
+      "Македонски": "Здраво",
+      "Shqip": "Përshëndetje",
+      "Malti": "Bonġu",
+      "Gaeilge": "Dia dhuit",
+      "Cymraeg": "Helo",
+      "Gàidhlig": "Halò",
+      "Brezhoneg": "Demat",
+      "Euskera": "Kaixo",
+      "Català": "Hola",
+      "Galego": "Ola",
+      "Occitan": "Adieu",
+      "Corsu": "Bonghjornu",
+      "Sardu": "Ciao",
+      "Furlan": "Mandi",
+      "Ladin": "Bun dì",
+      "Rumantsch": "Allegra",
+      "Mirandés": "Oulá"
+    };
+    
+    // 获取所有语言名称数组
+    const languages = Object.keys(languageData);
+    
+    function changeLanguage() {
+      const helloText = document.getElementById("hello-text");
+      const subtitle = document.querySelector(".subtitle");
       
-      // 随机选择语言而不是按顺序
-      currentLanguageIndex = Math.floor(Math.random() * languages.length);
+      // 随机选择语言
+      const randomIndex = Math.floor(Math.random() * languages.length);
+      const selectedLanguage = languages[randomIndex];
       
       // 在subtitle中显示当前语言名称
-      subtitle.innerText = languages[currentLanguageIndex];
-       switch(languages[currentLanguageIndex]) {
-        case "中文":
-          helloText.innerText = "你好";
-          break;
-        case "English":
-          helloText.innerText = "Hello";
-          break;
-        case "Français":
-          helloText.innerText = "Bonjour";
-          break;
-        case "日本語":
-          helloText.innerText = "こんにちは";
-          break;
-        case "한국어":
-          helloText.innerText = "안녕하세요";
-          break;
-        case "Español":
-          helloText.innerText = "Hola";
-          break;
-        case "Deutsch":
-          helloText.innerText = "Hallo";
-          break;
-        case "Русский":
-          helloText.innerText = "Привет";
-          break;
-        case "العربية":
-          helloText.innerText = "مرحبا";
-          break;
-        case "हिन्दी":
-          helloText.innerText = "नमस्ते";
-          break;
-        case "Português":
-          helloText.innerText = "Olá";
-          break;
-        case "Italiano":
-          helloText.innerText = "Ciao";
-          break;
-        case "Nederlands":
-          helloText.innerText = "Hallo";
-          break;
-        case "Svenska":
-          helloText.innerText = "Hej";
-          break;
-        case "Norsk":
-          helloText.innerText = "Hei";
-          break;
-        case "Dansk":
-          helloText.innerText = "Hej";
-          break;
-        case "Suomi":
-          helloText.innerText = "Hei";
-          break;
-        case "Ελληνικά":
-          helloText.innerText = "Γεια σας";
-          break;
-        case "Türkçe":
-          helloText.innerText = "Merhaba";
-          break;
-        case "Polski":
-          helloText.innerText = "Cześć";
-          break;
-        case "Čeština":
-          helloText.innerText = "Ahoj";
-          break;
-        case "Magyar":
-          helloText.innerText = "Szia";
-          break;
-        case "Română":
-          helloText.innerText = "Salut";
-          break;
-        case "Български":
-          helloText.innerText = "Здравей";
-          break;
-        case "Українська":
-          helloText.innerText = "Привіт";
-          break;
-        case "עברית":
-          helloText.innerText = "שלום";
-          break;
-        case "فارسی":
-          helloText.innerText = "سلام";
-          break;
-        case "اردو":
-          helloText.innerText = "السلام علیکم";
-          break;
-        case "বাংলা":
-          helloText.innerText = "নমস্কার";
-          break;
-        case "தமிழ்":
-          helloText.innerText = "வணக்கம்";
-          break;
-        case "తెలుగు":
-          helloText.innerText = "నమస్కారం";
-          break;
-        case "ಕನ್ನಡ":
-          helloText.innerText = "ನಮಸ್ಕಾರ";
-          break;
-        case "മലയാളം":
-          helloText.innerText = "നമസ്കാരം";
-          break;
-        case "ગુજરાતી":
-          helloText.innerText = "નમસ્તે";
-          break;
-        case "ਪੰਜਾਬੀ":
-          helloText.innerText = "ਸਤ ਸ੍ਰੀ ਅਕਾਲ";
-          break;
-        case "मराठी":
-          helloText.innerText = "नमस्कार";
-          break;
-        case "नेपाली":
-          helloText.innerText = "नमस्ते";
-          break;
-        case "සිංහල":
-          helloText.innerText = "ආයුබෝවන්";
-          break;
-        case "မြန်မာ":
-          helloText.innerText = "မင်္ဂလာပါ";
-          break;
-        case "ខ្មែរ":
-          helloText.innerText = "ជំរាបសួរ";
-          break;
-        case "ລາວ":
-          helloText.innerText = "ສະບາຍດີ";
-          break;
-        case "ไทย":
-          helloText.innerText = "สวัสดี";
-          break;
-        case "Tiếng Việt":
-          helloText.innerText = "Xin chào";
-          break;
-        case "Bahasa Indonesia":
-          helloText.innerText = "Halo";
-          break;
-        case "Bahasa Melayu":
-          helloText.innerText = "Hello";
-          break;
-        case "Filipino":
-          helloText.innerText = "Kumusta";
-          break;
-        case "Kiswahili":
-          helloText.innerText = "Hujambo";
-          break;
-        case "Afrikaans":
-          helloText.innerText = "Hallo";
-          break;
-        case "አማርኛ":
-          helloText.innerText = "ሰላም";
-          break;
-        case "Yorùbá":
-          helloText.innerText = "Báwo";
-          break;
-        case "Igbo":
-          helloText.innerText = "Ndewo";
-          break;
-        case "Hausa":
-          helloText.innerText = "Sannu";
-          break;
-        case "isiZulu":
-          helloText.innerText = "Sawubona";
-          break;
-        case "isiXhosa":
-          helloText.innerText = "Molo";
-          break;
-        case "Sesotho":
-          helloText.innerText = "Dumela";
-          break;
-        case "Setswana":
-          helloText.innerText = "Dumela";
-          break;
-        case "Xitsonga":
-          helloText.innerText = "Avuxeni";
-          break;
-        case "Tshivenda":
-          helloText.innerText = "Ndaa";
-          break;
-        case "siSwati":
-          helloText.innerText = "Sawubona";
-          break;
-        case "isiNdebele":
-          helloText.innerText = "Lotjhani";
-          break;
-        case "བོད་ཡིག":
-          helloText.innerText = "བཀྲ་ཤིས་བདེ་ལེགས";
-          break;
-        case "ئۇيغۇرچە":
-          helloText.innerText = "ياخشىمۇسىز";
-          break;
-        case "ᠮᠣᠩᠭᠣᠯ":
-          helloText.innerText = "ᠰᠠᠢᠨ ᠪᠠᠢᠨᠠ ᠤᠤ";
-          break;
-        case "Қазақша":
-          helloText.innerText = "Сәлем";
-          break;
-        case "Кыргызча":
-          helloText.innerText = "Салам";
-          break;
-        case "Тоҷикӣ":
-          helloText.innerText = "Салом";
-          break;
-        case "O'zbekcha":
-          helloText.innerText = "Salom";
-          break;
-        case "Azərbaycan":
-          helloText.innerText = "Salam";
-          break;
-        case "Հայերեն":
-          helloText.innerText = "Բարև";
-          break;
-        case "ქართული":
-          helloText.innerText = "გამარჯობა";
-          break;
-        case "Eesti":
-          helloText.innerText = "Tere";
-          break;
-        case "Latviešu":
-          helloText.innerText = "Sveiki";
-          break;
-        case "Lietuvių":
-          helloText.innerText = "Labas";
-          break;
-        case "Slovenčina":
-          helloText.innerText = "Ahoj";
-          break;
-        case "Slovenščina":
-          helloText.innerText = "Živjo";
-          break;
-        case "Hrvatski":
-          helloText.innerText = "Bok";
-          break;
-        case "Srpski":
-          helloText.innerText = "Здраво";
-          break;
-        case "Bosanski":
-          helloText.innerText = "Zdravo";
-          break;
-        case "Македонски":
-          helloText.innerText = "Здраво";
-          break;
-        case "Shqip":
-          helloText.innerText = "Përshëndetje";
-          break;
-        case "Malti":
-          helloText.innerText = "Bonġu";
-          break;
-        case "Gaeilge":
-          helloText.innerText = "Dia dhuit";
-          break;
-        case "Cymraeg":
-          helloText.innerText = "Helo";
-          break;
-        case "Gàidhlig":
-          helloText.innerText = "Halò";
-          break;
-        case "Brezhoneg":
-          helloText.innerText = "Demat";
-          break;
-        case "Euskera":
-          helloText.innerText = "Kaixo";
-          break;
-        case "Català":
-          helloText.innerText = "Hola";
-          break;
-        case "Galego":
-          helloText.innerText = "Ola";
-          break;
-        case "Occitan":
-          helloText.innerText = "Adieu";
-          break;
-        case "Corsu":
-          helloText.innerText = "Bonghjornu";
-          break;
-        case "Sardu":
-          helloText.innerText = "Ciao";
-          break;
-        case "Furlan":
-          helloText.innerText = "Mandi";
-          break;
-        case "Ladin":
-          helloText.innerText = "Bun dì";
-          break;
-        case "Rumantsch":
-          helloText.innerText = "Allegra";
-          break;
-        case "Mirandés":
-          helloText.innerText = "Oulá";
-          break;
-        default:
-          break;
-      }
+      subtitle.innerText = selectedLanguage;
+      
+      // 设置对应的"你好"翻译
+      helloText.innerText = languageData[selectedLanguage] || "Hello";
+      
+      // 更新页面标题
       document.title = helloText.innerText;
     }
-     setInterval(changeLanguage, 3000);
+    
+    // 每3秒切换一次语言
+    setInterval(changeLanguage, 3000);
   </script>
 </head>
 <body>
@@ -546,155 +139,298 @@
 
   <h2 class="category-title">🛠️ 工具</h2>
   <div class="menu-container">
-    <!-- <a href="./PS-Online/" class="menu-card card-ps">
-      <div class="card-icon">🎨</div>
-      <div class="card-title">在线PS</div>
-      <div class="card-description">强大的在线图片编辑工具，支持多种滤镜和编辑功能</div>
-    </a> -->
-
-    <a href="./excel-reference-guide/" class="menu-card card-excel">
-      <div class="card-icon">📊</div>
-      <div class="card-title">Excel参考指南</div>
-      <div class="card-description">全面的Excel函数和功能参考手册，提高办公效率的必备工具</div>
+    <a href="./excel-reference-guide/">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+            <div class="card-icon">📊</div>
+            <div class="card-title">Excel参考指南</div>
+            <div class="card-description">全面的Excel函数和功能参考手册，提高办公效率的必备工具</div>
+        </div>
+      </div>
     </a>
 
-    <a href="https://pan.quark.cn/s/d5445655752b" class="menu-card card-png" target="_blank" rel="noopener noreferrer">
-      <div class="card-icon">🖼️</div>
-      <div class="card-title">PNG轻阅</div>
-      <div class="card-description">无边框透明窗体，拖拽载入图片，鼠标滚轮缩放，右键置顶切换</div>
+    <a href="https://pan.quark.cn/s/d5445655752b" target="_blank" rel="noopener noreferrer">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+            <div class="card-icon">🖼️</div>
+            <div class="card-title">PNG轻阅</div>
+            <div class="card-description">无边框透明窗体，拖拽载入图片，鼠标滚轮缩放，右键置顶切换</div>
+        </div>
+      </div>
     </a>
 
-    <a href="https://pan.quark.cn/s/8b7ab3a8c691" class="menu-card card-lookup" target="_blank" rel="noopener noreferrer">
-      <div class="card-icon">🔍</div>
-      <div class="card-title">ExcelLookup++</div>
-      <div class="card-description">可视化功能强大的Excel对比工具</div>
+    <a href="https://pan.quark.cn/s/8b7ab3a8c691" target="_blank" rel="noopener noreferrer">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+            <div class="card-icon">🔍</div>
+            <div class="card-title">ExcelLookup++</div>
+            <div class="card-description">可视化功能强大的Excel对比工具</div>
+        </div>
+      </div>
     </a>
 
-    <a href="https://pan.quark.cn/s/68bc093ba7c7" class="menu-card card-serial-modify" target="_blank" rel="noopener noreferrer">
-      <div class="card-icon">🔧</div>
-      <div class="card-title">串口消息修改工具</div>
-      <div class="card-description">串口信息修改转发，最多支持同时修改10个串口数据</div>
+    <a href="https://pan.quark.cn/s/034ea6e66dd0" target="_blank" rel="noopener noreferrer">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+            <div class="card-icon">🧷</div>
+            <div class="card-title">串口消息修改工具</div>
+            <div class="card-description">串口信息修改转发，最多支持同时修改10个串口数据</div>
+        </div>
+      </div>
     </a>
 
-    <a href="https://pan.quark.cn/s/2b40fedd4bad" class="menu-card card-serial-view" target="_blank" rel="noopener noreferrer">
-      <div class="card-icon">👁️</div>
-      <div class="card-title">串口查看工具</div>
-      <div class="card-description">可同时查看多个串口消息</div>
+    <a href="https://pan.quark.cn/s/2b40fedd4bad" target="_blank" rel="noopener noreferrer">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+            <div class="card-icon">👁️</div>
+            <div class="card-title">串口查看工具</div>
+            <div class="card-description">可同时查看多个串口消息</div>
+        </div>
+      </div>
     </a>
     
-    <a href="./mind/" class="menu-card card-mind">
-      <div class="card-icon">🧠</div>
-      <div class="card-title">思维导图</div>
-      <div class="card-description">简洁易用的思维导图工具，帮助整理思路和知识结构</div>
+    <a href="./mind/">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+          <div class="card-icon">🧠</div>
+          <div class="card-title">思维导图</div>
+          <div class="card-description">简洁易用的思维导图工具，帮助整理思路和知识结构</div>
+        </div>
+      </div>
     </a>
 
-    <a href="./KeyboardTest/" class="menu-card card-keyboard">
-      <div class="card-icon">⌨️</div>
-      <div class="card-title">键盘测试</div>
-      <div class="card-description">测试键盘鼠标按键是否正常</div>
+    <a href="./KeyboardTest/">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+          <div class="card-icon">⌨️</div>
+          <div class="card-title">键盘测试</div>
+          <div class="card-description">测试键盘鼠标按键是否正常</div>
+        </div>
+      </div>
     </a>
 
-
-    <a href="./todolist/" class="menu-card card-todo">
-      <div class="card-icon">✅</div>
-      <div class="card-title">待办事项</div>
-      <div class="card-description">简单高效的任务管理工具，让你的工作更有条理</div>
+    <a href="./todolist/">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+          <div class="card-icon">✅</div>
+          <div class="card-title">待办事项</div>
+          <div class="card-description">简单高效的任务管理工具，让你的工作更有条理</div>
+        </div>
+      </div>
     </a>
 
-    <a href="./iwork/" class="menu-card card-iwork">
-      <div class="card-icon">🏛️</div>
-      <div class="card-title">我爱工作</div>
-      <div class="card-description">工作使我快乐</div>
+    <a href="./iwork/">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+          <div class="card-icon">🏛️</div>
+          <div class="card-title">我爱工作</div>
+          <div class="card-description">工作使我快乐</div>
+        </div>
+      </div>
     </a>
 
-    <a href="./video3d/" class="menu-card card-video3d">
-      <div class="card-icon">📹</div>
-      <div class="card-title">全景视频</div>
-      <div class="card-description">360度全景视频播放器，带来身临其境的观看体验</div>
+    <a href="./video3d/">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+          <div class="card-icon">📹</div>
+          <div class="card-title">全景视频</div>
+          <div class="card-description">360度全景视频播放器，带来身临其境的观看体验</div>
+        </div>
+      </div>
+    </a> 
+
+    <a href="./web3d/">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+          <div class="card-icon">🌐</div>
+          <div class="card-title">3D展厅</div>
+          <div class="card-description">交互式3D虚拟展厅，探索数字化展示的无限可能</div>
+        </div>
+      </div>
     </a>
 
-    <a href="./web3d/" class="menu-card card-web3d">
-      <div class="card-icon">🌐</div>
-      <div class="card-title">3D展厅</div>
-      <div class="card-description">交互式3D虚拟展厅，探索数字化展示的无限可能</div>
+    <a href="./cd/">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+          <div class="card-icon">⏰</div>
+          <div class="card-title">下班倒计时</div>
+          <div class="card-description">实用的下班倒计时工具，支持自定义时间和个性化设置</div>
+        </div>
+      </div>
     </a>
-
-    <a href="./cd/" class="menu-card card-countdown">
-      <div class="card-icon">⏰</div>
-      <div class="card-title">下班倒计时</div>
-      <div class="card-description">实用的下班倒计时工具，支持自定义时间和个性化设置</div>
-    </a>
-
   </div>
 
   <h2 class="category-title">🎮 娱乐</h2>
   <div class="menu-container">
-    <a href="./!/" class="menu-card card-special">
-      <div class="card-icon">❗</div>
-      <div class="card-title">反应测试</div>
-      <div class="card-description">测试你的反应速度，挑战极限反应时间</div>
+    <a href="./!//">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+          <div class="card-icon">❗</div>
+          <div class="card-title">反应测试</div>
+          <div class="card-description">测试你的反应速度，挑战极限反应时间</div>
+        </div>
+      </div>
     </a>
 
-    <a href="./MinesweeperGame/" class="menu-card card-minesweeper">
-      <div class="card-icon">💣</div>
-      <div class="card-title">扫雷游戏</div>
-      <div class="card-description">经典的扫雷游戏，挑战你的逻辑思维和反应能力</div>
+    <a href="./MinesweeperGame/">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+          <div class="card-icon">💣</div>
+          <div class="card-title">扫雷游戏</div>
+          <div class="card-description">经典的扫雷游戏，挑战你的逻辑思维和反应能力</div>
+        </div>
+      </div>
     </a>
 
-    <a href="./SolarSystemSimulator/" class="menu-card card-solar">
-      <div class="card-icon">🌌</div>
-      <div class="card-title">太阳系模拟器</div>
-      <div class="card-description">3D太阳系模拟器，探索宇宙奥秘和行星运动</div>
+    <a href="./SolarSystemSimulator/">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+          <div class="card-icon">🌌</div>
+          <div class="card-title">太阳系模拟器</div>
+          <div class="card-description">3D太阳系模拟器，探索宇宙奥秘和行星运动</div>
+        </div>
+      </div>
     </a>
 
-    <a href="./snake/" class="menu-card card-snake">
-      <div class="card-icon">🐍</div>
-      <div class="card-title">贪吃蛇</div>
-      <div class="card-description">经典贪吃蛇游戏，简单易上手的休闲娱乐</div>
+    <a href="./snake/">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+          <div class="card-icon">🐍</div>
+          <div class="card-title">贪吃蛇</div>
+          <div class="card-description">经典贪吃蛇游戏，简单易上手的休闲娱乐</div>
+        </div>
+      </div>
     </a>
 
-    <a href="./breakout/" class="menu-card card-breakout">
-      <div class="card-icon">🧱</div>
-      <div class="card-title">打砖块</div>
-      <div class="card-description">经典的打砖块游戏，考验你的反应和策略</div>
+    <a href="./breakout/">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+          <div class="card-icon">🧱</div>
+          <div class="card-title">打砖块</div>
+          <div class="card-description">经典的打砖块游戏，考验你的反应和策略</div>
+        </div>
+      </div>
     </a>
 
-    <a href="./cyber-muyu/" class="menu-card card-muyu">
-      <div class="card-icon">🪵</div>
-      <div class="card-title">电子木鱼</div>
-      <div class="card-description">数字时代的木鱼，让心灵得到宁静</div>
+    <a href="./cyber-muyu/">
+      <div class="liquidGlass-wrapper button">
+        <div class="liquidGlass-effect"></div>
+        <div class="liquidGlass-tint"></div>
+        <div class="liquidGlass-shine"></div>
+        <div class="liquidGlass-text">
+          <div class="card-icon">🪵</div>
+          <div class="card-title">电子木鱼</div>
+          <div class="card-description">数字时代的木鱼，让心灵得到宁静</div>
+        </div>
+      </div>
     </a>
   </div>
+
+  <!-- SVG Filter for Liquid Glass Effect -->
+  <svg style="display: none">
+    <filter
+      id="glass-distortion"
+      x="0%"
+      y="0%"
+      width="100%"
+      height="100%"
+      filterUnits="objectBoundingBox"
+    >
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency="0.01 0.01"
+        numOctaves="1"
+        seed="5"
+        result="turbulence"
+      />
+      <feComponentTransfer in="turbulence" result="mapped">
+        <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5" />
+        <feFuncG type="gamma" amplitude="0" exponent="1" offset="0" />
+        <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5" />
+      </feComponentTransfer>
+      <feGaussianBlur in="turbulence" stdDeviation="3" result="softMap" />
+      <feSpecularLighting
+        in="softMap"
+        surfaceScale="5"
+        specularConstant="1"
+        specularExponent="100"
+        lighting-color="white"
+        result="specLight"
+      >
+        <fePointLight x="-200" y="-200" z="300" />
+      </feSpecularLighting>
+      <feComposite
+        in="specLight"
+        operator="arithmetic"
+        k1="0"
+        k2="1"
+        k3="1"
+        k4="0"
+        result="litImage"
+      />
+      <feDisplacementMap
+        in="SourceGraphic"
+        in2="softMap"
+        scale="150"
+        xChannelSelector="R"
+        yChannelSelector="G"
+      />
+    </filter>
+  </svg>
 
   <div class="footer">
     <p>© 2025 工具集合 - 让创意无限延伸</p>
   </div>
-
-  <p id="rainbow">Hello啊，树哥！</p>
-  <script>
-
-    var rainbow = document.getElementById("rainbow");
-
-    // 给文档添加点击事件的监听器
-    document.addEventListener("click", function(e) {
-      // 获取点击的位置
-      var x = e.clientX;
-      var y = e.clientY;
-
-      // 设置文字的位置为点击的位置
-      rainbow.style.left = x + "px";
-      rainbow.style.top = y + "px";
-      
-      // 显示文字
-      rainbow.style.opacity = "1";
-      rainbow.style.transform = "scale(1.2)";
-      
-      // 1.5秒后淡出
-      setTimeout(function() {
-        rainbow.style.opacity = "0";
-        rainbow.style.transform = "scale(1)";
-      }, 1500);
-    });
-  </script>
 </body>
- </html>
+</html>
