@@ -127,6 +127,31 @@
     
     // 每3秒切换一次语言
     setInterval(changeLanguage, 3000);
+    
+    // 背景跟随鼠标晃动效果 - 视差效果
+    document.addEventListener('DOMContentLoaded', function() {
+      const bgImage = document.querySelector('.bg-image');
+      
+      // 设置视差参数
+      const settings = {
+        parallaxVal: 2
+      };
+      
+      function handleMouseMove(e) {
+        const x = (window.innerWidth - e.pageX * settings.parallaxVal) / 90;
+        const y = (window.innerHeight - e.pageY * settings.parallaxVal) / 90;
+        
+        bgImage.style.transform = `translateX(${x}px) translateY(${y}px) scale(1.09)`;
+      }
+      
+      function handleMouseLeave() {
+        // 鼠标离开页面时恢复背景位置
+        bgImage.style.transform = 'translateX(0px) translateY(0px) scale(1.09)';
+      }
+      
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseleave', handleMouseLeave);
+    });
   </script>
 </head>
 <body>
