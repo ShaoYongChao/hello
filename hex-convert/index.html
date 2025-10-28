@@ -71,7 +71,21 @@
             <div class="result-item">
                 <div class="result-label">
                     ASCII字符：
-                    <span class="info-icon" title="将十六进制解析为ASCII字符。\n常见控制字符：\n0x00=NUL(空字符) 0x0A=LF(换行) 0x0D=CR(回车) 0x20=Space(空格)\n0x09=TAB(制表符) 0x1B=ESC(转义) 0x7F=DEL(删除)">ℹ️</span>
+                    <span class="info-icon">
+                        ℹ️
+                        <span class="tooltip">
+                            <strong>将十六进制解析为ASCII字符</strong><br>
+                            <br>
+                            <strong>常见控制字符：</strong><br>
+                            • 0x00 = NUL (空字符)<br>
+                            • 0x09 = TAB (制表符)<br>
+                            • 0x0A = LF (换行)<br>
+                            • 0x0D = CR (回车)<br>
+                            • 0x1B = ESC (转义)<br>
+                            • 0x20 = SPACE (空格)<br>
+                            • 0x7F = DEL (删除)
+                        </span>
+                    </span>
                 </div>
                 <div class="result-wrapper">
                     <textarea class="result-input result-textarea" id="ascii" readonly></textarea>
@@ -82,7 +96,15 @@
             <div class="result-item">
                 <div class="result-label">
                     字节数组 (Byte Array)：
-                    <span class="info-icon" title="以十进制字节数组形式显示，常用于编程和数据传输。\n每个字节范围：0-255">ℹ️</span>
+                    <span class="info-icon">
+                        ℹ️
+                        <span class="tooltip">
+                            <strong>以十进制字节数组形式显示</strong><br>
+                            <br>
+                            常用于编程和数据传输<br>
+                            每个字节范围：0-255
+                        </span>
+                    </span>
                 </div>
                 <div class="result-wrapper">
                     <textarea class="result-input result-textarea" id="byteArray" readonly></textarea>
@@ -93,7 +115,15 @@
             <div class="result-item">
                 <div class="result-label">
                     UTF-8编码：
-                    <span class="info-icon" title="将ASCII文本转换为UTF-8编码的十六进制表示。\n常用于URL编码、文件编码等场景。">ℹ️</span>
+                    <span class="info-icon">
+                        ℹ️
+                        <span class="tooltip">
+                            <strong>将ASCII文本转换为UTF-8编码</strong><br>
+                            <br>
+                            显示为十六进制表示<br>
+                            常用于URL编码、文件编码等场景
+                        </span>
+                    </span>
                 </div>
                 <div class="result-wrapper">
                     <textarea class="result-input result-textarea" id="utf8" readonly></textarea>
