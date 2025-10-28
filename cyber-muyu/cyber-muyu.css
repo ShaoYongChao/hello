@@ -372,6 +372,14 @@ body {
     color: #ccc;
 }
 
+/* 按钮组 */
+.button-group {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 /* 重置按钮 */
 .reset-btn {
     padding: 12px 30px;
@@ -390,6 +398,29 @@ body {
     border-color: rgba(255, 0, 0, 0.8);
     color: #fff;
     transform: translateY(-2px);
+}
+
+/* 下载按钮 */
+.download-btn {
+    padding: 12px 30px;
+    background: rgba(0, 255, 255, 0.2);
+    border: 2px solid rgba(0, 255, 255, 0.5);
+    border-radius: 25px;
+    color: #00ffff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.download-btn:hover {
+    background: rgba(0, 255, 255, 0.3);
+    border-color: rgba(0, 255, 255, 0.8);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
 }
 
 /* 响应式设计 */
