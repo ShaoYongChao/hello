@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>16进制转换器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔢 16进制转换器</h1>
+        
+        <div class="input-section">
+            <label for="hexInput">输入16进制数值：</label>
+            <div class="input-wrapper">
+                <input type="text" id="hexInput" placeholder="例如: 4A 0C 61 58 或 0x4A0C6158">
+                <button class="convert-btn" onclick="convertHex()">转换</button>
+            </div>
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+
+        <div class="results-section">
+            <div class="result-item">
+                <div class="result-label">二进制 (Binary)：</div>
+                <div class="result-wrapper">
+                    <input type="text" class="result-input" id="binary" readonly>
+                    <button class="copy-btn" onclick="copyToClipboard('binary', this)">复制</button>
+                </div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-label">八进制 (Octal)：</div>
+                <div class="result-wrapper">
+                    <input type="text" class="result-input" id="octal" readonly>
+                    <button class="copy-btn" onclick="copyToClipboard('octal', this)">复制</button>
+                </div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-label">十进制 (Decimal)：</div>
+                <div class="result-wrapper">
+                    <input type="text" class="result-input" id="decimal" readonly>
+                    <button class="copy-btn" onclick="copyToClipboard('decimal', this)">复制</button>
+                </div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-label">十六进制 (Hexadecimal)：</div>
+                <div class="result-wrapper">
+                    <input type="text" class="result-input" id="hexadecimal" readonly>
+                    <button class="copy-btn" onclick="copyToClipboard('hexadecimal', this)">复制</button>
+                </div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-label">三十二进制 (Base32)：</div>
+                <div class="result-wrapper">
+                    <input type="text" class="result-input" id="base32" readonly>
+                    <button class="copy-btn" onclick="copyToClipboard('base32', this)">复制</button>
+                </div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-label">六十四进制 (Base64)：</div>
+                <div class="result-wrapper">
+                    <input type="text" class="result-input" id="base64" readonly>
+                    <button class="copy-btn" onclick="copyToClipboard('base64', this)">复制</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
