@@ -48,6 +48,9 @@ function convertHex() {
     document.getElementById('hexadecimal').value = '';
     document.getElementById('base32').value = '';
     document.getElementById('base64').value = '';
+    document.getElementById('ascii').value = '';
+    document.getElementById('byteArray').value = '';
+    document.getElementById('utf8').value = '';
     
     if (!input) {
         errorMessage.textContent = '请输入16进制数值！';
@@ -62,7 +65,7 @@ function convertHex() {
         // 转换为BigInt以支持大数
         const decimalValue = BigInt('0x' + hexString);
         
-        // 执行转换
+        // 执行基本转换
         document.getElementById('binary').value = decimalValue.toString(2);
         document.getElementById('octal').value = decimalValue.toString(8);
         document.getElementById('decimal').value = decimalValue.toString(10);
@@ -70,10 +73,123 @@ function convertHex() {
         document.getElementById('base32').value = convertToBase(decimalValue, 32);
         document.getElementById('base64').value = convertToBase(decimalValue, 64);
         
+        // ASCII转换
+        const asciiResult = convertToASCII(hexString);
+        document.getElementById('ascii').value = asciiResult;
+        
+        // 字节数组转换
+        const byteArrayResult = convertToByteArray(hexString);
+        document.getElementById('byteArray').value = byteArrayResult;
+        
+        // UTF-8编码转换
+        const utf8Result = convertToUTF8(asciiResult);
+        document.getElementById('utf8').value = utf8Result;
+        
     } catch (error) {
         errorMessage.textContent = error.message || '转换失败，请检查输入格式！';
         errorMessage.classList.add('show');
     }
+}
+
+function convertToASCII(hexString) {
+    // 确保十六进制字符串长度为偶数
+    if (hexString.length % 2 !== 0) {
+        hexString = '0' + hexString;
+    }
+    
+    let result = '';
+    let byteCount = 0;
+    
+    for (let i = 0; i < hexString.length; i += 2) {
+        const hexByte = hexString.substr(i, 2);
+        const byte = parseInt(hexByte, 16);
+        
+        byteCount++;
+        
+        // ASCII控制字符和特殊字符处理
+        if (byte === 0x00) {
+            result += '[NUL]';
+        } else if (byte === 0x09) {
+            result += '[TAB]';
+        } else if (byte === 0x0A) {
+            result += '[LF]\n';
+        } else if (byte === 0x0D) {
+            result += '[CR]';
+        } else if (byte === 0x1B) {
+            result += '[ESC]';
+        } else if (byte === 0x20) {
+            result += ' ';
+        } else if (byte === 0x7F) {
+            result += '[DEL]';
+        } else if (byte < 0x20 || byte > 0x7E) {
+            // 非可打印字符，显示十六进制
+            result += `[0x${hexByte.toUpperCase()}]`;
+        } else {
+            // 可打印ASCII字符
+            result += String.fromCharCode(byte);
+        }
+    }
+    
+    return result || '（无法解析为ASCII）';
+}
+
+function convertToByteArray(hexString) {
+    // 确保十六进制字符串长度为偶数
+    if (hexString.length % 2 !== 0) {
+        hexString = '0' + hexString;
+    }
+    
+    let bytes = [];
+    
+    for (let i = 0; i < hexString.length; i += 2) {
+        const hexByte = hexString.substr(i, 2);
+        const byte = parseInt(hexByte, 16);
+        bytes.push(byte);
+    }
+    
+    // 格式化输出
+    let result = '[';
+    for (let i = 0; i < bytes.length; i++) {
+        result += bytes[i];
+        if (i < bytes.length - 1) {
+            result += ', ';
+        }
+        // 每16个字节换行
+        if ((i + 1) % 16 === 0 && i < bytes.length - 1) {
+            result += '\n ';
+        }
+    }
+    result += ']';
+    
+    return result;
+}
+
+function convertToUTF8(asciiText) {
+    // 移除所有特殊标记，只保留可打印字符
+    let cleanText = asciiText.replace(/\[[^\]]+\]/g, '');
+    
+    if (!cleanText.trim()) {
+        return '（无有效文本）';
+    }
+    
+    // 将文本转换为UTF-8字节
+    const encoder = new TextEncoder();
+    const utf8Bytes = encoder.encode(cleanText);
+    
+    // 转换为十六进制表示
+    let result = '';
+    for (let i = 0; i < utf8Bytes.length; i++) {
+        result += utf8Bytes[i].toString(16).toUpperCase().padStart(2, '0');
+        if (i < utf8Bytes.length - 1) {
+            result += ' ';
+        }
+        // 每16个字节换行
+        if ((i + 1) % 16 === 0 && i < utf8Bytes.length - 1) {
+            result += '\n';
+        }
+    }
+    
+    return result;
 }
 
 function copyToClipboard(elementId, button) {
@@ -101,12 +217,3 @@ function copyToClipboard(elementId, button) {
         alert('复制失败，请手动复制');
     });
 }
-
-// 支持回车键触发转换
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('hexInput').addEventListener('keypress', function(event) {
-        if (event.key === 'Enter') {
-            convertHex();
-        }
-    });
-});

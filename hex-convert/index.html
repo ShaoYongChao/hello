@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>🔢 16进制转换器</h1>
+        <h1>🔢 进制转换器</h1>
         
         <div class="input-section">
             <label for="hexInput">输入16进制数值：</label>
@@ -65,6 +65,72 @@
                 <div class="result-wrapper">
                     <input type="text" class="result-input" id="base64" readonly>
                     <button class="copy-btn" onclick="copyToClipboard('base64', this)">复制</button>
+                </div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-label">
+                    ASCII字符：
+                    <span class="info-icon" title="将十六进制解析为ASCII字符。\n常见控制字符：\n0x00=NUL(空字符) 0x0A=LF(换行) 0x0D=CR(回车) 0x20=Space(空格)\n0x09=TAB(制表符) 0x1B=ESC(转义) 0x7F=DEL(删除)">ℹ️</span>
+                </div>
+                <div class="result-wrapper">
+                    <textarea class="result-input result-textarea" id="ascii" readonly></textarea>
+                    <button class="copy-btn" onclick="copyToClipboard('ascii', this)">复制</button>
+                </div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-label">
+                    字节数组 (Byte Array)：
+                    <span class="info-icon" title="以十进制字节数组形式显示，常用于编程和数据传输。\n每个字节范围：0-255">ℹ️</span>
+                </div>
+                <div class="result-wrapper">
+                    <textarea class="result-input result-textarea" id="byteArray" readonly></textarea>
+                    <button class="copy-btn" onclick="copyToClipboard('byteArray', this)">复制</button>
+                </div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-label">
+                    UTF-8编码：
+                    <span class="info-icon" title="将ASCII文本转换为UTF-8编码的十六进制表示。\n常用于URL编码、文件编码等场景。">ℹ️</span>
+                </div>
+                <div class="result-wrapper">
+                    <textarea class="result-input result-textarea" id="utf8" readonly></textarea>
+                    <button class="copy-btn" onclick="copyToClipboard('utf8', this)">复制</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>📚 转换说明</h3>
+            <div class="info-content">
+                <div class="info-item">
+                    <strong>二进制 (Binary)：</strong>计算机最基础的数字系统，只使用0和1。
+                </div>
+                <div class="info-item">
+                    <strong>八进制 (Octal)：</strong>使用0-7，常用于Unix文件权限表示（如755）。
+                </div>
+                <div class="info-item">
+                    <strong>十进制 (Decimal)：</strong>日常使用的数字系统，使用0-9。
+                </div>
+                <div class="info-item">
+                    <strong>十六进制 (Hexadecimal)：</strong>使用0-9和A-F，常用于颜色代码、内存地址等。
+                </div>
+                <div class="info-item">
+                    <strong>ASCII控制字符：</strong>
+                    <ul>
+                        <li>0x00 (NUL) - 空字符</li>
+                        <li>0x09 (TAB) - 制表符</li>
+                        <li>0x0A (LF) - 换行符（Unix/Linux）</li>
+                        <li>0x0D (CR) - 回车符（Windows使用CR+LF）</li>
+                        <li>0x1B (ESC) - 转义字符</li>
+                        <li>0x20 (SPACE) - 空格</li>
+                        <li>0x7F (DEL) - 删除</li>
+                    </ul>
+                </div>
+                <div class="info-item">
+                    <strong>ASCII可打印字符：</strong>范围0x20-0x7E，包括字母、数字、标点符号等。
                 </div>
             </div>
         </div>
