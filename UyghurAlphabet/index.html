@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html lang="ug">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>维吾尔语字母表学习</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-logo">ئۇيغۇر يېزىقى</h1>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#home" class="nav-link active"><span class="cn-text">首页</span><span class="uy-text">باش بەت</span></a></li>
+                <li class="nav-item"><a href="#alphabet-table" class="nav-link"><span class="cn-text">字母表</span><span class="uy-text">ھەرپ جەدۋىلى</span></a></li>
+                <li class="nav-item"><a href="#about" class="nav-link"><span class="cn-text">关于</span><span class="uy-text">ھەققىدە</span></a></li>
+                <li class="nav-item"><a href="#download" class="nav-link"><span class="cn-text">下载资料</span><span class="uy-text">ماتېرىيال چۈشۈرۈش</span></a></li>
+                <li class="nav-item">
+                    <button id="toggleUyghur" class="toggle-btn">
+                        <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <span id="toggleText">显示维语</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content">
+        <!-- 欢迎区域 -->
+        <section id="home" class="welcome-section">
+            <h1 class="page-title">
+                <span class="cn-text">维吾尔语字母表学习平台</span>
+                <span class="uy-text">ئۇيغۇر يېزىقى ئۆگىنىش سۇپىسى</span>
+            </h1>
+            <p class="page-subtitle">
+                <span class="cn-text">学习维吾尔语的32个字母，包含阿拉伯文、拉丁文转写和国际音标</span>
+                <span class="uy-text">ئۇيغۇر يېزىقىنىڭ 32 ھەرپىنى ئۆگىنىش، ئەرەب، لاتىن يېزىقى ۋە خەلقئارا ئاۋاز بەلگىسىنى ئۆز ئىچىگە ئالىدۇ</span>
+            </p>
+        </section>
+
+        <!-- 字母卡片区域 -->
+        <section class="alphabet-section">
+            <div id="alphabet-grid" class="alphabet-grid">
+                <!-- 字母卡片将通过JavaScript动态生成 -->
+            </div>
+        </section>
+
+        <!-- 维吾尔语字母表区域 -->
+        <section id="alphabet-table" class="table-section">
+            <div class="table-header-fixed">
+                <h2>
+                    <span class="cn-text">维吾尔语字母表详细表格</span>
+                    <span class="uy-text">ئۇيغۇر ھەرپلىرىنىڭ تەپسىلىي جەدۋىلى</span>
+                </h2>
+            </div>
+            <div class="table-container">
+                <table class="alphabet-detail-table">
+                    <thead>
+                        <tr>
+                            <th>Separated Final</th>
+                            <th>Final</th>
+                            <th>Separated Medial</th>
+                            <th>Medial</th>
+                            <th>Simple Initial</th>
+                            <th>Initial</th>
+                            <th>Simple Isolated</th>
+                            <th>Isolated</th>
+                            <th>Letter</th>
+                            <th>No.</th>
+                        </tr>
+                        <tr lang="zh-CN">
+                            <th>隔音前连式</th>
+                            <th>前连式</th>
+                            <th>隔音双连式</th>
+                            <th>双连式</th>
+                            <th>简单后连式</th>
+                            <th>后连式</th>
+                            <th>简单独立式</th>
+                            <th>独立式</th>
+                            <th>字母</th>
+                            <th>编号</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="category-divider">
+                            <td colspan="10"><span class="category-label">元音字母 / Vowels</span></td>
+                        </tr>
+
+<tr>
+                        <td lang="ug-Arab" class="letter-cell">خەلق<span class="red">ئا</span>را</td>
+                        <td lang="ug-Arab" class="letter-cell">ئالم<span class="red">ا</span></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">قار<span class="red">ا</span></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ئا</span>نا</td>
+                        <th lang="ug-Latn" class="letter-cell">a</th>
+                        <th lang="en-GB" class="english-cell">1</th>
+                    </tr>
+                    
+<tr>
+                        <td lang="ug-Latn" class="latin-cell">xelq'<span class="red">a</span>ra</td>
+                        <td lang="ug-Latn" class="latin-cell">alm<span class="red">a</span></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">qar<span class="red">a</span></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">a</span>na</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td class="english-cell">international</td>
+                        <td class="english-cell">apple</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="english-cell">black</td>
+                        <td class="english-cell">mom</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td lang="zh-CN" class="chinese-cell">国际</td>
+                        <td lang="zh-CN" class="chinese-cell">苹果</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">黑色</td>
+                        <td lang="zh-CN" class="chinese-cell">妈妈</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td lang="ug-Arab" class="letter-cell">مەش<span class="red">ئە</span>ل</td>
+                        <td lang="ug-Arab" class="letter-cell">م<span class="red">ە</span>ن</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ر<span class="red">ە</span>سىم</td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ئە</span>دەبىيات</td>
+                        <th lang="ug-Latn" class="letter-cell">e</th>
+                        <th lang="en-GB" class="english-cell">2</th>
+                    </tr>
+                    
+<tr>
+                        <td lang="ug-Latn" class="latin-cell">mesh'<span class="red">e</span>l</td>
+                        <td lang="ug-Latn" class="latin-cell">m<span class="red">e</span>n</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">r<span class="red">e</span>sim</td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">e</span>debiyat</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td class="english-cell">torch</td>
+                        <td class="english-cell">I</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="english-cell">picture</td>
+                        <td class="english-cell">literature</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td lang="zh-CN" class="chinese-cell">火炬</td>
+                        <td lang="zh-CN" class="chinese-cell">我</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">图片</td>
+                        <td lang="zh-CN" class="chinese-cell">文学</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+                        <tr class="category-divider">
+                            <td colspan="10"><span class="category-label">辅音字母 / Consonants (b, p, t, j, c, x)</span></td>
+                        </tr>
+
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">قەل<span class="red">ب</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">پۇت<span class="red">ب</span>ول</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ب</span>ەش</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">كىتا<span class="red">ب</span></td>
+                        <th lang="ug-Latn" class="letter-cell">b</th>
+                        <th lang="en-GB" class="english-cell">3</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">qel<span class="red">b</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">put<span class="red">b</span>ol</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">b</span>esh</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">kita<span class="red">b</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">heart</td>
+                        <td></td>
+                        <td class="english-cell">football</td>
+                        <td></td>
+                        <td class="english-cell">five</td>
+                        <td></td>
+                        <td class="english-cell">book</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">心</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">足球</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">五</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">书</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">يى<span class="red">پ</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">قال<span class="red">پ</span>اق</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">پ</span>ارتا</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">كۆ<span class="red">پ</span></td>
+                        <th lang="ug-Latn" class="letter-cell">p</th>
+                        <th lang="en-GB" class="english-cell">4</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">yi<span class="red">p</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">qal<span class="red">p</span>aq</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">p</span>arta</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">kö<span class="red">p</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">thread</td>
+                        <td></td>
+                        <td class="english-cell">hat</td>
+                        <td></td>
+                        <td class="english-cell">school desk</td>
+                        <td></td>
+                        <td class="english-cell">a lot</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">线</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">帽子</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">课桌</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">多</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ئى<span class="red">ت</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">خال<span class="red">ت</span>ا</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ت</span>اۋۇز</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ئا<span class="red">ت</span></td>
+                        <th lang="ug-Latn" class="letter-cell">t</th>
+                        <th lang="en-GB" class="english-cell">5</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">i<span class="red">t</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">xal<span class="red">t</span>a</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">t</span>awuz</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">a<span class="red">t</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">dog</td>
+                        <td></td>
+                        <td class="english-cell">bag</td>
+                        <td></td>
+                        <td class="english-cell">watermelon</td>
+                        <td></td>
+                        <td class="english-cell">horse</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">狗</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">袋子</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">西瓜</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">马</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ئانكورې<span class="red">ج</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">بۆل<span class="red">ج</span>ۈرگەن</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ج</span>ۈمە</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">تا<span class="red">ج</span></td>
+                        <th lang="ug-Latn" class="letter-cell">j</th>
+                        <th lang="en-GB" class="english-cell">6</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">ankorë<span class="red">j</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">böl<span class="red">j</span>ürgen</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">j</span>üme</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">ta<span class="red">j</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">Anchorage</td>
+                        <td></td>
+                        <td class="english-cell">strawberry</td>
+                        <td></td>
+                        <td class="english-cell">Friday</td>
+                        <td></td>
+                        <td class="english-cell">crown</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">安克雷奇</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">草莓</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">星期五</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">皇冠</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ساندۋى<span class="red">چ</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">پاي<span class="red">چ</span>ىك</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">چ</span>ارچاش</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">چا<span class="red">چ</span></td>
+                        <th lang="ug-Latn" class="letter-cell">c</th>
+                        <th lang="en-GB" class="english-cell">7</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">sandwi<span class="red">c</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">pay<span class="red">c</span>ik</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">c</span>arcash</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">ca<span class="red">c</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">sandwich</td>
+                        <td></td>
+                        <td class="english-cell">shareholder</td>
+                        <td></td>
+                        <td class="english-cell">fatigue</td>
+                        <td></td>
+                        <td class="english-cell">hair</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">三明治</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">股东</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">疲劳</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">头发</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">بى<span class="red">خ</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ئاش<span class="red">خ</span>انا</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">خ</span>وجايىن</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">دەرە<span class="red">خ</span></td>
+                        <th lang="ug-Latn" class="letter-cell">x</th>
+                        <th lang="en-GB" class="english-cell">8</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">bi<span class="red">x</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">ash<span class="red">x</span>ana</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">x</span>ojayin</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">dere<span class="red">x</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">bud</td>
+                        <td></td>
+                        <td class="english-cell">cafeteria</td>
+                        <td></td>
+                        <td class="english-cell">boss</td>
+                        <td></td>
+                        <td class="english-cell">tree</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">芽</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">饭馆</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">老板</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">树</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+                        <tr class="category-divider">
+                            <td colspan="10"><span class="category-label">辅音字母 / Consonants (d, r, z, zh, s, sh, gh)</span></td>
+                        </tr>
+
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">چاي<span class="red">د</span>ان</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">د</span>ادا</td>
+                        <th lang="ug-Latn" class="letter-cell">d</th>
+                        <th lang="en-GB" class="english-cell">9</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">cay<span class="red">d</span>an</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">d</span>ada</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">thermos</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="english-cell">dad</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">保温瓶</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">爸爸</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">شى<span class="red">ر</span></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ر</span>ەڭ</td>
+                        <th lang="ug-Latn" class="letter-cell">r</th>
+                        <th lang="en-GB" class="english-cell">10</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">shi<span class="red">r</span></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">r</span>eng</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">lion</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="english-cell">colour</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">狮子</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">颜色</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">قى<span class="red">ز</span></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">كۆ<span class="red">ز</span></td>
+                        <th lang="ug-Latn" class="letter-cell">z</th>
+                        <th lang="en-GB" class="english-cell">11</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">qi<span class="red">z</span></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">kö<span class="red">z</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">girl</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="english-cell">eye</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">女孩</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">眼睛</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">پارى<span class="red">ژ</span></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ژ</span>ۇرنال</td>
+                        <th lang="ug-Latn" class="letter-cell">zh</th>
+                        <th lang="en-GB" class="english-cell">12</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">pari<span class="red">zh</span></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">zh</span>urnal</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">Paris</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="english-cell">magazine</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">巴黎</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">杂志</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">قالتى<span class="red">س</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">سام<span class="red">س</span>اق</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">س</span>ىز</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">يولۋا<span class="red">س</span></td>
+                        <th lang="ug-Latn" class="letter-cell">s</th>
+                        <th lang="en-GB" class="english-cell">13</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">qalti<span class="red">s</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">sam<span class="red">s</span>aq</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">s</span>iz</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">yolwa<span class="red">s</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">awesome</td>
+                        <td></td>
+                        <td class="english-cell">garlic</td>
+                        <td></td>
+                        <td class="english-cell">you</td>
+                        <td></td>
+                        <td class="english-cell">tiger</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">很棒</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">大蒜</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">你</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">老虎</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">چى<span class="red">ش</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ئى<span class="red">ش</span>چى</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ش</span>ار</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">تا<span class="red">ش</span></td>
+                        <th lang="ug-Latn" class="letter-cell">sh</th>
+                        <th lang="en-GB" class="english-cell">14</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">ci<span class="red">sh</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">i<span class="red">sh</span>ci</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">sh</span>ar</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">ta<span class="red">sh</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">tooth</td>
+                        <td></td>
+                        <td class="english-cell">worker</td>
+                        <td></td>
+                        <td class="english-cell">balloon</td>
+                        <td></td>
+                        <td class="english-cell">stone</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">牙</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">工人</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">气球</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">石头</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">تى<span class="red">غ</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">يام<span class="red">غ</span>ۇر</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">غ</span>از</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ئايا<span class="red">غ</span></td>
+                        <th lang="ug-Latn" class="letter-cell">gh</th>
+                        <th lang="en-GB" class="english-cell">15</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">ti<span class="red">gh</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">yam<span class="red">gh</span>ur</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">gh</span>az</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">aya<span class="red">gh</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">blade</td>
+                        <td></td>
+                        <td class="english-cell">rain</td>
+                        <td></td>
+                        <td class="english-cell">goose</td>
+                        <td></td>
+                        <td class="english-cell">shoe</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">刀片</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">雨</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">鹅</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">鞋</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+                        <tr class="category-divider">
+                            <td colspan="10"><span class="category-label">辅音字母 / Consonants (f, q, k, g, ng, l, m, n, h)</span></td>
+                        </tr>
+
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">گول<span class="red">ف</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ئاس<span class="red">ف</span>الت</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ف</span>امىلە</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">تېلېگرا<span class="red">ف</span></td>
+                        <th lang="ug-Latn" class="letter-cell">f</th>
+                        <th lang="en-GB" class="english-cell">16</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">gol<span class="red">f</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">as<span class="red">f</span>alt</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">f</span>amile</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">tëlëgra<span class="red">f</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">golf</td>
+                        <td></td>
+                        <td class="english-cell">asphalt</td>
+                        <td></td>
+                        <td class="english-cell">surname</td>
+                        <td></td>
+                        <td class="english-cell">telecom</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">高尔夫</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">沥青</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">姓</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">电信</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ئېيى<span class="red">ق</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">قاش<span class="red">ق</span>ەر</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ق</span>ول</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ئا<span class="red">ق</span></td>
+                        <th lang="ug-Latn" class="letter-cell">q</th>
+                        <th lang="en-GB" class="english-cell">17</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">ëyi<span class="red">q</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">qash<span class="red">q</span>er</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">q</span>ol</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">a<span class="red">q</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">bear</td>
+                        <td></td>
+                        <td class="english-cell">Kashgar</td>
+                        <td></td>
+                        <td class="english-cell">hand</td>
+                        <td></td>
+                        <td class="english-cell">white</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">熊</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">喀什</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">手</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">白色</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ئىشى<span class="red">ك</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ئى<span class="red">ك</span>كى</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ك</span>ابىنكا</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">كۆ<span class="red">ك</span></td>
+                        <th lang="ug-Latn" class="letter-cell">k</th>
+                        <th lang="en-GB" class="english-cell">18</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">ishi<span class="red">k</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">i<span class="red">k</span>ki</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">k</span>abinka</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">kö<span class="red">k</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">door</td>
+                        <td></td>
+                        <td class="english-cell">two</td>
+                        <td></td>
+                        <td class="english-cell">cabin</td>
+                        <td></td>
+                        <td class="english-cell">blue</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">门</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">二</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">舱</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">蓝色</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">لېيپزى<span class="red">گ</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ئۈل<span class="red">گ</span>ە</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">گ</span>ىلەم</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">بىئولو<span class="red">گ</span></td>
+                        <th lang="ug-Latn" class="letter-cell">g</th>
+                        <th lang="en-GB" class="english-cell">19</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">lëypzi<span class="red">g</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">ül<span class="red">g</span>e</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">g</span>ilem</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">bi'olo<span class="red">g</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">Leipzig</td>
+                        <td></td>
+                        <td class="english-cell">role model</td>
+                        <td></td>
+                        <td class="english-cell">carpet</td>
+                        <td></td>
+                        <td class="english-cell">biologist</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">莱比锡</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">榜样</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">地毯</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">生物学家</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">مى<span class="red">ڭ</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">يى<span class="red">ڭ</span>نە</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">يا<span class="red">ڭ</span>اق</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">يە<span class="red">ڭ</span></td>
+                        <th lang="ug-Latn" class="letter-cell">ng</th>
+                        <th lang="en-GB" class="english-cell">20</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">mi<span class="red">ng</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">yi<span class="red">ng</span>ne</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">ya<span class="red">ng</span>aq</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">ye<span class="red">ng</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">thousand</td>
+                        <td></td>
+                        <td class="english-cell">needle</td>
+                        <td></td>
+                        <td class="english-cell">walnut</td>
+                        <td></td>
+                        <td class="english-cell">sleeve</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">千</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">针</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">核桃</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">袖子</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">پى<span class="red">ل</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">بى<span class="red">ل</span>ىم</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">خە<span class="red">ل</span>ق</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">كۆ<span class="red">ل</span></td>
+                        <th lang="ug-Latn" class="letter-cell">l</th>
+                        <th lang="en-GB" class="english-cell">21</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">pi<span class="red">l</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">bi<span class="red">l</span>im</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">xe<span class="red">l</span>q</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">kö<span class="red">l</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">elephant</td>
+                        <td></td>
+                        <td class="english-cell">knowledge</td>
+                        <td></td>
+                        <td class="english-cell">people</td>
+                        <td></td>
+                        <td class="english-cell">lake</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">大象</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">知识</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">人民</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">湖</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">تارى<span class="red">م</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ماي<span class="red">م</span>ۇن</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">م</span>ۈشۈك</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">قەلە<span class="red">م</span></td>
+                        <th lang="ug-Latn" class="letter-cell">m</th>
+                        <th lang="en-GB" class="english-cell">22</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">tari<span class="red">m</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">may<span class="red">m</span>un</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">m</span>üshük</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">qele<span class="red">m</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">Tarim</td>
+                        <td></td>
+                        <td class="english-cell">monkey</td>
+                        <td></td>
+                        <td class="english-cell">cat</td>
+                        <td></td>
+                        <td class="english-cell">pen</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">塔里木</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">猴子</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">猫</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">笔</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">تىيى<span class="red">ن</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ئەي<span class="red">ن</span>ەك</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">با<span class="red">ن</span>ان</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">نا<span class="red">ن</span></td>
+                        <th lang="ug-Latn" class="letter-cell">n</th>
+                        <th lang="en-GB" class="english-cell">23</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">tiyi<span class="red">n</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">ey<span class="red">n</span>ek</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">ba<span class="red">n</span>an</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">na<span class="red">n</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">squirrel</td>
+                        <td></td>
+                        <td class="english-cell">mirror</td>
+                        <td></td>
+                        <td class="english-cell">banana</td>
+                        <td></td>
+                        <td class="english-cell">naan</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">松鼠</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">镜子</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">香蕉</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">馕</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">تەنبى<span class="red">ھ</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">دې<span class="red">ھ</span>قان</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ھ</span>ەرە</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ئابدۇللا<span class="red">ھ</span></td>
+                        <th lang="ug-Latn" class="letter-cell">h</th>
+                        <th lang="en-GB" class="english-cell">24</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">tenbi<span class="red">h</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">dë<span class="red">h</span>qan</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">h</span>ere</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">abdulla<span class="red">h</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">admonition</td>
+                        <td></td>
+                        <td class="english-cell">peasant</td>
+                        <td></td>
+                        <td class="english-cell">bee</td>
+                        <td></td>
+                        <td class="english-cell">Abdullah</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">训诫</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">农民</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">蜜蜂</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">阿卜杜拉</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+                        <tr class="category-divider">
+                            <td colspan="10"><span class="category-label">元音字母 / Vowels (o, u, ö, ü)</span></td>
+                        </tr>
+
+<tr>
+                        <td lang="ug-Arab" class="letter-cell">گې<span class="red">ئو</span>لوگىيە</td>
+                        <td lang="ug-Arab" class="letter-cell">ق<span class="red">و</span>غۇن</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">د<span class="red">و</span>را</td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ئو</span>ت</td>
+                        <th lang="ug-Latn" class="letter-cell">o</th>
+                        <th lang="en-GB" class="english-cell">25</th>
+                    </tr>
+                    
+<tr>
+                        <td lang="ug-Latn" class="latin-cell">gë'<span class="red">o</span>logiye</td>
+                        <td lang="ug-Latn" class="latin-cell">q<span class="red">o</span>ghun</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">d<span class="red">o</span>ra</td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">o</span>t</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td class="english-cell">geology</td>
+                        <td class="english-cell">melon</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="english-cell">medication</td>
+                        <td class="english-cell">fire</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td lang="zh-CN" class="chinese-cell">地质学</td>
+                        <td lang="zh-CN" class="chinese-cell">甜瓜</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">药物</td>
+                        <td lang="zh-CN" class="chinese-cell">火</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td lang="ug-Arab" class="letter-cell">مەس<span class="red">ئۇ</span>لىيەت</td>
+                        <td lang="ug-Arab" class="letter-cell">پ<span class="red">ۇ</span>ل</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">د<span class="red">ۇ</span>مباق</td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ئۇ</span>يغۇر</td>
+                        <th lang="ug-Latn" class="letter-cell">u</th>
+                        <th lang="en-GB" class="english-cell">26</th>
+                    </tr>
+                    
+<tr>
+                        <td lang="ug-Latn" class="latin-cell">mes'<span class="red">u</span>liyet</td>
+                        <td lang="ug-Latn" class="latin-cell">p<span class="red">u</span>l</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">d<span class="red">u</span>mbaq</td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">u</span>uyghur</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td class="english-cell">responsibility</td>
+                        <td class="english-cell">money</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="english-cell">drum</td>
+                        <td class="english-cell">Uyghur</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td lang="zh-CN" class="chinese-cell">责任</td>
+                        <td lang="zh-CN" class="chinese-cell">钱</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">鼓</td>
+                        <td lang="zh-CN" class="chinese-cell">维吾尔</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td>*</td>
+                        <td lang="ug-Arab" class="letter-cell">ت<span class="red">ۆ</span>گە</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">د<span class="red">ۆ</span>لەت</td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ئۆ</span>ي</td>
+                        <th lang="ug-Latn" class="letter-cell">ö</th>
+                        <th lang="en-GB" class="english-cell">27</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">t<span class="red">ö</span>ge</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">d<span class="red">ö</span>let</td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">ö</span>y</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">camel</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="english-cell">country</td>
+                        <td class="english-cell">home</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">骆驼</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">国家</td>
+                        <td lang="zh-CN" class="chinese-cell">家</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td>*</td>
+                        <td lang="ug-Arab" class="letter-cell">گ<span class="red">ۈ</span>ل</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ئۈز<span class="red">ۈ</span>م</td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ئۈ</span>مىد</td>
+                        <th lang="ug-Latn" class="letter-cell">ü</th>
+                        <th lang="en-GB" class="english-cell">28</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">g<span class="red">ü</span>l</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">üz<span class="red">ü</span>m</td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">ü</span>mid</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">flower</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="english-cell">grape</td>
+                        <td class="english-cell">hope</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">花</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">葡萄</td>
+                        <td lang="zh-CN" class="chinese-cell">希望</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+                        <tr class="category-divider">
+                            <td colspan="10"><span class="category-label">半元音 / Semivowel (w)</span></td>
+                        </tr>
+
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">مې<span class="red">ۋ</span>ە</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ۋ</span>ەتەن</td>
+                        <th lang="ug-Latn" class="letter-cell">w</th>
+                        <th lang="en-GB" class="english-cell">29</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">më<span class="red">w</span>e</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">w</span>eten</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">fruit</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="english-cell">homeland</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">水果</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">祖国</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+                        <tr class="category-divider">
+                            <td colspan="10"><span class="category-label">元音和辅音 / Vowels and Consonants (ë, i, y)</span></td>
+                        </tr>
+
+<tr>
+                        <td>*</td>
+                        <td lang="ug-Arab" class="letter-cell">جاڭجياج<span class="red">ې</span></td>
+                        <td>*</td>
+                        <td lang="ug-Arab" class="letter-cell">ت<span class="red">ې</span>ز</td>
+                        <td lang="ug-Arab" class="letter-cell">د<span class="red">ې</span>ڭىز</td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ئې</span>تىز</td>
+                        <td lang="ug-Arab" class="letter-cell">چېڭد<span class="red">ې</span></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ئې</span> چيەنچيۇ</td>
+                        <th lang="ug-Latn" class="letter-cell">ë</th>
+                        <th lang="en-GB" class="english-cell">30</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">jangjyaj<span class="red">ë</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">t<span class="red">ë</span>z</td>
+                        <td lang="ug-Latn" class="latin-cell">d<span class="red">ë</span>ngiz</td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">ë</span>tiz</td>
+                        <td lang="ug-Latn" class="latin-cell">cëngd<span class="red">ë</span></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">ë</span> cyencyu</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">Zhangjiajie</td>
+                        <td></td>
+                        <td class="english-cell">fast</td>
+                        <td class="english-cell">sea</td>
+                        <td class="english-cell">field</td>
+                        <td class="english-cell">Chengde</td>
+                        <td class="english-cell">E Qianqiu</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">张家界</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">快</td>
+                        <td lang="zh-CN" class="chinese-cell">海</td>
+                        <td lang="zh-CN" class="chinese-cell">田地</td>
+                        <td lang="zh-CN" class="chinese-cell">承德</td>
+                        <td lang="zh-CN" class="chinese-cell">鄂千秋</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td lang="ug-Arab" class="letter-cell">مەن<span class="red">ئى</span></td>
+                        <td lang="ug-Arab" class="letter-cell">قايس<span class="red">ى</span></td>
+                        <td lang="ug-Arab" class="letter-cell">پې<span class="red">ئى</span>ل</td>
+                        <td lang="ug-Arab" class="letter-cell">چ<span class="red">ى</span>رايلىق</td>
+                        <td lang="ug-Arab" class="letter-cell">پىڭۋ<span class="red">ى</span>ن</td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ئى</span>ز</td>
+                        <td lang="ug-Arab" class="letter-cell">مالاۋ<span class="red">ى</span></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ئى</span> نائومى</td>
+                        <th lang="ug-Latn" class="letter-cell">i</th>
+                        <th lang="en-GB" class="english-cell">31</th>
+                    </tr>
+                    
+<tr>
+                        <td lang="ug-Latn" class="latin-cell">men'<span class="red">i</span></td>
+                        <td lang="ug-Latn" class="latin-cell">qays<span class="red">i</span></td>
+                        <td lang="ug-Latn" class="latin-cell">pë'<span class="red">i</span>l</td>
+                        <td lang="ug-Latn" class="latin-cell">c<span class="red">i</span>rayliq</td>
+                        <td lang="ug-Latn" class="latin-cell">pingw<span class="red">i</span>n</td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">i</span>z</td>
+                        <td lang="ug-Latn" class="latin-cell">malaw<span class="red">i</span></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">i</span> na'omi</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td class="english-cell">prohibition</td>
+                        <td class="english-cell">which</td>
+                        <td class="english-cell">verb</td>
+                        <td class="english-cell">beautiful</td>
+                        <td class="english-cell">penguin</td>
+                        <td class="english-cell">imprint</td>
+                        <td class="english-cell">Malawi</td>
+                        <td class="english-cell">I Naomi</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td lang="zh-CN" class="chinese-cell">禁止</td>
+                        <td lang="zh-CN" class="chinese-cell">哪个</td>
+                        <td lang="zh-CN" class="chinese-cell">动词</td>
+                        <td lang="zh-CN" class="chinese-cell">美丽</td>
+                        <td lang="zh-CN" class="chinese-cell">企鹅</td>
+                        <td lang="zh-CN" class="chinese-cell">痕迹</td>
+                        <td lang="zh-CN" class="chinese-cell">马拉维</td>
+                        <td lang="zh-CN" class="chinese-cell">井尚美</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">ناترى<span class="red">ي</span></td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">كومپ<span class="red">ي</span>ۇتېر</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell"><span class="red">ي</span>ىل</td>
+                        <td></td>
+                        <td lang="ug-Arab" class="letter-cell">قو<span class="red">ي</span></td>
+                        <th lang="ug-Latn" class="letter-cell">y</th>
+                        <th lang="en-GB" class="english-cell">32</th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">natri<span class="red">y</span></td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">komp<span class="red">y</span>utër</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell"><span class="red">y</span>il</td>
+                        <td></td>
+                        <td lang="ug-Latn" class="latin-cell">qo<span class="red">y</span></td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td class="english-cell">sodium</td>
+                        <td></td>
+                        <td class="english-cell">computer</td>
+                        <td></td>
+                        <td class="english-cell">year</td>
+                        <td></td>
+                        <td class="english-cell">sheep</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    
+<tr>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">钠</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">电脑</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">年</td>
+                        <td></td>
+                        <td lang="zh-CN" class="chinese-cell">羊</td>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 关于区域 -->
+        <section id="about" class="about-section">
+            <div class="about-container">
+                <h2>
+                    <span class="cn-text">关于维吾尔语字母表</span>
+                    <span class="uy-text">ئۇيغۇر يېزىقى ھەققىدە</span>
+                </h2>
+                <p>
+                    <span class="cn-text">维吾尔语字母表（中国境内）共有32个字母，基于阿拉伯字母系统。本学习平台提供：</span>
+                    <span class="uy-text">ئۇيغۇر يېزىقى (جۇڭگو دائىرىسىدە) جەمئىي 32 ھەرپتىن تەركىب تاپقان، ئەرەب يېزىقى سىستېمىسىغا ئاساسلانغان. بۇ ئۆگىنىش سۇپىسى تۆۋەندىكىلەرنى تەمىنلەيدۇ:</span>
+                </p>
+                <ul>
+                    <li><strong>UFY（Uyghur Arabic Script）</strong><span class="cn-text">维吾尔文阿拉伯字母</span> <span class="uy-text">ئۇيغۇرچە ئەرەب ھەرپلىرى</span></li>
+                    <li><strong>ULY（Uyghur Latin Script）</strong><span class="cn-text">维吾尔文拉丁转写</span> <span class="uy-text">ئۇيغۇرچە لاتىن يېزىقى</span></li>
+                    <li><strong>IPA</strong><span class="cn-text">国际音标</span> <span class="uy-text">خەلقئارا ئاۋاز بەلگىسى</span></li>
+                    <li><strong><span class="cn-text">音频发音</span> <span class="uy-text">ئاۋازلىق تەلەپپۇز</span></strong><span class="cn-text">每个字母的标准发音</span> <span class="uy-text">ھەر بىر ھەرپنىڭ ئۆلچەملىك تەلەپپۇزى</span></li>
+                </ul>
+                <p>
+                    <span class="cn-text">点击每个字母卡片上的发音按钮，即可听到标准发音。</span>
+                    <span class="uy-text">ھەر بىر ھەرپ كارتىسىدىكى تەلەپپۇز كۇنۇپكىسىنى بېسىپ، ئۆلچەملىك تەلەپپۇزنى ئاڭلاڭ.</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- 下载资料区域 -->
+        <section id="download" class="download-section">
+            <div class="download-container">
+                <h2>
+                    <span class="cn-text">下载学习资料</span>
+                    <span class="uy-text">ئۆگىنىش ماتېرىيالىنى چۈشۈرۈش</span>
+                </h2>
+                <p>
+                    <span class="cn-text">下载完整的维吾尔语字母表资料，方便离线学习和参考。</span>
+                    <span class="uy-text">تولۇق ئۇيغۇر ھەرپلىرى ماتېرىيالىنى چۈشۈرۈڭ، توردىن تاشقىرى ئۆگىنىش ۋە پايدىلىنىش ئۈچۈن قۇلايلىق.</span>
+                </p>
+                <a href="维吾尔语字母表(中国境内).xlsx" download class="download-btn">
+                    <svg class="download-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span class="cn-text">下载 维吾尔语字母表(中国境内).xlsx</span>
+                    <span class="uy-text">ئۇيغۇر يېزىقى (جۇڭگو دائىرىسىدە).xlsx نى چۈشۈرۈش</span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>
+            <span class="cn-text">&copy; 2025 维吾尔语字母表学习平台. 用于教育学习目的.</span><br>
+            <span class="uy-text">&copy; 2025 ئۇيغۇر يېزىقى ئۆگىنىش سۇپىسى. مائارىپ ئۆگىنىش مەقسىتىدە ئىشلىتىلىدۇ.</span>
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

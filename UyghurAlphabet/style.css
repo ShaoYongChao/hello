@@ -1,0 +1,769 @@
+/* 自定义字体 */
+@font-face {
+    font-family: 'BTT';
+    src: url('BTT.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffffff;
+    color: #333333;
+    line-height: 1.6;
+}
+
+/* 导航栏样式 */
+.navbar {
+    background-color: #2c3e50;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-family: 'BTT', serif;
+    color: #ffffff;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-link {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.nav-link .cn-text {
+    font-size: 1rem;
+}
+
+.nav-link .uy-text {
+    font-family: 'BTT', serif;
+    font-size: 0.85rem;
+    opacity: 0.85;
+    direction: rtl;
+}
+
+/* 切换按钮样式 */
+.toggle-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.toggle-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+}
+
+.toggle-btn:active {
+    transform: translateY(0);
+}
+
+.toggle-icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* 隐藏维语文本的样式 */
+body:not(.show-uyghur) .uy-text {
+    display: none;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background-color: #34495e;
+    color: #ffffff;
+}
+
+/* 主要内容区域 */
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* 欢迎区域 */
+.welcome-section {
+    text-align: center;
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    margin-bottom: 3rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.page-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.page-title .cn-text {
+    font-size: 2.5rem;
+}
+
+.page-title .uy-text {
+    font-family: 'BTT', serif;
+    font-size: 2rem;
+    direction: rtl;
+}
+
+.page-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.page-subtitle .cn-text {
+    font-size: 1.2rem;
+}
+
+.page-subtitle .uy-text {
+    font-family: 'BTT', serif;
+    font-size: 1rem;
+    direction: rtl;
+}
+
+/* 字母卡片网格 */
+.alphabet-section {
+    margin-bottom: 4rem;
+}
+
+.alphabet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+/* 字母卡片样式 */
+.letter-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 2px solid #f0f0f0;
+}
+
+.letter-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-color: #667eea;
+}
+
+.letter-number {
+    color: #95a5a6;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    text-align: center;
+}
+
+.letter-ufy {
+    font-family: 'BTT', serif;
+    font-size: 3rem;
+    color: #2c3e50;
+    text-align: center;
+    margin: 1rem 0;
+    direction: rtl;
+}
+
+.letter-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #7f8c8d;
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    align-items: flex-start;
+}
+
+.info-label .cn-text {
+    font-size: 0.85rem;
+}
+
+.info-label .uy-text {
+    font-size: 0.75rem;
+}
+
+.info-value {
+    font-weight: 500;
+    color: #2c3e50;
+    font-size: 1rem;
+}
+
+/* 发音按钮 */
+.play-button {
+    width: 100%;
+    padding: 0.8rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    transition: all 0.3s ease;
+}
+
+.play-button .cn-text {
+    font-size: 1rem;
+}
+
+.play-button .uy-text {
+    font-size: 0.9rem;
+}
+
+.play-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.play-button:active {
+    transform: scale(0.98);
+}
+
+.play-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* 关于区域 */
+.about-section {
+    background-color: #f8f9fa;
+    padding: 3rem;
+    border-radius: 12px;
+    margin-bottom: 3rem;
+}
+
+.about-container h2 {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.about-container h2 .cn-text {
+    font-size: 2rem;
+}
+
+.about-container h2 .uy-text {
+    font-family: 'BTT', serif;
+    font-size: 1.6rem;
+    direction: rtl;
+    color: #667eea;
+}
+
+.about-container p {
+    margin-bottom: 1rem;
+    color: #555555;
+    font-size: 1.05rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.about-container p .uy-text {
+    font-family: 'BTT', serif;
+    direction: rtl;
+    color: #666666;
+    font-size: 0.95rem;
+}
+
+.about-container ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 1.5rem 0;
+}
+
+.about-container ul li {
+    padding: 0.8rem 0;
+    color: #555555;
+    font-size: 1.05rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.about-container ul li .uy-text {
+    font-family: 'BTT', serif;
+    direction: rtl;
+    color: #666666;
+    font-size: 0.95rem;
+    padding-left: 1.5rem;
+}
+
+.about-container ul li strong {
+    color: #667eea;
+}
+
+/* 下载区域 */
+.download-section {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    padding: 3rem;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.download-container h2 {
+    color: white;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.download-container h2 .cn-text {
+    font-size: 2rem;
+}
+
+.download-container h2 .uy-text {
+    font-family: 'BTT', serif;
+    font-size: 1.6rem;
+    direction: rtl;
+}
+
+.download-container p {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.download-container p .uy-text {
+    font-family: 'BTT', serif;
+    direction: rtl;
+    font-size: 1rem;
+}
+
+.download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    background-color: white;
+    color: #f5576c;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    flex-direction: column;
+}
+
+.download-btn .cn-text {
+    font-size: 1.1rem;
+}
+
+.download-btn .uy-text {
+    font-family: 'BTT', serif;
+    direction: rtl;
+    font-size: 1rem;
+}
+
+.download-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.download-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* 页脚 */
+.footer {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 3rem;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 0.95rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    align-items: center;
+}
+
+.footer p .uy-text {
+    font-family: 'BTT', serif;
+    direction: rtl;
+    font-size: 0.85rem;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-menu {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+        width: 100%;
+    }
+
+    .nav-item {
+        width: 100%;
+    }
+
+    .toggle-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .page-title {
+        font-size: 1.8rem;
+    }
+
+    .page-title .uy-text {
+        font-size: 1.5rem;
+    }
+
+    .page-subtitle {
+        font-size: 1rem;
+    }
+
+    .page-subtitle .uy-text {
+        font-size: 0.9rem;
+    }
+
+    .alphabet-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .letter-card {
+        padding: 1rem;
+    }
+
+    .letter-ufy {
+        font-size: 2.5rem;
+    }
+
+    .about-section,
+    .download-section {
+        padding: 2rem 1.5rem;
+    }
+
+    .about-container h2,
+    .download-container h2 {
+        font-size: 1.5rem;
+    }
+
+    .about-container h2 .uy-text,
+    .download-container h2 .uy-text {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .alphabet-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .main-content {
+        padding: 1rem;
+    }
+
+    .welcome-section {
+        padding: 2rem 1rem;
+    }
+}
+
+/* 加载动画 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.letter-card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* 字母表详细表格样式 */
+.table-section {
+    margin-bottom: 4rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table-header-fixed {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.table-header-fixed h2 {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.table-header-fixed h2 .cn-text {
+    font-size: 2rem;
+}
+
+.table-header-fixed h2 .uy-text {
+    font-family: 'BTT', serif;
+    font-size: 1.6rem;
+    direction: rtl;
+    color: #667eea;
+}
+
+.table-container {
+    overflow-x: auto;
+    position: relative;
+    max-height: 600px;
+    overflow-y: auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.alphabet-detail-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;
+}
+
+.alphabet-detail-table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.alphabet-detail-table th {
+    padding: 15px 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    white-space: nowrap;
+}
+
+.alphabet-detail-table th:last-child {
+    border-right: none;
+}
+
+.alphabet-detail-table tbody tr:nth-child(4n+1):not(.category-divider) {
+    background-color: #f8f9ff;
+}
+
+.alphabet-detail-table tbody tr:nth-child(4n+2):not(.category-divider) {
+    background-color: #f0f4ff;
+}
+
+.alphabet-detail-table tbody tr:nth-child(4n+3):not(.category-divider) {
+    background-color: #f8f9ff;
+}
+
+.alphabet-detail-table tbody tr:nth-child(4n):not(.category-divider) {
+    background-color: #e8edff;
+}
+
+.alphabet-detail-table td,
+.alphabet-detail-table th {
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.alphabet-detail-table td:last-child,
+.alphabet-detail-table th:last-child {
+    border-right: none;
+}
+
+.alphabet-detail-table td {
+    padding: 18px 10px;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1.4;
+    vertical-align: middle;
+}
+
+.alphabet-detail-table .red {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+.alphabet-detail-table .letter-cell {
+    font-size: 1.3rem !important;
+    font-weight: bold;
+    font-family: 'BTT', serif;
+    direction: rtl;
+    color: #2c3e50;
+}
+
+.alphabet-detail-table .latin-cell {
+    font-size: 0.95rem !important;
+    color: #666;
+}
+
+.alphabet-detail-table .english-cell {
+    font-size: 0.85rem !important;
+    color: #888;
+}
+
+.alphabet-detail-table .chinese-cell {
+    font-size: 0.95rem !important;
+    color: #555;
+}
+
+/* 分类分割线样式 */
+.category-divider {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    height: 45px !important;
+}
+
+.category-divider td {
+    padding: 12px 20px !important;
+    font-weight: bold;
+    text-align: center;
+    border-top: 3px solid #ffffff !important;
+    border-bottom: 3px solid #ffffff !important;
+}
+
+.category-label {
+    color: white;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 5px 15px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .table-section {
+        padding: 1rem;
+    }
+    
+    .table-header-fixed h2 {
+        font-size: 1.5rem;
+    }
+    
+    .table-header-fixed h2 .uy-text {
+        font-size: 1.2rem;
+    }
+    
+    .alphabet-detail-table th,
+    .alphabet-detail-table td {
+        padding: 10px 6px;
+        font-size: 0.8rem;
+    }
+    
+    .alphabet-detail-table .letter-cell {
+        font-size: 1.1rem !important;
+    }
+    
+    .category-label {
+        font-size: 0.9rem;
+        padding: 4px 10px;
+    }
+}
