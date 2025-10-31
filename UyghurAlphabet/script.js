@@ -79,23 +79,40 @@ const audioCache = {};
 
 // 预加载音频文件
 function preloadAudio(id) {
-    if (!audioCache[id]) {
-        const audio = new Audio(`sound/${id}.wav`);
+    // 获取实际的音频ID（处理互换）
+    const actualAudioId = getAudioId(id);
+    
+    if (!audioCache[actualAudioId]) {
+        const audio = new Audio(`sound/${actualAudioId}.wav`);
         audio.preload = 'auto';
-        audioCache[id] = audio;
+        audioCache[actualAudioId] = audio;
     }
-    return audioCache[id];
+    return audioCache[actualAudioId];
+}
+
+// 音频文件映射（处理互换）
+function getAudioId(id) {
+    const audioMap = {
+        16: 17,
+        17: 16,
+        24: 25,
+        25: 24
+    };
+    return audioMap[id] || id;
 }
 
 // 播放音频
 function playSound(id) {
+    // 获取实际的音频ID（处理互换）
+    const actualAudioId = getAudioId(id);
+    
     // 获取或创建音频对象
-    let audio = audioCache[id];
+    let audio = audioCache[actualAudioId];
     
     if (!audio) {
-        audio = new Audio(`sound/${id}.wav`);
+        audio = new Audio(`sound/${actualAudioId}.wav`);
         audio.preload = 'auto';
-        audioCache[id] = audio;
+        audioCache[actualAudioId] = audio;
     }
     
     // 重置音频到开始位置
