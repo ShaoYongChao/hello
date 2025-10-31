@@ -11,12 +11,18 @@
     <nav class="navbar">
         <div class="nav-container">
             <h1 class="nav-logo">ئۇيغۇر يېزىقى</h1>
-            <ul class="nav-menu">
+            <!-- 汉堡菜单按钮 -->
+            <button class="hamburger" id="hamburger" aria-label="菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
                 <li class="nav-item"><a href="#home" class="nav-link active"><span class="cn-text">首页</span><span class="uy-text">باش بەت</span></a></li>
                 <li class="nav-item"><a href="#alphabet-table" class="nav-link"><span class="cn-text">字母表</span><span class="uy-text">ھەرپ جەدۋىلى</span></a></li>
                 <li class="nav-item"><a href="#about" class="nav-link"><span class="cn-text">关于</span><span class="uy-text">ھەققىدە</span></a></li>
                 <li class="nav-item"><a href="#download" class="nav-link"><span class="cn-text">下载资料</span><span class="uy-text">ماتېرىيال چۈشۈرۈش</span></a></li>
-                <li class="nav-item">
+                <li class="nav-item nav-toggle-item">
                     <button id="toggleUyghur" class="toggle-btn">
                         <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>

@@ -196,6 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupSmoothScroll();
     setupScrollSpy();
     setupUyghurToggle();
+    setupMobileMenu();
     
     // 预加载所有音频文件
     uyghurAlphabet.forEach(letter => {
@@ -246,3 +247,55 @@ document.addEventListener('keydown', function(e) {
         }
     }
 });
+
+// 移动端菜单切换功能
+function setupMobileMenu() {
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    if (!hamburger || !navMenu) return;
+    
+    // 点击汉堡按钮切换菜单
+    hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+        
+        // 防止背景滚动
+        if (navMenu.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // 点击导航链接后关闭菜单
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    });
+    
+    // 点击菜单外部关闭菜单
+    document.addEventListener('click', function(e) {
+        if (navMenu.classList.contains('active') && 
+            !navMenu.contains(e.target) && 
+            !hamburger.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // 窗口大小改变时，如果变大则关闭菜单
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+}
