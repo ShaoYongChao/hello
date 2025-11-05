@@ -21,6 +21,8 @@ body, html {
     box-sizing: border-box;
     background-color: white;
     overflow: hidden;
+    /* 为底部地址栏预留空间 */
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 #footer {
@@ -30,6 +32,8 @@ body, html {
     position: absolute;
     bottom: 0px;
     box-sizing: border-box;
+    /* 考虑安全区域 */
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 #controls {
@@ -228,18 +232,21 @@ a, a:hover, a:active, a:visited {
     #container {
         border-top: 12px solid #76D0F3;
         height: 100vh;
+        /* 为iPhone底部安全区域预留空间 */
+        padding-bottom: 20px;
     }
     
     #circle {
         width: calc(100% - 20px);
-        height: calc(100% - 170px);
+        height: calc(100% - 190px);
         max-width: 250px;
         max-height: 250px;
         top: 40px;
+        bottom: 165px;
     }
     
     #footer {
-        height: 110px;
+        height: 130px;
     }
     
     #weight {
@@ -269,6 +276,8 @@ a, a:hover, a:active, a:visited {
     #container {
         border-top: 12px solid #76D0F3;
         height: 100vh;
+        /* 为iPhone底部安全区域预留空间 */
+        padding-bottom: 20px;
     }
     
     #circle {
@@ -277,11 +286,11 @@ a, a:hover, a:active, a:visited {
         max-width: 250px;
         max-height: 250px;
         top: 40px;
-        bottom: 130px;
+        bottom: 165px;
     }
     
     #footer {
-        height: 110px;
+        height: 130px;
     }
     
     #weight {
@@ -310,17 +319,19 @@ a, a:hover, a:active, a:visited {
 @media (max-width: 360px) {
     #container {
         border-top: 12px solid #76D0F3;
+        padding-bottom: 15px;
     }
     
     #circle {
         width: calc(100% - 20px);
-        height: calc(100% - 170px);
+        height: calc(100% - 185px);
         max-width: 240px;
         max-height: 240px;
+        bottom: 160px;
     }
     
     #footer {
-        height: 110px;
+        height: 125px;
     }
     
     #weight {
@@ -344,17 +355,19 @@ a, a:hover, a:active, a:visited {
 @media (max-width: 320px) {
     #container {
         border-top: 10px solid #76D0F3;
+        padding-bottom: 10px;
     }
     
     #circle {
         width: calc(100% - 15px);
-        height: calc(100% - 160px);
+        height: calc(100% - 180px);
         max-width: 200px;
         max-height: 200px;
+        bottom: 155px;
     }
     
     #footer {
-        height: 100px;
+        height: 120px;
     }
     
     #weight {
@@ -371,5 +384,16 @@ a, a:hover, a:active, a:visited {
     
     #message {
         font-size: 9px;
+    }
+}
+
+/* iPhone X 及更新机型的安全区域适配 */
+@supports (padding: env(safe-area-inset-bottom)) {
+    #container {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    #footer {
+        padding-bottom: env(safe-area-inset-bottom);
     }
 }
