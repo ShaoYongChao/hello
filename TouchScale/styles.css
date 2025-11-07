@@ -1,5 +1,5 @@
 * {
-    font-family: 'San Francisco Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    font-family: 'San Francisco Text', sans-serif;
     -webkit-user-select: none;
 }
 
@@ -21,7 +21,7 @@ body, html {
     box-sizing: border-box;
     background-color: white;
     overflow: hidden;
-    /* 为底部地址栏预留空间 */
+    /* 为底部安全区域预留空间 */
     padding-bottom: env(safe-area-inset-bottom);
 }
 
@@ -193,11 +193,6 @@ a, a:hover, a:active, a:visited {
     display: none;
     -webkit-animation: fade ease-in-out 0.5s;
     box-sizing: border-box;
-}
-
-/* 确保circle2正确显示 */
-#circle2 {
-    transform-origin: center;
 }
 
 /* 响应式设计 - 针对小屏幕设备 */
