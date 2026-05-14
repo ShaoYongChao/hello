@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>WebAR: Object Recognition & Procedural Bloom</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #000; font-family: sans-serif; }
+        /* 隐藏的视频流，用于给 CV 模型喂数据 */
+        #cv-video { display: none; }
+        /* UI 遮罩层 */
+        #overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; display: flex; flex-direction: column;
+            justify-content: space-between; padding: 20px; box-sizing: border-box;
+            z-index: 10;
+        }
+        #status {
+            color: #00ffcc; text-shadow: 0 0 5px rgba(0,255,204,0.5);
+            font-weight: bold; font-size: 1.2rem;
+            background: rgba(0, 0, 0, 0.5); padding: 10px; border-radius: 8px;
+        }
+        #crosshair {
+            position: absolute; top: 50%; left: 50%;
+            width: 20px; height: 20px; transform: translate(-50%, -50%);
+            border: 2px solid rgba(255, 255, 255, 0.5); border-radius: 50%;
+            display: none;
+        }
+    </style>
+    <!-- 引入 TensorFlow.js 和 COCO-SSD -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+</head>
+<body>
+    <video id="cv-video" autoplay playsinline muted></video>
+    <div id="overlay">
+        <div id="status">系统初始化中... 正在加载 CV 模型</div>
+        <div id="crosshair"></div>
+    </div>
+
+    <!-- 使用 Import Map 引入 Three.js -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { ARButton } from 'three/addons/webxr/ARButton.js';
+
+        // --- 1. 全局变量与配置 ---
+        let camera, scene, renderer;
+        let xrSession = null;
+        let hitTestSource = null;
+        let hitTestSourceRequested = false;
+        
+        let cvModel = null;
+        const videoEl = document.getElementById('cv-video');
+        const statusEl = document.getElementById('status');
+        
+        let isDetecting = false;
+        let target2D = null; // 识别到的瓶口 2D NDC 坐标
+        
+        // 保存生成的花朵系统，用于在 render 循环中更新 shader 时间
+        const flowers = [];
+
+        // --- 2. 初始化 Three.js 与 WebXR ---
+        function init() {
+            const container = document.createElement('div');
+            document.body.appendChild(container);
+
+            scene = new THREE.Scene();
+
+            camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 20);
+
+            const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 3);
+            light.position.set(0.5, 1, 0.25);
+            scene.add(light);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.xr.enabled = true;
+            container.appendChild(renderer.domElement);
+
+            // 配置 AR 按钮，请求 hit-test 和 dom-overlay
+            const arOptions = { 
+                requiredFeatures: ['hit-test'],
+                optionalFeatures: ['dom-overlay'],
+                domOverlay: { root: document.body }
+            };
+            document.body.appendChild(ARButton.createButton(renderer, arOptions));
+
+            renderer.xr.addEventListener('sessionstart', onSessionStart);
+            renderer.xr.addEventListener('sessionend', onSessionEnd);
+
+            window.addEventListener('resize', onWindowResize);
+
+            // 开始主循环
+            renderer.setAnimationLoop(render);
+        }
+
+        // --- 3. 初始化计算机视觉 (COCO-SSD) ---
+        async function initCV() {
+            try {
+                cvModel = await cocoSsd.load();
+                statusEl.innerText = "CV 模型加载完毕。请点击下方 ENTER AR";
+                
+                // 获取后置摄像头流用于后台分析
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "environment", width: 640, height: 480 }
+                });
+                videoEl.srcObject = stream;
+            } catch (err) {
+                statusEl.innerText = "CV 初始化失败: " + err.message;
+            }
+        }
+
+        // --- 4. CV 实时检测循环 ---
+        async function detectFrame() {
+            if (!isDetecting || !cvModel || videoEl.readyState !== 4) {
+                if(isDetecting) requestAnimationFrame(detectFrame);
+                return;
+            }
+
+            const predictions = await cvModel.detect(videoEl);
+            // 寻找瓶子或花瓶
+            const target = predictions.find(p => p.class === 'vase' || p.class === 'bottle');
+
+            if (target && target.score > 0.6) {
+                statusEl.innerText = `发现目标: ${target.class} (可点击屏幕种植)`;
+                
+                // 计算瓶口 2D 坐标 (假设在 bounding box 顶部中心往下 10% 处)
+                const [x, y, width, height] = target.bbox;
+                const mouthX_px = x + width / 2;
+                const mouthY_px = y + height * 0.1;
+
+                // 转换为 WebGL 的 NDC 坐标系 (-1 到 1)
+                const ndcX = (mouthX_px / videoEl.videoWidth) * 2 - 1;
+                const ndcY = -(mouthY_px / videoEl.videoHeight) * 2 + 1;
+                
+                target2D = new THREE.Vector2(ndcX, ndcY);
+            } else {
+                statusEl.innerText = "寻找瓶子或花瓶中...";
+                target2D = null;
+            }
+
+            // 控制检测频率以节省性能 (约 15fps)
+            setTimeout(() => requestAnimationFrame(detectFrame), 66);
+        }
+
+        // --- 5. WebXR 会话生命周期 ---
+        function onSessionStart() {
+            xrSession = renderer.xr.getSession();
+            isDetecting = true;
+            detectFrame(); // 启动 CV 检测
+            
+            // 监听屏幕点击事件触发种植
+            xrSession.addEventListener('select', onSelect);
+        }
+
+        function onSessionEnd() {
+            isDetecting = false;
+            hitTestSourceRequested = false;
+            hitTestSource = null;
+        }
+
+        // --- 6. 程序化生成花朵 (使用斐波那契球面和 ShaderMaterial) ---
+        function createProceduralFlower(positionMatrix) {
+            const particleCount = 500;
+            const geometry = new THREE.BufferGeometry();
+            
+            const positions = new Float32Array(particleCount * 3);
+            const targets = new Float32Array(particleCount * 3);
+            const delays = new Float32Array(particleCount);
+
+            // 黄金角 (约 137.5 度)
+            const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+
+            for (let i = 0; i < particleCount; i++) {
+                // 初始位置均在原点 (花蕾)
+                positions[i*3] = 0;
+                positions[i*3+1] = 0;
+                positions[i*3+2] = 0;
+
+                // 计算目标位置 (斐波那契球面排列)
+                const t = i / particleCount;
+                const radius = 0.1 * Math.sqrt(t); // 花朵大小
+                const theta = i * goldenAngle;
+                
+                // 半球展开
+                const y = 1.0 - (i / (particleCount - 1)); 
+                const r = Math.sqrt(1 - y * y) * radius;
+
+                targets[i*3] = Math.cos(theta) * r;
+                targets[i*3+1] = y * 0.05; // 稍微向上生长
+                targets[i*3+2] = Math.sin(theta) * r;
+
+                // 生长延迟 (越往外的花瓣越晚展开)
+                delays[i] = t * 2.0; 
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('aTarget', new THREE.BufferAttribute(targets, 3));
+            geometry.setAttribute('aDelay', new THREE.BufferAttribute(delays, 1));
+
+            const material = new THREE.ShaderMaterial({
+                uniforms: {
+                    uTime: { value: 0.0 },
+                    uColor: { value: new THREE.Color(0xff0055) } // 霓虹粉红/洋红
+                },
+                vertexShader: `
+                    uniform float uTime;
+                    attribute vec3 aTarget;
+                    attribute float aDelay;
+                    varying float vProgress;
+
+                    void main() {
+                        // 计算生长的进度，带弹性效果
+                        float progress = clamp((uTime - aDelay) * 1.5, 0.0, 1.0);
+                        // smoothstep easing
+                        progress = smoothstep(0.0, 1.0, progress);
+                        
+                        vProgress = progress;
+
+                        // 顶点位置从原点向目标位置移动
+                        vec3 finalPos = mix(position, aTarget, progress);
+                        
+                        vec4 mvPosition = modelViewMatrix * vec4(finalPos, 1.0);
+                        gl_PointSize = (15.0 * progress) * (1.0 / -mvPosition.z);
+                        gl_Position = projectionMatrix * mvPosition;
+                    }
+                `,
+                fragmentShader: `
+                    uniform vec3 uColor;
+                    varying float vProgress;
+
+                    void main() {
+                        if (vProgress < 0.01) discard;
+                        
+                        // 绘制柔和的圆形粒子，带Additive Blending 的发光感
+                        Vector2 coord = gl_PointCoord - vec2(0.5);
+                        float dist = length(coord);
+                        if (dist > 0.5) discard;
+                        
+                        float alpha = smoothstep(0.5, 0.1, dist);
+                        gl_FragColor = vec4(uColor * (1.0 + vProgress), alpha);
+                    }
+                `,
+                transparent: true,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+
+            const points = new THREE.Points(geometry, material);
+            
+            // 应用从 hit-test 获得的姿态矩阵
+            points.applyMatrix4(positionMatrix);
+            
+            // 稍微向上偏移一点，防止和瓶口完全重合产生深度冲突 Z-fighting
+            points.translateY(0.02); 
+
+            scene.add(points);
+            
+            // 记录该系统以便在 render 中更新 uTime
+            flowers.push({
+                mesh: points,
+                startTime: performance.now()
+            });
+            
+            statusEl.innerText = "生长中...";
+        }
+
+        // --- 7. 处理点击事件与 Hit Test 映射 ---
+        function onSelect() {
+            // 如果没有识别到 2D 目标坐标，就不执行
+            if (!target2D) {
+                statusEl.innerText = "请对准瓶子或花瓶";
+                return;
+            }
+
+            const frame = renderer.xr.getFrame();
+            if (!frame) return;
+
+            const referenceSpace = renderer.xr.getReferenceSpace();
+            const session = renderer.xr.getSession();
+
+            // 核心逻辑：基于 2D 识别的坐标发起 Hit Test
+            // 注意：标准的 requestHitTestSource 是基于固定的 viewer 空间。
+            // 这里我们用一种近似方法：用户点击屏幕时，将基于当前手机的姿态抓取交点。
+            // 理想情况下应该创建一个 transient input source，但基于屏幕点击更稳定。
+            
+            if (hitTestSource) {
+                const hitTestResults = frame.getHitTestResults(hitTestSource);
+                if (hitTestResults.length > 0) {
+                    const hit = hitTestResults[0];
+                    const pose = hit.getPose(referenceSpace);
+                    
+                    // 将花朵实例化在交点位置
+                    createProceduralFlower(new THREE.Matrix4().fromArray(pose.transform.matrix));
+                }
+            }
+        }
+
+        // --- 8. 主渲染循环 ---
+        function render(timestamp, frame) {
+            if (frame) {
+                const referenceSpace = renderer.xr.getReferenceSpace();
+                const session = renderer.xr.getSession();
+
+                // 请求 Hit Test Source (仅一次)
+                if (!hitTestSourceRequested) {
+                    session.requestReferenceSpace('viewer').then(function (viewerSpace) {
+                        session.requestHitTestSource({ space: viewerSpace }).then(function (source) {
+                            hitTestSource = source;
+                        });
+                    });
+                    hitTestSourceRequested = true;
+                }
+            }
+
+            // 更新所有花朵的着色器时间 (驱动生长动画)
+            const currentTime = performance.now();
+            flowers.forEach(flower => {
+                const material = flower.mesh.material;
+                const elapsedTime = (currentTime - flower.startTime) / 1000;
+                material.uniforms.uTime.value = elapsedTime;
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // --- 启动流程 ---
+        init();
+        initCV();
+
+    </script>
+</body>
+</html>
